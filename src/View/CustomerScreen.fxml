@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="722.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <VBox prefHeight="400.0" prefWidth="750.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <MenuBar style="-fx-font-size: 15px;" VBox.vgrow="NEVER">
+               <menus>
+                  <Menu mnemonicParsing="false" text="View Customers" />
+                  <Menu mnemonicParsing="false" text="View by Week" />
+                  <Menu mnemonicParsing="false" text="View by Month" />
+                  <Menu mnemonicParsing="false" text="View All" />
+               </menus>
+               <VBox.margin>
+                  <Insets bottom="50.0" />
+               </VBox.margin>
+            </MenuBar>
+            <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="657.0" prefWidth="1075.0" style="-fx-border-color: none;" VBox.vgrow="ALWAYS">
+               <children>
+                  <TableView fixedCellSize="0.0" layoutX="166.0" layoutY="16.0" prefHeight="527.0" prefWidth="1059.0" style="-fx-border-color: gray; -fx-border-width: 3px; -fx-font-size: 13px;" AnchorPane.bottomAnchor="97.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="16.0">
+                     <columns>
+                        <TableColumn prefWidth="105.0" style="font-size: 15px;" text="Appt ID" />
+                        <TableColumn text="Title" />
+                        <TableColumn text="Description" />
+                        <TableColumn text="Location" />
+                        <TableColumn prefWidth="75.0" text="Contact" />
+                        <TableColumn prefWidth="75.0" text="Type" />
+                        <TableColumn prefWidth="100.0" text="Start Date" />
+                        <TableColumn text="Start Time" />
+                        <TableColumn text="End Time" />
+                        <TableColumn prefWidth="100.0" text="End Date" />
+                        <TableColumn prefWidth="90.0" text="Customer ID" />
+                        <TableColumn prefWidth="75.0" text="User ID" />
+                     </columns>
+                     <columnResizePolicy>
+                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                     </columnResizePolicy>
+                  </TableView>
+                  <HBox layoutX="47.0" layoutY="566.0" prefHeight="31.0" prefWidth="505.0" spacing="15.0" AnchorPane.rightAnchor="548.0">
+                     <children>
+                        <Button mnemonicParsing="false" text="Add Appointment">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Button>
+                        <Button mnemonicParsing="false" text="Modify Appointment">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Button>
+                        <Button mnemonicParsing="false" text="Delete Appointment">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </HBox>
+               </children>
+            </AnchorPane>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

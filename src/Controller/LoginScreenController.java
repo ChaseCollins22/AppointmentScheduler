@@ -1,7 +1,11 @@
 package Controller;
 
+import DBAccess.DBAppointments;
 import DBAccess.DBCountries;
+import DBAccess.DBLogin;
+import Model.Appointments;
 import Model.Countries;
+import Model.Users;
 import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -32,12 +36,14 @@ public class LoginScreenController implements Initializable {
     }
 
     public void onActionLogin(ActionEvent actionEvent) {
-        System.out.println("Login Successful");
-        ObservableList<Countries> countriesList = DBCountries.getAllCountries();
+       ObservableList<Users> usersList = DBLogin.getAllUsers();
 
-        for (Countries country : countriesList) {
-            System.out.println("CountryID: " + country.getCountryID() + " Country Name " + country.getCountryName());
-        }
+       for (Users user : usersList) {
+           if (usernameText.getText().equals(user.getUserName()) && passwordText.getText().equals(user.getPassword())) {
+               System.out.println("TRUE");
+               break;
+           }
+       }
     }
 
     public void onActionShowLanguages(ActionEvent actionEvent) {
