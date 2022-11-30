@@ -1,5 +1,7 @@
 package Controller;
 
+import DBAccess.DBCountries;
+import Model.Countries;
 import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -12,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class LoginScreen implements Initializable {
+public class LoginScreenController implements Initializable {
     public TextField usernameText;
     public TextField passwordText;
     public Button loginButton;
@@ -31,9 +33,15 @@ public class LoginScreen implements Initializable {
 
     public void onActionLogin(ActionEvent actionEvent) {
         System.out.println("Login Successful");
+        ObservableList<Countries> countriesList = DBCountries.getAllCountries();
+
+        for (Countries country : countriesList) {
+            System.out.println("CountryID: " + country.getCountryID() + " Country Name " + country.getCountryName());
+        }
     }
 
     public void onActionShowLanguages(ActionEvent actionEvent) {
 
     }
+
 }
