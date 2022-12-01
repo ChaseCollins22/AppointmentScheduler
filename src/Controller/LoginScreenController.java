@@ -14,9 +14,11 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.TimeZone;
 
 public class LoginScreenController implements Initializable {
     public TextField usernameText;
@@ -32,6 +34,8 @@ public class LoginScreenController implements Initializable {
         Languages.add("French");
         ObservableList<String> languages = FXCollections.observableList(Languages);
         comboBox.setItems(languages);
+        TimeZone timeZone = TimeZone.getDefault();
+        timeZoneValue.setText(timeZone.getID());
     }
 
     public void SwitchView(String viewName, ActionEvent event) throws IOException {
@@ -44,18 +48,10 @@ public class LoginScreenController implements Initializable {
     public void onActionLogin(ActionEvent actionEvent) throws IOException {
         ObservableList<Users> usersList = DBLogin.getAllUsers();
 
-        boolean loginSuccessful = false;
         for (Users user : usersList) {
             if (usernameText.getText().equals(user.getUserName()) && passwordText.getText().equals(user.getPassword())) {
-                loginSuccessful = true;
+                SwitchView("/View/AppointmentScreen.fxml", actionEvent);
             }
-        }
-        if (loginSuccessful) {
-            Parent root = FXMLLoader.load(getClass().getResource("/View/AppointmentScreen.fxml"));
-            Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
-            stage.setTitle("Appointment Scheduler");
-            stage.setScene(new Scene(root));
-            stage.show();
         }
     }
 

@@ -36,6 +36,7 @@ public class DBConnection {
     public static Connection getConnection() {
         return conn;
     }
+
     public static void closeConnection() {
         try {
             conn.close();

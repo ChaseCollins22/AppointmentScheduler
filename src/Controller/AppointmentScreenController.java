@@ -46,9 +46,11 @@ public class AppointmentScreenController implements Initializable {
     }
 
     public void onActionViewCustomers(ActionEvent actionEvent) {
+
     }
 
     public void onActionViewByWeek(ActionEvent actionEvent) {
+
     }
 
     public void onActionViewByMonth(ActionEvent actionEvent) {
