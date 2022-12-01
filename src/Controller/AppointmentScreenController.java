@@ -3,7 +3,9 @@ package Controller;
 import DBAccess.DBAppointments;
 import Model.Appointments;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.Initializable;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -27,6 +29,7 @@ public class AppointmentScreenController implements Initializable {
     public TableView<Appointments> appointmentTableView;
 
 
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         appointmentTableView.setItems(DBAppointments.getAllAppointments());
@@ -45,18 +48,23 @@ public class AppointmentScreenController implements Initializable {
 
     }
 
-    public void onActionViewCustomers(ActionEvent actionEvent) {
+    public void onActionViewCustomers(Event actionEvent) {
 
     }
 
-    public void onActionViewByWeek(ActionEvent actionEvent) {
-
+    public void onActionViewByWeek(Event actionEvent) {
+        System.out.println("By Week Clicked");
+        appointmentTableView.setItems(DBAppointments.getAppointmentsByWeek());
     }
 
-    public void onActionViewByMonth(ActionEvent actionEvent) {
+    public void onActionViewByMonth(Event actionEvent) {
+        System.out.println("By Month Clicked");
+        appointmentTableView.setItems(DBAppointments.getAppointmentsByMonth());
     }
 
-    public void onActionViewAll(ActionEvent actionEvent) {
+    public void onActionViewAll(Event actionEvent) {
+        System.out.println("By All Clicked");
+        appointmentTableView.setItems(DBAppointments.getAllAppointments());
     }
 
     public void onActionAddAppointment(ActionEvent actionEvent) {
