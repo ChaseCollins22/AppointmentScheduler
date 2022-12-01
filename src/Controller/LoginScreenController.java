@@ -1,6 +1,8 @@
 package Controller;
 
+import DBAccess.DBCustomers;
 import DBAccess.DBLogin;
+import Model.Customers;
 import Model.Users;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -47,11 +49,16 @@ public class LoginScreenController implements Initializable {
 
     public void onActionLogin(ActionEvent actionEvent) throws IOException {
         ObservableList<Users> usersList = DBLogin.getAllUsers();
+        ObservableList<Customers> customersList = DBCustomers.getAllCustomers();
 
         for (Users user : usersList) {
             if (usernameText.getText().equals(user.getUserName()) && passwordText.getText().equals(user.getPassword())) {
                 SwitchView("/View/AppointmentScreen.fxml", actionEvent);
             }
+        }
+
+        for (Customers customer : customersList) {
+            System.out.println(customer.getCustomer_ID() + " " + customer.getCustomer_Name());
         }
     }
 

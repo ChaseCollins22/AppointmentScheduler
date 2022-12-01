@@ -2,7 +2,6 @@ package DBAccess;
 
 import Database.DBConnection;
 import Model.Appointments;
-import Model.Countries;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
