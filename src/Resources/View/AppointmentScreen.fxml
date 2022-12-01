@@ -63,12 +63,12 @@
                <children>
                   <TableView fx:id="appointmentTableView" fixedCellSize="0.0" layoutX="166.0" layoutY="16.0" prefHeight="527.0" prefWidth="1059.0" style="-fx-border-color: gray; -fx-border-width: 3px; -fx-font-size: 13px;" AnchorPane.bottomAnchor="97.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="16.0">
                     <columns>
-                      <TableColumn fx:id="apptID" prefWidth="105.0" style="font-size: 15px;" text="Appt ID" />
+                      <TableColumn fx:id="apptID" prefWidth="75.0" style="font-size: 15px;" text="Appt ID" />
                       <TableColumn fx:id="title" text="Title" />
                         <TableColumn fx:id="description" text="Description" />
                         <TableColumn fx:id="location" text="Location" />
                         <TableColumn fx:id="contact" prefWidth="75.0" text="Contact" />
-                        <TableColumn fx:id="type" prefWidth="75.0" text="Type" />
+                        <TableColumn fx:id="type" prefWidth="105.0" text="Type" />
                         <TableColumn fx:id="startDate" prefWidth="100.0" text="Start Date" />
                         <TableColumn fx:id="startTime" text="Start Time" />
                         <TableColumn fx:id="endTime" text="End Time" />
@@ -80,7 +80,7 @@
                         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                      </columnResizePolicy>
                   </TableView>
-                  <HBox layoutX="47.0" layoutY="566.0" prefHeight="31.0" prefWidth="505.0" spacing="15.0" AnchorPane.rightAnchor="548.0">
+                  <HBox layoutX="47.0" layoutY="566.0" prefHeight="31.0" prefWidth="505.0" spacing="15.0" AnchorPane.rightAnchor="548.0" AnchorPane.bottomAnchor="30.0">
                      <children>
                         <Button mnemonicParsing="false" onAction="#onActionAddAppointment" text="Add Appointment">
                            <font>

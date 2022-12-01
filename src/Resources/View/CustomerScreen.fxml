@@ -17,10 +17,10 @@
          <children>
             <MenuBar style="-fx-font-size: 15px;" VBox.vgrow="NEVER">
                <menus>
-                  <Menu mnemonicParsing="false" text="View Customers" />
-                  <Menu mnemonicParsing="false" text="View by Week" />
-                  <Menu mnemonicParsing="false" text="View by Month" />
-                  <Menu mnemonicParsing="false" text="View All" />
+                  <Menu mnemonicParsing="false" text="Controller Customers" />
+                  <Menu mnemonicParsing="false" text="Controller by Week" />
+                  <Menu mnemonicParsing="false" text="Controller by Month" />
+                  <Menu mnemonicParsing="false" text="Controller All" />
                </menus>
                <VBox.margin>
                   <Insets bottom="50.0" />

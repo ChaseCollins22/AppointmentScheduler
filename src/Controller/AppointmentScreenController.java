@@ -12,8 +12,8 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class AppointmentScreenController implements Initializable {
-    public TableColumn<Object, Object> apptID;
-    public TableColumn<Object, Object> title;
+    public TableColumn apptID;
+    public TableColumn title;
     public TableColumn description;
     public TableColumn location;
     public TableColumn contact;
@@ -30,7 +30,7 @@ public class AppointmentScreenController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         appointmentTableView.setItems(DBAppointments.getAllAppointments());
-        apptID.setCellValueFactory(new PropertyValueFactory<>("id"));
+        apptID.setCellValueFactory(new PropertyValueFactory<>("apptID"));
         title.setCellValueFactory(new PropertyValueFactory<>("title"));
         description.setCellValueFactory(new PropertyValueFactory<>("description"));
         location.setCellValueFactory(new PropertyValueFactory<>("location"));
