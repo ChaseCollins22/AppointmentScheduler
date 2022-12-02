@@ -5,13 +5,15 @@ import Model.Customers;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.ToggleGroup;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -64,6 +66,13 @@ public class CustomerScreenController implements Initializable {
     @FXML
     private RadioButton viewMonthButton1;
 
+    public void SwitchView(String viewName, ActionEvent event) throws IOException {
+        Stage stage = (Stage) ((RadioButton) event.getSource()).getScene().getWindow();
+        Parent scene = FXMLLoader.load(getClass().getResource(viewName));
+        stage.setScene(new Scene(scene));
+        stage.show();
+    }
+
     @FXML
     void onActionAddAppointment(ActionEvent event) {
 
@@ -80,37 +89,81 @@ public class CustomerScreenController implements Initializable {
     }
 
     @FXML
-    void onActionViewAll(ActionEvent event) {
+    void onActionViewAll(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/View/AppointmentScreen.fxml"));
+        loader.load();
 
+        AppointmentScreenController ascController = loader.getController();
+        ascController.onActionViewAll(event);
+
+        Stage stage = stage = (Stage) ((RadioButton) event.getSource()).getScene().getWindow();
+        Parent scene = loader.getRoot();
+        stage.setScene(new Scene(scene));
+        stage.show();
     }
 
     @FXML
-    void onActionViewByMonth(ActionEvent event) {
+    void onActionViewByMonth(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/View/AppointmentScreen.fxml"));
+        loader.load();
 
+        AppointmentScreenController ascController = loader.getController();
+        ascController.onActionViewByMonth(event);
+
+        Stage stage = stage = (Stage) ((RadioButton) event.getSource()).getScene().getWindow();
+        Parent scene = loader.getRoot();
+        stage.setScene(new Scene(scene));
+        stage.show();
     }
 
     @FXML
-    void onActionViewByWeek(ActionEvent event) {
+    void onActionViewByWeek(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/View/AppointmentScreen.fxml"));
+        loader.load();
 
+        AppointmentScreenController ascController = loader.getController();
+        ascController.onActionViewByWeek(event);
+
+        Stage stage = stage = (Stage) ((RadioButton) event.getSource()).getScene().getWindow();
+        Parent scene = loader.getRoot();
+        stage.setScene(new Scene(scene));
+        stage.show();
+    }
+
+    void setScreen() {
+        customerTableView.setItems(DBCustomers.getAllCustomers());
+        customerID.setCellValueFactory(new PropertyValueFactory<>("Customer_ID"));
+        name.setCellValueFactory(new PropertyValueFactory<>("Customer_Name"));
+        address.setCellValueFactory(new PropertyValueFactory<>("Address"));
+        postalCode.setCellValueFactory(new PropertyValueFactory<>("Postal_Code"));
+        phoneNumber.setCellValueFactory(new PropertyValueFactory<>("Phone"));
+        dateCreated.setCellValueFactory(new PropertyValueFactory<>("Create_Date"));
+        lastUpdate.setCellValueFactory(new PropertyValueFactory<>("Last_Update"));
+        lastUpdateBy.setCellValueFactory(new PropertyValueFactory<>("Last_Updated_By"));
+        divisionID.setCellValueFactory(new PropertyValueFactory<>("Division_ID"));
     }
 
     @FXML
-    void onActionViewCustomers(ActionEvent event) {
+    void onActionViewCustomers(ActionEvent event) throws IOException {
+        customerTableView.setItems(DBCustomers.getAllCustomers());
 
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         customerTableView.setItems(DBCustomers.getAllCustomers());
-        customerID.setCellValueFactory(new PropertyValueFactory<>("customerID"));
-        name.setCellValueFactory(new PropertyValueFactory<>("name"));
-        address.setCellValueFactory(new PropertyValueFactory<>("address"));
-        postalCode.setCellValueFactory(new PropertyValueFactory<>("postalCode"));
-        phoneNumber.setCellValueFactory(new PropertyValueFactory<>("phoneNumber"));
-        dateCreated.setCellValueFactory(new PropertyValueFactory<>("dateCreated"));
-        lastUpdate.setCellValueFactory(new PropertyValueFactory<>("lastUpdate"));
-        lastUpdateBy.setCellValueFactory(new PropertyValueFactory<>("lastUpdatedBy"));
-        divisionID.setCellValueFactory(new PropertyValueFactory<>("divisionID"));
+        customerID.setCellValueFactory(new PropertyValueFactory<>("Customer_ID"));
+        name.setCellValueFactory(new PropertyValueFactory<>("Customer_Name"));
+        address.setCellValueFactory(new PropertyValueFactory<>("Address"));
+        postalCode.setCellValueFactory(new PropertyValueFactory<>("Postal_Code"));
+        phoneNumber.setCellValueFactory(new PropertyValueFactory<>("Phone"));
+        dateCreated.setCellValueFactory(new PropertyValueFactory<>("Create_Date"));
+        lastUpdate.setCellValueFactory(new PropertyValueFactory<>("Last_Update"));
+        lastUpdateBy.setCellValueFactory(new PropertyValueFactory<>("Last_Updated_By"));
+        divisionID.setCellValueFactory(new PropertyValueFactory<>("Division_ID"));
 
     }
 }

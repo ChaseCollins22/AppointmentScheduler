@@ -10,91 +10,102 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
 
-<AnchorPane fx:controller="Controller.CustomerScreenController" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="722.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane fx:controller="Controller.CustomerScreenController" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="722.0" prefWidth="1148.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <VBox prefHeight="400.0" prefWidth="750.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-      <AnchorPane layoutX="10.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="722.0" prefWidth="1148.0">
+      <VBox prefHeight="400.0" prefWidth="750.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <VBox prefHeight="400.0" prefWidth="750.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <HBox spacing="25.0">
                <children>
-                  <HBox spacing="25.0">
-                     <children>
-                        <RadioButton fx:id="viewAllButton1" mnemonicParsing="false" onAction="#onActionViewAll" selected="true" text="View All">
-                           <font>
-                              <Font size="15.0" />
-                           </font>
-                           <toggleGroup>
-                              <ToggleGroup fx:id="radioButtonGroup1" />
-                           </toggleGroup>
-                        </RadioButton>
-                        <RadioButton fx:id="viewMonthButton1" mnemonicParsing="false" onAction="#onActionViewByMonth" text="View By Month" toggleGroup="$radioButtonGroup1">
-                           <font>
-                              <Font size="15.0" />
-                           </font>
-                        </RadioButton>
-                        <RadioButton fx:id="viewByWeekButton1" mnemonicParsing="false" onAction="#onActionViewByWeek" text="View By Week" toggleGroup="$radioButtonGroup1">
-                           <font>
-                              <Font size="15.0" />
-                           </font>
-                        </RadioButton>
-                        <RadioButton fx:id="viewCustomersButton1" mnemonicParsing="false" onAction="#onActionViewCustomers" text="View Customers" toggleGroup="$radioButtonGroup1">
-                           <font>
-                              <Font size="15.0" />
-                           </font>
-                        </RadioButton>
-                     </children>
-                     <VBox.margin>
-                        <Insets left="15.0" top="35.0" />
-                     </VBox.margin>
-                  </HBox>
-                  <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="657.0" prefWidth="1075.0" style="-fx-border-color: none;" VBox.vgrow="ALWAYS">
-                     <children>
-                        <TableView fx:id="customerTableView" fixedCellSize="0.0" prefHeight="527.0" prefWidth="1059.0" style="-fx-border-color: gray; -fx-border-width: 3px; -fx-font-size: 13px;">
-                           <columns>
-                              <TableColumn fx:id="customerID" prefWidth="105.0" style="font-size: 15px;" text="Customer ID" />
-                              <TableColumn fx:id="name" text="Name" />
-                              <TableColumn fx:id="address" text="Address" />
-                              <TableColumn fx:id="postalCode" text="Postal Code" />
-                              <TableColumn fx:id="phoneNumber" prefWidth="75.0" text="Phone Number" />
-                              <TableColumn fx:id="dateCreated" prefWidth="75.0" text="Date Created" />
-                              <TableColumn fx:id="createdBy" prefWidth="100.0" text="Created By" />
-                              <TableColumn fx:id="lastUpdate" text="Last Update" />
-                              <TableColumn fx:id="lastUpdateBy" text="Last Updated By" />
-                              <TableColumn fx:id="divisionID" prefWidth="100.0" text="Division ID" />
-                           </columns>
-                           <columnResizePolicy>
-                              <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-                           </columnResizePolicy>
-                        </TableView>
-                        <HBox layoutX="47.0" layoutY="566.0" prefHeight="31.0" prefWidth="505.0" spacing="25.0" AnchorPane.bottomAnchor="30.0" AnchorPane.rightAnchor="580.0" AnchorPane.topAnchor="590.0">
-                           <children>
-                              <Button mnemonicParsing="false" onAction="#onActionAddAppointment" text="Add Appointment">
-                                 <font>
-                                    <Font size="15.0" />
-                                 </font>
-                              </Button>
-                              <Button mnemonicParsing="false" onAction="#onActionModifyAppointment" text="Modify Appointment">
-                                 <font>
-                                    <Font size="15.0" />
-                                 </font>
-                              </Button>
-                              <Button mnemonicParsing="false" onAction="#onActionDeleteAppointment" text="Delete Appointment">
-                                 <font>
-                                    <Font size="15.0" />
-                                 </font>
-                              </Button>
-                           </children>
-                        </HBox>
-                     </children>
-                     <VBox.margin>
-                        <Insets left="20.0" right="20.0" top="25.0" />
-                     </VBox.margin>
-                  </AnchorPane>
+                  <RadioButton fx:id="viewAllButton1" mnemonicParsing="false" onAction="#onActionViewAll"  text="View All">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                     <toggleGroup>
+                        <ToggleGroup fx:id="radioButtonGroup1" />
+                     </toggleGroup>
+                  </RadioButton>
+                  <RadioButton fx:id="viewMonthButton1" mnemonicParsing="false" onAction="#onActionViewByMonth" text="View By Month" toggleGroup="$radioButtonGroup1">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </RadioButton>
+                  <RadioButton fx:id="viewByWeekButton1" mnemonicParsing="false" onAction="#onActionViewByWeek" text="View By Week" toggleGroup="$radioButtonGroup1">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </RadioButton>
+                  <RadioButton fx:id="viewCustomersButton1" mnemonicParsing="false" onAction="#onActionViewCustomers" text="View Customers" selected="true" toggleGroup="$radioButtonGroup1">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </RadioButton>
                </children>
-            </VBox>
+               <VBox.margin>
+                  <Insets left="15.0" top="35.0" />
+               </VBox.margin>
+            </HBox>
+            <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="657.0" prefWidth="1075.0" style="-fx-border-color: none;" VBox.vgrow="ALWAYS">
+               <children>
+                  <TableView fx:id="customerTableView" fixedCellSize="0.0" layoutX="166.0" layoutY="16.0" prefHeight="527.0" prefWidth="1059.0" style="-fx-border-color: gray; -fx-border-width: 3px; -fx-font-size: 13px;" AnchorPane.bottomAnchor="97.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="16.0">
+                     <columns>
+                        <TableColumn fx:id="customerID" prefWidth="105.0" style="font-size: 15px;" text="Customer ID" />
+                        <TableColumn fx:id="name" text="Name" />
+                        <TableColumn fx:id="address" text="Address" />
+                        <TableColumn fx:id="postalCode" text="Postal Code" />
+                        <TableColumn fx:id="phoneNumber" prefWidth="75.0" text="Phone Number" />
+                        <TableColumn fx:id="dateCreated" prefWidth="75.0" text="Date Created" />
+                        <TableColumn fx:id="createdBy" prefWidth="100.0" text="Created By" />
+                        <TableColumn fx:id="lastUpdate" text="Last Update" />
+                        <TableColumn fx:id="lastUpdateBy" text="Last Updated By" />
+                        <TableColumn fx:id="divisionID" prefWidth="100.0" text="Division ID" />
+                     </columns>
+                     <columnResizePolicy>
+                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                     </columnResizePolicy>
+                  </TableView>
+                  <HBox layoutX="47.0" layoutY="566.0" prefHeight="31.0" prefWidth="505.0" spacing="25.0" AnchorPane.bottomAnchor="30.0" AnchorPane.rightAnchor="580.0" AnchorPane.topAnchor="590.0">
+                     <children>
+                        <Button mnemonicParsing="false" onAction="#onActionAddAppointment" text="Add Appointment">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Button>
+                        <Button mnemonicParsing="false" onAction="#onActionModifyAppointment" text="Modify Appointment">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Button>
+                        <Button mnemonicParsing="false" onAction="#onActionDeleteAppointment" text="Delete Appointment">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </HBox>
+               </children>
+               <VBox.margin>
+                  <Insets left="20.0" right="20.0" top="25.0" />
+               </VBox.margin>
+            </AnchorPane>
          </children>
-      </AnchorPane>
+      </VBox>
    </children>
 </AnchorPane>
+
+
+
+
+
+

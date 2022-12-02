@@ -104,21 +104,34 @@ public class AppointmentScreenController implements Initializable {
     @FXML
     void onActionViewAll(ActionEvent event) {
         appointmentTableView.setItems(DBAppointments.getAllAppointments());
+        viewAllButton.setSelected(true);
     }
 
     @FXML
     void onActionViewByMonth(ActionEvent event) {
         appointmentTableView.setItems(DBAppointments.getAppointmentsByMonth());
+        viewMonthButton.setSelected(true);
     }
 
     @FXML
     void onActionViewByWeek(ActionEvent event) {
         appointmentTableView.setItems(DBAppointments.getAppointmentsByWeek());
+        viewByWeekButton.setSelected(true);
     }
 
     @FXML
     void onActionViewCustomers(ActionEvent event) throws IOException {
-        SwitchView("/View/CustomerScreen.fxml", event);
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/View/CustomerScreen.fxml"));
+        loader.load();
+
+        CustomerScreenController cscController = loader.getController();
+        cscController.onActionViewCustomers(event);
+
+        Stage stage = stage = (Stage) ((RadioButton) event.getSource()).getScene().getWindow();
+        Parent scene = loader.getRoot();
+        stage.setScene(new Scene(scene));
+        stage.show();
     }
 
     @Override
@@ -138,6 +151,4 @@ public class AppointmentScreenController implements Initializable {
         userID.setCellValueFactory(new PropertyValueFactory<>("userID"));
 
     }
-
-
 }

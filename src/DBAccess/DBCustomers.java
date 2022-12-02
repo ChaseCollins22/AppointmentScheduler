@@ -14,7 +14,7 @@ public class DBCustomers {
         ObservableList<Customers> customersList = FXCollections.observableArrayList();
 
         try {
-            String sql = "SELECT * FROM customers ";
+            String sql = "SELECT * FROM customers";
             PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
 
             ResultSet rs = ps.executeQuery();

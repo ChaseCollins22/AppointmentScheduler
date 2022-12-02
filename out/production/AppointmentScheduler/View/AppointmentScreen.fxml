@@ -28,7 +28,7 @@
             <children>
                 <HBox spacing="25.0">
                     <children>
-                        <RadioButton fx:id="viewAllButton" mnemonicParsing="false" onAction="#onActionViewAll" selected="true" text="View All">
+                        <RadioButton fx:id="viewAllButton" mnemonicParsing="false" onAction="#onActionViewAll" selected="true"  text="View All">
                             <font>
                                 <Font size="15.0" />
                             </font>
