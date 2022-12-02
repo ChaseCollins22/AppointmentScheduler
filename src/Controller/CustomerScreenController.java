@@ -133,19 +133,6 @@ public class CustomerScreenController implements Initializable {
         stage.show();
     }
 
-    void setScreen() {
-        customerTableView.setItems(DBCustomers.getAllCustomers());
-        customerID.setCellValueFactory(new PropertyValueFactory<>("Customer_ID"));
-        name.setCellValueFactory(new PropertyValueFactory<>("Customer_Name"));
-        address.setCellValueFactory(new PropertyValueFactory<>("Address"));
-        postalCode.setCellValueFactory(new PropertyValueFactory<>("Postal_Code"));
-        phoneNumber.setCellValueFactory(new PropertyValueFactory<>("Phone"));
-        dateCreated.setCellValueFactory(new PropertyValueFactory<>("Create_Date"));
-        lastUpdate.setCellValueFactory(new PropertyValueFactory<>("Last_Update"));
-        lastUpdateBy.setCellValueFactory(new PropertyValueFactory<>("Last_Updated_By"));
-        divisionID.setCellValueFactory(new PropertyValueFactory<>("Division_ID"));
-    }
-
     @FXML
     void onActionViewCustomers(ActionEvent event) throws IOException {
         customerTableView.setItems(DBCustomers.getAllCustomers());
@@ -161,6 +148,7 @@ public class CustomerScreenController implements Initializable {
         postalCode.setCellValueFactory(new PropertyValueFactory<>("Postal_Code"));
         phoneNumber.setCellValueFactory(new PropertyValueFactory<>("Phone"));
         dateCreated.setCellValueFactory(new PropertyValueFactory<>("Create_Date"));
+        createdBy.setCellValueFactory(new PropertyValueFactory<>("Created_By"));
         lastUpdate.setCellValueFactory(new PropertyValueFactory<>("Last_Update"));
         lastUpdateBy.setCellValueFactory(new PropertyValueFactory<>("Last_Updated_By"));
         divisionID.setCellValueFactory(new PropertyValueFactory<>("Division_ID"));

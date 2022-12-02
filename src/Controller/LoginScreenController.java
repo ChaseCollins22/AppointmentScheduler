@@ -1,8 +1,12 @@
 package Controller;
 
+import DBAccess.DBCountries;
 import DBAccess.DBCustomers;
+import DBAccess.DBDivisions;
 import DBAccess.DBLogin;
+import Model.Countries;
 import Model.Customers;
+import Model.Divisions;
 import Model.Users;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -12,15 +16,13 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-import java.io.IOException;
+import java.io.*;
 import java.net.URL;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ResourceBundle;
-import java.util.TimeZone;
+import java.util.*;
 
 public class LoginScreenController implements Initializable {
     public TextField usernameText;
@@ -28,6 +30,14 @@ public class LoginScreenController implements Initializable {
     public Button loginButton;
     public Label timeZoneValue;
     public ComboBox comboBox;
+    public Label languageLabel;
+    public Label timeZoneLabel;
+    public Label passwordLabel;
+    public Label usernameLabel;
+    public VBox textFieldsVBox;
+    public HBox hBoxUserPass;
+    public VBox userPassVBox;
+    ResourceBundle rb = ResourceBundle.getBundle("LanguageProperties/Nat", Locale.getDefault());
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -38,6 +48,8 @@ public class LoginScreenController implements Initializable {
         comboBox.setItems(languages);
         TimeZone timeZone = TimeZone.getDefault();
         timeZoneValue.setText(timeZone.getID());
+
+
     }
 
     public void SwitchView(String viewName, ActionEvent event) throws IOException {
@@ -49,7 +61,7 @@ public class LoginScreenController implements Initializable {
 
     public void onActionLogin(ActionEvent actionEvent) throws IOException {
         ObservableList<Users> usersList = DBLogin.getAllUsers();
-        ObservableList<Customers> customersList = DBCustomers.getAllCustomers();
+
 
         for (Users user : usersList) {
             if (usernameText.getText().equals(user.getUserName()) && passwordText.getText().equals(user.getPassword())) {
@@ -57,13 +69,27 @@ public class LoginScreenController implements Initializable {
             }
         }
 
-//        for (Customers customer : customersList) {
-//            System.out.println(customer.getCustomer_ID() + " " + customer.getCustomer_Name());
-//        }
+
     }
 
-    public void onActionShowLanguages(ActionEvent actionEvent) {
+    public void onActionShowLanguages(ActionEvent actionEvent) throws IOException {
+        String selectedLanguage = (String) comboBox.getSelectionModel().getSelectedItem();
+        if (selectedLanguage.equals("French")) {
+            usernameLabel.setText(rb.getString("Username"));
+            passwordLabel.setText(rb.getString("Password"));
+            loginButton.setText(rb.getString("Login"));
+            timeZoneLabel.setText(rb.getString("TimeZone"));
+            languageLabel.setText(rb.getString("Language"));
+            timeZoneValue.setText(rb.getString("America"));
 
+
+
+
+            hBoxUserPass.setSpacing(0);
+            usernameLabel.setMinWidth(100);
+
+
+        }
     }
 
 }
