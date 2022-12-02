@@ -57,9 +57,9 @@ public class LoginScreenController implements Initializable {
             }
         }
 
-        for (Customers customer : customersList) {
-            System.out.println(customer.getCustomer_ID() + " " + customer.getCustomer_Name());
-        }
+//        for (Customers customer : customersList) {
+//            System.out.println(customer.getCustomer_ID() + " " + customer.getCustomer_Name());
+//        }
     }
 
     public void onActionShowLanguages(ActionEvent actionEvent) {
