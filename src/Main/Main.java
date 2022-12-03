@@ -33,20 +33,7 @@ public class Main extends Application {
     public static void main(String[] args) throws IOException {
         DBConnection.startConnection();
         Locale.setDefault(Locale.forLanguageTag("fr"));
-
-
-        ObservableList<Divisions> divisionsList = DBDivisions.getAllDivisions();
-
-        Properties properties = new Properties();
-        try(OutputStream outputStream = new FileOutputStream("C:\\Users\\LabUser\\AppointmentScheduler\\src\\LanguageProperties\\Nat_fr.properties")){
-            for (Divisions divisions : divisionsList) {
-                properties.setProperty(divisions.getDivisionName(), String.valueOf(divisions.getDivisionID()));
-            }
-            properties.store(outputStream, null);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+        System.out.println(Locale.getDefault().toLanguageTag());
         launch(args);
         DBConnection.closeConnection();
     }

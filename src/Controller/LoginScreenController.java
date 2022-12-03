@@ -38,18 +38,42 @@ public class LoginScreenController implements Initializable {
     public HBox hBoxUserPass;
     public VBox userPassVBox;
     ResourceBundle rb = ResourceBundle.getBundle("LanguageProperties/Nat", Locale.getDefault());
+    ObservableList<String> setLanguage = FXCollections.observableArrayList();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        List<String> Languages = new ArrayList<String>();
-        Languages.add("English");
-        Languages.add("French");
-        ObservableList<String> languages = FXCollections.observableList(Languages);
-        comboBox.setItems(languages);
+        if (Locale.getDefault().toString().equals("en")){
+
+            setLanguage.add("English");
+            setLanguage.add("French");
+            comboBox.setItems(setLanguage);
+
+            usernameLabel.setText("Username");
+            passwordLabel.setText("Password");
+            loginButton.setText("Login");
+            timeZoneLabel.setText("TimeZone");
+            languageLabel.setText("Language");
+        }
+        else if (Locale.getDefault().toString().equals("fr")) {
+
+            comboBox.setPromptText(rb.getString("French"));
+            setLanguage.add(rb.getString("English"));
+            setLanguage.add(rb.getString("French"));
+            comboBox.setItems(setLanguage);
+
+            usernameLabel.setText(rb.getString("Username"));
+            passwordLabel.setText(rb.getString("Password"));
+            loginButton.setText(rb.getString("Login"));
+            timeZoneLabel.setText(rb.getString("TimeZone"));
+            languageLabel.setText(rb.getString("Language"));
+
+            hBoxUserPass.setSpacing(0);
+            usernameLabel.setMinWidth(100);
+        }
+
+
         TimeZone timeZone = TimeZone.getDefault();
         timeZoneValue.setText(timeZone.getID());
-
-
     }
 
     public void SwitchView(String viewName, ActionEvent event) throws IOException {
@@ -72,24 +96,33 @@ public class LoginScreenController implements Initializable {
 
     }
 
-    public void onActionShowLanguages(ActionEvent actionEvent) throws IOException {
-        String selectedLanguage = (String) comboBox.getSelectionModel().getSelectedItem();
-        if (selectedLanguage.equals("French")) {
-            usernameLabel.setText(rb.getString("Username"));
-            passwordLabel.setText(rb.getString("Password"));
-            loginButton.setText(rb.getString("Login"));
-            timeZoneLabel.setText(rb.getString("TimeZone"));
-            languageLabel.setText(rb.getString("Language"));
-            timeZoneValue.setText(rb.getString("America"));
+     public void onActionShowLanguages(ActionEvent actionEvent) throws IOException {
+         System.out.println("is English " + comboBox.getSelectionModel().getSelectedItem().equals(rb.getString("English")));
+         System.out.println("is English " + comboBox.getSelectionModel().getSelectedItem().equals("English"));
 
 
+         if (comboBox.getSelectionModel().getSelectedItem().equals(rb.getString("English"))) {
+             usernameLabel.setText("Username");
+             passwordLabel.setText("Password");
+             loginButton.setText("Login");
+             timeZoneLabel.setText("TimeZone");
+             languageLabel.setText("Language");
+             ObservableList english = FXCollections.observableArrayList();
+             ObservableList clear = FXCollections.observableArrayList();
+             english.add("English");
+             english.add("French");
+             comboBox.setItems(english);
+         }
 
+         else if (comboBox.getSelectionModel().getSelectedItem().equals("French")) {
+             usernameLabel.setText(rb.getString("Username"));
+             passwordLabel.setText(rb.getString("Password"));
+             loginButton.setText(rb.getString("Login"));
+             timeZoneLabel.setText(rb.getString("TimeZone"));
+             languageLabel.setText(rb.getString("Language"));
 
-            hBoxUserPass.setSpacing(0);
-            usernameLabel.setMinWidth(100);
-
-
-        }
-    }
-
+             hBoxUserPass.setSpacing(0);
+             usernameLabel.setMinWidth(100);
+         }
+     }
 }
