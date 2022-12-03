@@ -97,32 +97,39 @@ public class LoginScreenController implements Initializable {
     }
 
      public void onActionShowLanguages(ActionEvent actionEvent) throws IOException {
-         System.out.println("is English " + comboBox.getSelectionModel().getSelectedItem().equals(rb.getString("English")));
-         System.out.println("is English " + comboBox.getSelectionModel().getSelectedItem().equals("English"));
+        try {
+            if (comboBox.getSelectionModel().getSelectedItem().equals(rb.getString("English")) || comboBox.getSelectionModel().getSelectedItem().equals("English")) {
+                usernameLabel.setText("Username");
+                passwordLabel.setText("Password");
+                loginButton.setText("Login");
+                timeZoneLabel.setText("TimeZone");
+                languageLabel.setText("Language");
+                ObservableList english = FXCollections.observableArrayList();
+                english.add("English");
+                english.add("French");
+                comboBox.itemsProperty().setValue(english);
+                comboBox.setValue("English");
+            }
 
+            if (comboBox.getSelectionModel().getSelectedItem().equals("French") || comboBox.getSelectionModel().getSelectedItem().equals(rb.getString("French"))) {
+                usernameLabel.setText(rb.getString("Username"));
+                passwordLabel.setText(rb.getString("Password"));
+                loginButton.setText(rb.getString("Login"));
+                timeZoneLabel.setText(rb.getString("TimeZone"));
+                languageLabel.setText(rb.getString("Language"));
 
-         if (comboBox.getSelectionModel().getSelectedItem().equals(rb.getString("English"))) {
-             usernameLabel.setText("Username");
-             passwordLabel.setText("Password");
-             loginButton.setText("Login");
-             timeZoneLabel.setText("TimeZone");
-             languageLabel.setText("Language");
-             ObservableList english = FXCollections.observableArrayList();
-             ObservableList clear = FXCollections.observableArrayList();
-             english.add("English");
-             english.add("French");
-             comboBox.setItems(english);
-         }
+                ObservableList french = FXCollections.observableArrayList();
+                french.add(rb.getString("English"));
+                french.add(rb.getString("French"));
+                comboBox.itemsProperty().setValue(french);
+                comboBox.setValue(rb.getString("French"));
 
-         else if (comboBox.getSelectionModel().getSelectedItem().equals("French")) {
-             usernameLabel.setText(rb.getString("Username"));
-             passwordLabel.setText(rb.getString("Password"));
-             loginButton.setText(rb.getString("Login"));
-             timeZoneLabel.setText(rb.getString("TimeZone"));
-             languageLabel.setText(rb.getString("Language"));
-
-             hBoxUserPass.setSpacing(0);
-             usernameLabel.setMinWidth(100);
-         }
+                hBoxUserPass.setSpacing(0);
+                usernameLabel.setMinWidth(100);
+            }
+        }
+        catch (NullPointerException e) {
+            e.getMessage();
+        }
      }
 }
