@@ -88,7 +88,7 @@ public class AppointmentScreenController implements Initializable {
 
     @FXML
     void onActionAddAppointment(ActionEvent event) {
-
+        //SwitchView("");
     }
 
     @FXML
@@ -111,6 +111,7 @@ public class AppointmentScreenController implements Initializable {
     void onActionViewByMonth(ActionEvent event) {
         appointmentTableView.setItems(DBAppointments.getAppointmentsByMonth());
         viewMonthButton.setSelected(true);
+
     }
 
     @FXML
@@ -150,5 +151,9 @@ public class AppointmentScreenController implements Initializable {
         customerID.setCellValueFactory(new PropertyValueFactory<>("customerID"));
         userID.setCellValueFactory(new PropertyValueFactory<>("userID"));
 
+
+    }
+
+    public void onActionGenerateReports(ActionEvent actionEvent) {
     }
 }

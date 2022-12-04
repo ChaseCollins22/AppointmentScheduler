@@ -40,4 +40,8 @@ public class DBCustomers {
 
         return customersList;
     }
+
+//    public static void addCustomer() {
+//        string sql = "INSERT INTO customers ( VALUES ("
+//    }
 }

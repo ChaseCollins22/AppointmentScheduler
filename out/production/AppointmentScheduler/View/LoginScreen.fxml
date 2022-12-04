@@ -8,54 +8,92 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="350.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.LoginScreenController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.LoginScreenController">
    <children>
-      <HBox fx:id="hBoxUserPass" layoutX="52.0" layoutY="88.0" prefHeight="60.0" prefWidth="279.0">
+      <VBox fx:id="userPassVBox" layoutX="62.0" layoutY="88.0" spacing="30.0">
          <children>
-            <VBox fx:id="userPassVBox" prefHeight="60.0" prefWidth="58.0" spacing="20.0">
-               <children>
-                  <Label fx:id="usernameLabel" prefHeight="17.0" prefWidth="80.0" text="Username">
-                     <opaqueInsets>
-                        <Insets />
-                     </opaqueInsets>
-                     <VBox.margin>
-                        <Insets top="2.0" />
-                     </VBox.margin>
-                  </Label>
-                  <Label fx:id="passwordLabel" text="Password">
-                     <VBox.margin>
-                        <Insets />
-                     </VBox.margin>
-                  </Label>
-               </children>
-               <HBox.margin>
-                  <Insets left="10.0" right="10.0" />
-               </HBox.margin>
-            </VBox>
-            <VBox fx:id="textFieldsVBox" spacing="10.0">
-               <children>
-                  <TextField fx:id="usernameText">
-                     <VBox.margin>
-                        <Insets />
-                     </VBox.margin>
-                  </TextField>
-                  <TextField fx:id="passwordText" />
-               </children>
-               <HBox.margin>
-                  <Insets />
-               </HBox.margin>
+            <Label fx:id="usernameLabel" text="Username">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
-            </VBox>
+               <VBox.margin>
+                  <Insets top="3.0" />
+               </VBox.margin>
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Label>
+            <Label fx:id="passwordLabel" text="Password">
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Label>
+            <Label fx:id="languageLabel" text="Language">
+               <font>
+                  <Font size="15.0" />
+               </font>
+               <VBox.margin>
+                  <Insets top="45.0" />
+               </VBox.margin>
+            </Label>
          </children>
+      </VBox>
+      <VBox fx:id="textFieldsVBox" layoutX="190.0" layoutY="85.0" prefHeight="179.0" prefWidth="161.0" spacing="18.0">
+         <children>
+            <TextField fx:id="usernameText">
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </TextField>
+            <TextField fx:id="passwordText">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </TextField>
+            <ComboBox fx:id="comboBox" accessibleText="French" onAction="#onActionShowLanguages" prefHeight="31.0" prefWidth="130.0" promptText="English" style="-fx-font-size: 15px;">
+               <VBox.margin>
+                  <Insets top="50.0" />
+               </VBox.margin>
+            </ComboBox>
+         </children>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+      </VBox>
+      <Button fx:id="loginButton" layoutX="351.0" layoutY="186.0" mnemonicParsing="false" onAction="#onActionLogin" text="Login">
+         <font>
+            <Font size="15.0" />
+         </font></Button>
+      <HBox layoutX="351.0" layoutY="287.0" spacing="10.0">
+         <children>
+            <Label fx:id="timeZoneLabel" text="Time Zone:">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Label>
+            <Label fx:id="timeZoneValue" text="Time Zone Value">
+               <font>
+                  <Font size="15.0" />
+               </font>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+            </Label>
+         </children>
+         <padding>
+            <Insets right="50.0" />
+         </padding>
       </HBox>
-      <Button fx:id="loginButton" layoutX="279.0" layoutY="169.0" mnemonicParsing="false" onAction="#onActionLogin" text="Login" />
-      <Label fx:id="languageLabel" layoutX="86.0" layoutY="228.0" prefHeight="17.0" prefWidth="82.0" text="Language" />
-      <ComboBox fx:id="comboBox" layoutX="159.0" layoutY="224.0" onAction="#onActionShowLanguages" prefWidth="150.0" promptText="English" />
-      <Label fx:id="timeZoneLabel" layoutX="351.0" layoutY="266.0" prefHeight="17.0" prefWidth="82.0" text="Time Zone:" />
-      <Label fx:id="timeZoneValue" layoutX="441.0" layoutY="266.0" prefHeight="17.0" prefWidth="140.0" text="Time Zone Value" />
    </children>
+   <padding>
+      <Insets bottom="35.0" left="10.0" right="10.0" top="10.0" />
+   </padding>
 </AnchorPane>

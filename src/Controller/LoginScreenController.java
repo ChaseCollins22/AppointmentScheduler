@@ -37,7 +37,7 @@ public class LoginScreenController implements Initializable {
     public VBox textFieldsVBox;
     public HBox hBoxUserPass;
     public VBox userPassVBox;
-    ResourceBundle rb = ResourceBundle.getBundle("LanguageProperties/Nat", Locale.getDefault());
+    ResourceBundle rb = ResourceBundle.getBundle("LanguageProperties/Nat", Locale.forLanguageTag("fr"));
     ObservableList<String> setLanguage = FXCollections.observableArrayList();
 
     @Override
@@ -51,7 +51,7 @@ public class LoginScreenController implements Initializable {
             usernameLabel.setText("Username");
             passwordLabel.setText("Password");
             loginButton.setText("Login");
-            timeZoneLabel.setText("TimeZone");
+            timeZoneLabel.setText("Time Zone:");
             languageLabel.setText("Language");
         }
         else if (Locale.getDefault().toString().equals("fr")) {
@@ -64,11 +64,8 @@ public class LoginScreenController implements Initializable {
             usernameLabel.setText(rb.getString("Username"));
             passwordLabel.setText(rb.getString("Password"));
             loginButton.setText(rb.getString("Login"));
-            timeZoneLabel.setText(rb.getString("TimeZone"));
+            timeZoneLabel.setText(rb.getString("Time Zone:"));
             languageLabel.setText(rb.getString("Language"));
-
-            hBoxUserPass.setSpacing(0);
-            usernameLabel.setMinWidth(100);
         }
 
 
@@ -80,20 +77,19 @@ public class LoginScreenController implements Initializable {
         Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
         Parent scene = FXMLLoader.load(getClass().getResource(viewName));
         stage.setScene(new Scene(scene));
+
         stage.show();
     }
 
     public void onActionLogin(ActionEvent actionEvent) throws IOException {
         ObservableList<Users> usersList = DBLogin.getAllUsers();
 
-
+        System.out.println("Login");
         for (Users user : usersList) {
             if (usernameText.getText().equals(user.getUserName()) && passwordText.getText().equals(user.getPassword())) {
                 SwitchView("/View/AppointmentScreen.fxml", actionEvent);
             }
         }
-
-
     }
 
      public void onActionShowLanguages(ActionEvent actionEvent) throws IOException {
@@ -102,7 +98,7 @@ public class LoginScreenController implements Initializable {
                 usernameLabel.setText("Username");
                 passwordLabel.setText("Password");
                 loginButton.setText("Login");
-                timeZoneLabel.setText("TimeZone");
+                timeZoneLabel.setText("Time Zone:");
                 languageLabel.setText("Language");
                 ObservableList english = FXCollections.observableArrayList();
                 english.add("English");
@@ -115,7 +111,7 @@ public class LoginScreenController implements Initializable {
                 usernameLabel.setText(rb.getString("Username"));
                 passwordLabel.setText(rb.getString("Password"));
                 loginButton.setText(rb.getString("Login"));
-                timeZoneLabel.setText(rb.getString("TimeZone"));
+                timeZoneLabel.setText(rb.getString("Time Zone:"));
                 languageLabel.setText(rb.getString("Language"));
 
                 ObservableList french = FXCollections.observableArrayList();

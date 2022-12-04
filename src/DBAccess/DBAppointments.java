@@ -49,8 +49,8 @@ public class DBAppointments {
         ObservableList<Appointments> appointmentsList = FXCollections.observableArrayList();
 
         try {
-            String sql = "SELECT * FROM appointments " +
-                         "WHERE MONTH(Start) = MONTH(CURRENT_DATE());";
+            String sql = "SELECT * FROM appointments\n" +
+                         "WHERE MONTH(Start) = MONTH(CURRENT_DATE())";
             PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
 
             ResultSet rs = ps.executeQuery();
@@ -85,8 +85,8 @@ public class DBAppointments {
         ObservableList<Appointments> appointmentsList = FXCollections.observableArrayList();
 
         try {
-            String sql = "SELECT * FROM appointments " +
-                         "WHERE WEEK(Start) = WEEK(CURRENT_DATE());";
+            String sql = "SELECT * FROM appointments\n" +
+                         "WHERE WEEK(Start) = WEEK(CURRENT_DATE())";
 
             PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
 

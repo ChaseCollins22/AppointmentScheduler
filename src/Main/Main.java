@@ -25,7 +25,7 @@ public class Main extends Application {
     public void start(Stage stage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("/View/LoginScreen.fxml"));
         stage.setTitle("Appointment Scheduler");
-        stage.setScene(new Scene(root, 600, 350));
+        stage.setScene(new Scene(root));
         stage.show();
 
     }

@@ -18,6 +18,16 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class CustomerScreenController implements Initializable {
+    public RadioButton viewAllButton;
+    public RadioButton viewCustomersButton;
+    public RadioButton viewByWeekButton;
+    public RadioButton viewMonthButton;
+    public ToggleGroup radioButtonGroup;
+    public Button addCustomerButton;
+    public Button modifyCustomerButton;
+    public Button deleteCustomerButton;
+    public Button reportsButton;
+    public Button logoutButton;
     @FXML
     private TableColumn<?, ?> address;
 
@@ -67,25 +77,23 @@ public class CustomerScreenController implements Initializable {
     private RadioButton viewMonthButton1;
 
     public void SwitchView(String viewName, ActionEvent event) throws IOException {
-        Stage stage = (Stage) ((RadioButton) event.getSource()).getScene().getWindow();
+        Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
         Parent scene = FXMLLoader.load(getClass().getResource(viewName));
         stage.setScene(new Scene(scene));
         stage.show();
     }
 
     @FXML
-    void onActionAddAppointment(ActionEvent event) {
-
+    public void onActionAddCustomer(ActionEvent actionEvent) throws IOException {
+        SwitchView("/View/AddCustomer.fxml", actionEvent);
     }
 
     @FXML
-    void onActionDeleteAppointment(ActionEvent event) {
-
+    public void onActionModifyCustomer(ActionEvent actionEvent) {
     }
 
     @FXML
-    void onActionModifyAppointment(ActionEvent event) {
-
+    public void onActionDeleteCustomer(ActionEvent actionEvent) {
     }
 
     @FXML
@@ -136,6 +144,12 @@ public class CustomerScreenController implements Initializable {
     @FXML
     void onActionViewCustomers(ActionEvent event) throws IOException {
         customerTableView.setItems(DBCustomers.getAllCustomers());
+    }
+
+    public void onActionGenerateReports(ActionEvent actionEvent) {
+    }
+
+    public void onActionLogout(ActionEvent actionEvent) {
 
     }
 
@@ -152,6 +166,7 @@ public class CustomerScreenController implements Initializable {
         lastUpdate.setCellValueFactory(new PropertyValueFactory<>("Last_Update"));
         lastUpdateBy.setCellValueFactory(new PropertyValueFactory<>("Last_Updated_By"));
         divisionID.setCellValueFactory(new PropertyValueFactory<>("Division_ID"));
+        viewCustomersButton.setSelected(true);
 
     }
 }

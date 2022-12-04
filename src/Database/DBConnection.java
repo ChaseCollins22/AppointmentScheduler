@@ -24,9 +24,6 @@ public class DBConnection {
         try {
             Class.forName(driver);
             conn = DriverManager.getConnection(jdbcURL, username, password);
-
-//        conn=(Connection) DriverManager.getConnection(DB_URL,username,password);
-            System.out.println("Connection Successful");
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
