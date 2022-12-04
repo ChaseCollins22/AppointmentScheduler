@@ -14,12 +14,18 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.layout.Border;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
+import java.sql.Time;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 
 public class AddCustomerController implements Initializable {
@@ -83,12 +89,68 @@ public class AddCustomerController implements Initializable {
     }
 
     @FXML
-    void onActionAddCustomer(ActionEvent event) {
-        
-//        DBCustomers.addCustomer(nameText.getText(), addressText.getText(), postalCodeText.getText(),
-//                phoneNumberText.getText(),  countryComboBox.getValue(), stateComboBox.getValue(), )
-        ;
-       
+    void onActionAddCustomer(ActionEvent event) throws SQLException {
+        //Get current time and format to: YYYY-MM-DD HH:MM:SS
+        String localDate = LocalDate.now().toString();
+        LocalTime localTime = LocalTime.now();
+        String time = localTime.truncatedTo(ChronoUnit.SECONDS).toString();
+        String date = localDate + " " + time;
+
+//        ObservableList customerData = FXCollections.observableArrayList();
+        String[] customerData = new String[]{nameText.getText(), addressText.getText(), postalCodeText.getText(),
+                                         phoneNumberText.getText(),  String.valueOf(countryComboBox.getValue()),
+                                         String.valueOf(stateComboBox.getValue())};
+
+        try {
+            boolean allDataFilled = false;
+            for (int i = 0; i < customerData.length; ++i) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setX(650);
+                alert.setY(250);
+                if (customerData[i].isEmpty() || customerData[i].equals("null")) {
+                    switch (i) {
+                        case 0:
+                            alert.setContentText("'" + name.getId().replace("n", "N") +"'" + " field is empty");
+                            nameText.setStyle("-fx-text-box-border: red; -fx-text-b0x-border-size: 5px;");
+                            break;
+                        case 1:
+                            alert.setContentText("'" + address.getId().replace("a", "A") + "'" + " field is empty");
+                            addressText.setStyle("-fx-text-box-border: red; -fx-text-b0x-border-size: 5px;");
+                            break;
+
+                    }
+                    alert.setHeaderText("Error: Empty field");
+                    alert.showAndWait();
+                    break;
+                }
+            }
+//            for (Object data : customerData) {
+//                if (data.toString().length() < 1) {
+//
+//                    Alert alert = new Alert(Alert.AlertType.ERROR, customerData[data]);
+//                    alert.showAndWait();
+               // }
+            }
+        catch (NullPointerException e) {
+            System.out.println("Is NULL");
+        }
+
+
+
+//        try {
+//
+//            String phoneNumberFormatted = Integer.parseInt(phoneNumberText.getText(0,3)) + "-" +
+//                    Integer.parseInt(phoneNumberText.getText(3,6)) + "-" +
+//                    Integer.parseInt(phoneNumberText.getText(6,10));
+//
+//            DBCustomers.addCustomer(nameText.getText(), addressText.getText(), postalCodeText.getText(),
+//                    phoneNumberFormatted, date, "script", date, "script", stateComboBox.getValue().getDivisionID());
+//
+//
+//        }
+//        catch () {
+//
+//        }
     }
 
     @FXML
@@ -110,9 +172,8 @@ public class AddCustomerController implements Initializable {
             stateComboBox.setItems(DBDivisions.getDivisionByCountryName("Canada"));
             stateComboBox.setDisable(false);
         }
-       LocalTime localTime = LocalTime.now();
 
-//        System.out.println(localTime.);
+
     }
 
     @FXML
