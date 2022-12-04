@@ -37,4 +37,30 @@ public class DBDivisions {
 
         return divisionsList;
     }
+
+    public static ObservableList<Divisions> getDivisionByCountryName(String countryName) {
+
+        ObservableList<Divisions> divisionsList = FXCollections.observableArrayList();
+        System.out.println("WHERE c.country = " + countryName);
+        try {
+            String sql = "SELECT f.division_ID, f.division FROM countries c\n" +
+                         "INNER JOIN first_level_divisions f ON c.country_id = f.country_id\n" +
+                         "WHERE c.country = " + "'" +countryName + "'";
+
+            PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                int divisionID = rs.getInt("Division_ID");
+                String divisionName = rs.getString("Division");
+                Divisions division = new Divisions(divisionID, divisionName);
+                divisionsList.add(division);
+
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return divisionsList;
+    }
 }

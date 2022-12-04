@@ -16,7 +16,7 @@ public class DBConnection {
     private static final String driver= "com.mysql.jdbc.Driver";
 
     private static final String jdbcURL = protocol + vendorName + ipAddress + dbName;
-    private static Connection conn = null;
+    private static Connection conn;
 
 
     public static void startConnection() {

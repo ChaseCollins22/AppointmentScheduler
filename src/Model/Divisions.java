@@ -16,4 +16,9 @@ public class Divisions {
     public String getDivisionName() {
         return divisionName;
     }
+
+    @Override
+    public String toString() {
+        return (getDivisionName());
+    }
 }

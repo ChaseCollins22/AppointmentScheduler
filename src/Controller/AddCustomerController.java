@@ -1,16 +1,28 @@
 package Controller;
 
+import DBAccess.DBCountries;
+import DBAccess.DBCustomers;
+import DBAccess.DBDivisions;
+import Model.Countries;
+import Model.Divisions;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.net.URL;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.*;
 
-public class AddCustomerController {
+public class AddCustomerController implements Initializable {
 
     @FXML
     private Button addCustomerButton;
@@ -31,7 +43,7 @@ public class AddCustomerController {
     private Label country;
 
     @FXML
-    private ComboBox<?> countryComboBox;
+    private ComboBox countryComboBox;
 
     @FXML
     private Label customerIDLabel;
@@ -61,7 +73,7 @@ public class AddCustomerController {
     private Label state;
 
     @FXML
-    private ComboBox<?> stateComboBox;
+    private ComboBox<Divisions> stateComboBox;
 
     public void SwitchView(String viewName, ActionEvent event) throws IOException {
         Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
@@ -73,6 +85,10 @@ public class AddCustomerController {
     @FXML
     void onActionAddCustomer(ActionEvent event) {
         
+//        DBCustomers.addCustomer(nameText.getText(), addressText.getText(), postalCodeText.getText(),
+//                phoneNumberText.getText(),  countryComboBox.getValue(), stateComboBox.getValue(), )
+        ;
+       
     }
 
     @FXML
@@ -82,11 +98,37 @@ public class AddCustomerController {
 
     @FXML
     void onActionShowCountries(ActionEvent event) {
+        if (countryComboBox.getValue().equals("U.S")) {
+            stateComboBox.setItems(DBDivisions.getDivisionByCountryName("U.S"));
+            stateComboBox.setDisable(false);
+        }
+        else if (countryComboBox.getValue().equals("UK")) {
+            stateComboBox.setItems(DBDivisions.getDivisionByCountryName("UK"));
+            stateComboBox.setDisable(false);
+        }
+        else {
+            stateComboBox.setItems(DBDivisions.getDivisionByCountryName("Canada"));
+            stateComboBox.setDisable(false);
+        }
+       LocalTime localTime = LocalTime.now();
 
+//        System.out.println(localTime.);
     }
 
     @FXML
     void onActionShowStates(ActionEvent event) {
 
+    }
+
+
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        ObservableList countriesList = FXCollections.observableArrayList();
+
+        for (Countries country: DBCountries.getAllCountries()) {
+            countriesList.add(country.toString());
+        }
+        countryComboBox.setItems(countriesList);
     }
 }

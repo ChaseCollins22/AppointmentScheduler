@@ -41,7 +41,27 @@ public class DBCustomers {
         return customersList;
     }
 
-//    public static void addCustomer() {
-//        string sql = "INSERT INTO customers ( VALUES ("
-//    }
+    public static int addCustomer(String Customer_Name, String Address, String Postal_Code,
+                                  String Phone, String Create_Date, String Created_By,
+                                  String Last_Update, String Last_Updated_By, int Division_ID) throws SQLException {
+
+        String sql = "INSERT INTO customers (Customer_Name, Address, Postal_Code, Phone, Create_Date, Created_By, Last_Update, Last_Updated_By, Division_ID) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        PreparedStatement ps = Database.DBConnection.getConnection().prepareStatement(sql);
+
+        ps.setString(1, Customer_Name);
+        ps.setString(2, Address);
+        ps.setString(3, Postal_Code);
+        ps.setString(4, Phone);
+        ps.setString(5, Create_Date);
+        ps.setString(6, Created_By);
+        ps.setString(7, Last_Update);
+        ps.setString(8, Last_Updated_By);
+        ps.setInt(9, Division_ID);
+
+        int rowsAffected = ps.executeUpdate();
+
+        return rowsAffected;
+
+
+    }
 }
