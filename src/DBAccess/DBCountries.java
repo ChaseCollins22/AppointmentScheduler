@@ -34,4 +34,27 @@ public class DBCountries {
 
         return countriesList;
     }
+    public static int getCountryByDivisionID(int divisionID) {
+
+        int country_id = 0;
+
+        try {
+            String sql = "select c.country_id from countries c\n" +
+                    "inner join first_level_divisions f on c.country_id = f.country_id\n" +
+                    "where f.division_id = " + divisionID;
+
+            PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                country_id = rs.getInt("country_id");
+            }
+            
+        } catch (SQLException e) {
+            System.out.println(country_id);
+        }
+
+        return country_id;
+    }
 }
+

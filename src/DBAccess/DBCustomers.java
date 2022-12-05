@@ -4,6 +4,7 @@ import Database.DBConnection;
 import Model.Customers;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.Alert;
 
 import java.sql.*;
 
@@ -63,5 +64,22 @@ public class DBCustomers {
         return rowsAffected;
 
 
+    }
+
+    public static boolean deleteCustomer(Customers customer) {
+
+        boolean deleteSuccessful = false;
+
+        try {
+            String sql = "DELETE FROM customers WHERE customer_ID = " + customer.getCustomer_ID();
+            PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
+
+            deleteSuccessful = ps.execute(sql);
+
+        } catch (SQLException e) {
+
+        }
+
+        return deleteSuccessful;
     }
 }

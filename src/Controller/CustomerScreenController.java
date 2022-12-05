@@ -3,7 +3,6 @@ package Controller;
 import DBAccess.DBCustomers;
 import Model.Customers;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -15,6 +14,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class CustomerScreenController implements Initializable {
@@ -85,15 +85,53 @@ public class CustomerScreenController implements Initializable {
 
     @FXML
     public void onActionAddCustomer(ActionEvent actionEvent) throws IOException {
-        SwitchView("/View/AddCustomer.fxml", actionEvent);
+        SwitchView("/View/AddCustomerScreen.fxml", actionEvent);
     }
 
     @FXML
-    public void onActionModifyCustomer(ActionEvent actionEvent) {
+    public void onActionModifyCustomer(ActionEvent actionEvent) throws IOException {
+        try {
+            Customers selectedCustomer = customerTableView.getSelectionModel().getSelectedItem();
+
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/View/ModifyCustomerScreen.fxml"));
+            loader.load();
+
+            ModifyCustomerController mCController = loader.getController();
+            mCController.setCustomerData(selectedCustomer);
+            mCController.setFocusTraversableFalse();
+
+            Stage stage = stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
+            Parent scene = loader.getRoot();
+            stage.setScene(new Scene(scene));
+            stage.show();
+
+        }
+        catch (NullPointerException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Please select a customer to modify :)");
+            alert.setHeaderText("ERROR: No customer selected");
+            alert.showAndWait();
+
+        }
     }
 
     @FXML
     public void onActionDeleteCustomer(ActionEvent actionEvent) {
+        try {
+            Customers selectedCustomer = customerTableView.getSelectionModel().getSelectedItem();
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to delete customer " + selectedCustomer.getCustomer_Name());
+            Optional<ButtonType> alertResult = alert.showAndWait();
+
+            if (alertResult.get().getText().equals("OK")) {
+                DBCustomers.deleteCustomer(selectedCustomer);
+                customerTableView.setItems(DBCustomers.getAllCustomers());
+            }
+        }
+        catch (NullPointerException e) {
+            Alert alertError = new Alert(Alert.AlertType.ERROR, "Please select a customer to delete :)");
+            alertError.setHeaderText("ERROR: No customer selected");
+            alertError.showAndWait();
+        }
     }
 
     @FXML
