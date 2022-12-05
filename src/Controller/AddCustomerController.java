@@ -32,6 +32,13 @@ import java.util.*;
 
 public class AddCustomerController implements Initializable {
 
+    public Label nameErrorLabel;
+    //    public Label nameErrorLabel;
+//    public Label addressErrorLabel;
+//    public Label postalCodeErrorLabel;
+//    public Label phoneErrorLabel;
+//    public Label countryErrorLabel;
+//    public Label stateErrorLabel;
     @FXML
     private Button addCustomerButton;
 
@@ -99,6 +106,10 @@ public class AddCustomerController implements Initializable {
         label.setTextFill(Color.web("black"));
     }
 
+//    public void checkTextfields(String textField) {
+//        textField.getText();
+//    }
+
     @FXML
     void onActionAddCustomer(ActionEvent event) throws SQLException, IOException {
         //Get current time and format to: YYYY-MM-DD HH:MM:SS
@@ -107,16 +118,11 @@ public class AddCustomerController implements Initializable {
         String time = localTime.truncatedTo(ChronoUnit.SECONDS).toString();
         String date = localDate + " " + time;
 
-//        ObservableList customerData = FXCollections.observableArrayList();
-        String[] customerData = new String[]{nameText.getText(), addressText.getText(), postalCodeText.getText(),
-                                         phoneNumberText.getText(),  String.valueOf(countryComboBox.getValue()),
-                                         String.valueOf(stateComboBox.getValue())};
-        //System.out.println(state.getId().replace("s", "S"));
+        TextField[] customerData = new TextField[]{nameText, addressText, postalCodeText,
+                                         phoneNumberText};
+
 
         try {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setX(650);
-            alert.setY(250);
             resetColors(name, nameText);
             resetColors(address, addressText);
             resetColors(postalCode, postalCodeText);
@@ -125,52 +131,62 @@ public class AddCustomerController implements Initializable {
             country.setTextFill(Color.web("black"));
             stateComboBox.setStyle("-fx-text-box-border: lightgray; -fx-text-box-border-size: 1px");
             state.setTextFill(Color.web("black"));
-//            for (int i = 0; i < customerData.length; ++i) {
-//                if (customerData[i].isEmpty() || customerData[i].equals("null")) {
-//                    switch (i) {
-//                        case 0:
-//                            alert.setContentText("'" + name.getId().replace("n", "N") +"'" + " field is empty");
-//                            setColorOnError(name, nameText);
-//
-//                        case 1:
-//                            alert.setContentText("'" + address.getId().replace("a", "A") + "'" + " field is empty");
-//                            setColorOnError(address, addressText);
-//
-//                        case 2:
-//                            alert.setContentText("'" + postalCode.getId().replace("p", "P") + "'" + " field is empty");
-//                            setColorOnError(postalCode, postalCodeText);
-//
-//                        case 3:
-//                            alert.setContentText("'" + phoneNumber.getId().replace("p", "P") + "'" + " field is empty");
-//                            setColorOnError(phoneNumber, phoneNumberText);
-//                            System.out.println(phoneNumberText.getText().toString());
-//
-//                        case 4:
-//                           // countryComboBox.setStyle("-fx-text-box-border: red; -fx-text-box-border-size: 5px;");
-//                           // country.setTextFill(Color.web("red"));
-//                           // alert.setContentText("'" + countryComboBox.getId().substring(0,7).replace("c", "C") + "'" + " field is empty");
-//                        case 5:
-//                            //stateComboBox.setStyle("-fx-text-box-border: red; -fx-text-box-border-size: 5px;");
-//                            //state.setTextFill(Color.web("red"));
-//
-//                            //alert.setContentText("'" + state.getId().substring(0,6).replace("s", "S") + "'" + " field is empty");
-//                    }
-//                    alert.setHeaderText("Error: Empty field");
-//                    alert.showAndWait();
-//                    break;
-//                }
-//            }
-            String phoneNumberFormatted = phoneNumberText.getText(0,3) + "-" +
-                    phoneNumberText.getText(3,6) + "-" +
-                    phoneNumberText.getText(6,10);
 
-            DBCustomers.addCustomer(nameText.getText(), addressText.getText(), postalCodeText.getText(),
-                    phoneNumberFormatted, date, "script", date, "script", stateComboBox.getValue().getDivisionID());
+            for(TextField textField : customerData) {
+                if (textField.getText().isBlank()) {
+                    //System.out.println(textField.getId().substring(0, textField.getId().length() - 4));
+                    String labelname = textField.getId().substring(0, textField.getId().length() - 4);
+                    String go = labelname + "ErrorLabel";
+                    Label lbl = new Label();
+                    lbl.setId(go);
+
+                    nameErrorLabel.setText("hello");
+                    lbl.setText("hebruhlo");
+                    System.out.println(lbl);
+                    System.out.println(nameErrorLabel);
+
+//                    nameErrorLabel.setText("Name field is empty");
+//                    setColorOnError(name, nameText);
+                }
             }
+
+//            switch (i) {
+//                case 0:
+
+//                    break;
+//                case 1:
+//                    addressErrorLabel.setText("Address field is empty");
+//                    setColorOnError(address, addressText);
+//                    break;
+//                case 2:
+//                    postalCodeErrorLabel.setText("Postal Code field is empty");
+//                    setColorOnError(postalCode, postalCodeText);
+//                    break;
+//                case 3:
+//                    phoneErrorLabel.setText("Phone Number field is empty");
+//                    setColorOnError(phoneNumber, phoneNumberText);
+//                    break;
+//                case 4:
+//                    countryComboBox.setStyle("-fx-text-box-border: red; -fx-text-box-border-size: 5px;");
+//                    country.setTextFill(Color.web("red"));
+//                    countryErrorLabel.setText("Country field is empty");
+//                    break;
+//                case 5:
+//                    stateComboBox.setStyle("-fx-text-box-border: red; -fx-text-box-border-size: 5px;");
+//                    state.setTextFill(Color.web("red"));
+//                    stateErrorLabel.setText("State/Province field is empty");
+//                    break;
+//            }
+//            if (nameErrorLabel.getText().toString().equals("")) {
+//                DBCustomers.addCustomer(nameText.getText(), addressText.getText(), postalCodeText.getText(),
+//                        phoneNumberText.getText(), date, "script", date, "script",
+//                        stateComboBox.getValue().getDivisionID());
+//                SwitchView("/View/CustomerScreen.fxml", event);
+//            }
+        }
         catch (NullPointerException e) {
             System.out.println("Is NULL");
         }
-        SwitchView("/View/CustomerScreen.fxml", event);
     }
 
     @FXML

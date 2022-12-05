@@ -62,24 +62,23 @@ public class DBCustomers {
         int rowsAffected = ps.executeUpdate();
 
         return rowsAffected;
-
-
     }
 
     public static boolean deleteCustomer(Customers customer) {
-
-        boolean deleteSuccessful = false;
-
         try {
-            String sql = "DELETE FROM customers WHERE customer_ID = " + customer.getCustomer_ID();
-            PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
+            String query1 = "DELETE FROM appointments WHERE customer_id = " + customer.getCustomer_ID();
+            String query2 = "DELETE FROM customers WHERE customer_ID = " + customer.getCustomer_ID();
 
-            deleteSuccessful = ps.execute(sql);
+            PreparedStatement ps1 = DBConnection.getConnection().prepareStatement(query1);
+            ps1.execute(query1);
+
+            PreparedStatement ps2 = DBConnection.getConnection().prepareStatement(query2);
+
+            ps2.execute();
 
         } catch (SQLException e) {
 
         }
-
-        return deleteSuccessful;
+        return true;
     }
 }

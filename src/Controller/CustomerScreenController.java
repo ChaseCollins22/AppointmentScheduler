@@ -119,14 +119,20 @@ public class CustomerScreenController implements Initializable {
     public void onActionDeleteCustomer(ActionEvent actionEvent) {
         try {
             Customers selectedCustomer = customerTableView.getSelectionModel().getSelectedItem();
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to delete customer " + selectedCustomer.getCustomer_Name());
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to delete this customer?");
+            alert.setHeaderText("Delete customer " + selectedCustomer.getCustomer_Name() + "?");
             Optional<ButtonType> alertResult = alert.showAndWait();
 
             if (alertResult.get().getText().equals("OK")) {
                 DBCustomers.deleteCustomer(selectedCustomer);
                 customerTableView.setItems(DBCustomers.getAllCustomers());
+                boolean deleted = DBCustomers.deleteCustomer(selectedCustomer);
+                Alert alert2 = new Alert(Alert.AlertType.INFORMATION, "Customer deleted");
+                alert2.setHeaderText("Success");
+                alert2.showAndWait();
             }
         }
+
         catch (NullPointerException e) {
             Alert alertError = new Alert(Alert.AlertType.ERROR, "Please select a customer to delete :)");
             alertError.setHeaderText("ERROR: No customer selected");
