@@ -80,15 +80,15 @@ public class AppointmentScreenController implements Initializable {
     private TableView appointmentTableView;
 
     public void SwitchView(String viewName, ActionEvent event) throws IOException {
-        Stage stage = (Stage) ((RadioButton) event.getSource()).getScene().getWindow();
+        Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
         Parent scene = FXMLLoader.load(getClass().getResource(viewName));
         stage.setScene(new Scene(scene));
         stage.show();
     }
 
     @FXML
-    void onActionAddAppointment(ActionEvent event) {
-        //SwitchView("");
+    void onActionAddAppointment(ActionEvent event) throws IOException {
+        SwitchView("/View/AddAppointmentScreen.fxml", event);
     }
 
     @FXML
