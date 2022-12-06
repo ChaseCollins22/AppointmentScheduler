@@ -124,7 +124,7 @@ public class AddAppointmentController implements Initializable {
 
 
     @FXML
-    void onActionAddAppointment(ActionEvent event) throws IOException {
+    void onActionAddAppointment(ActionEvent event) throws IOException, SQLException {
         String localDate = LocalDate.now().toString();
         LocalTime locTime = LocalTime.now();
         String time = locTime.truncatedTo(ChronoUnit.SECONDS).toString();
@@ -134,10 +134,10 @@ public class AddAppointmentController implements Initializable {
             String title = titleText.getText();
             String description = descriptionText.getText();
             String location = locationText.getText();
-            String contact = contactText.getText();
             String type = typeText.getText();
             LocalDate startdate = startDate.getValue();
             LocalDate enddate = endDate.getValue();
+
             int customerID = Integer.parseInt(customerIDText.getText());
             int userID = Integer.parseInt(userIDText.getText());
             int contactID = Integer.parseInt(contactIDText.getText());
@@ -147,42 +147,57 @@ public class AddAppointmentController implements Initializable {
             int endHours = endTimeHours.getValue();
             int endMinutes = endTimeMinutes.getValue();
 
-            String tempHours = "";
-            String tempMinutes = "";
-            if (startTimeHours.getValue() < 10 && startTimeMinutes.getValue() < 10) {
-                tempHours = "0" + startTimeHours.getValue().toString();
-                tempMinutes = "0" + startTimeMinutes.getValue().toString();
+            String startTempHours = "";
+            String startTempMinutes = "";
+            String endTempHours = "";
+            String endTempMinutes = "";
+
+            if (startTimeHours.getValue() < 10 && startTimeMinutes.getValue() < 10 ||
+                    endTimeHours.getValue() < 10 && endTimeMinutes.getValue() < 10) {
+                startTempHours = "0" + startTimeHours.getValue().toString();
+                startTempMinutes = "0" + startTimeMinutes.getValue().toString();
+                endTempHours = "0" + endTimeHours.getValue().toString();
+                endTempMinutes = "0" + endTimeMinutes.getValue().toString();
             }
-            else if (startTimeHours.getValue() < 10) {
-                tempHours = "0" + startTimeHours.getValue().toString();
+            else if (startTimeHours.getValue() < 10 || endTimeHours.getValue() < 10) {
+                startTempHours = "0" + startTimeHours.getValue().toString();
+                endTempHours = "0" + endTimeHours.getValue().toString();
             }
-            else if (startTimeMinutes.getValue() < 10) {
-                tempMinutes = "0" + startTimeMinutes.getValue().toString();
+            else if (startTimeMinutes.getValue() < 10 || endTimeMinutes.getValue() < 10) {
+                startTempMinutes = "0" + startTimeMinutes.getValue().toString();
+                endTempMinutes = "0" + endTimeMinutes.getValue().toString();
             }
-            if (startTimeHours.getValue() > 10 && startTimeMinutes.getValue() > 10) {
-                tempHours = String.valueOf(startHours);
-                tempMinutes = String.valueOf(startMinutes);
+            if (startTimeHours.getValue() > 10 && startTimeMinutes.getValue() > 10 ||
+                endTimeHours.getValue() > 10 && endTimeMinutes.getValue() > 10) {
+
+                startTempHours = String.valueOf(startHours);
+                startTempMinutes = String.valueOf(startMinutes);
+                endTempHours = String.valueOf(endHours);
+                endTempMinutes = String.valueOf(endMinutes);
             }
-            else if (startTimeHours.getValue() > 10) {
-                tempHours = String.valueOf(startHours);
+            else if (startTimeHours.getValue() > 10 || endTimeHours.getValue() > 10) {
+                startTempHours = String.valueOf(startHours);
+                endTempHours = String.valueOf(endHours);
             }
-            else if (startTimeMinutes.getValue() > 10) {
-                tempMinutes = String.valueOf(startMinutes);
+            else if (startTimeMinutes.getValue() > 10 || endTimeMinutes.getValue() > 10) {
+                startTempMinutes = String.valueOf(startMinutes);
+                endTempMinutes = String.valueOf(endMinutes);
             }
 
-            LocalTime localTime = LocalTime.parse(tempHours + ":" + tempMinutes + ":00");
+            LocalTime localTime = LocalTime.parse(startTempHours + ":" + startTempMinutes + ":00");
             String finalDate = startdate.toString();
-            String finalTime = finalDate + " " + tempHours + ":" + tempMinutes + ":00";
-            //System.out.println(finalTime);
+            String finalTime = finalDate + " " + startTempHours + ":" + startTempMinutes + ":00";
 
+            LocalTime endTime = LocalTime.parse(endTempHours + ":" + endTempMinutes + ":00");
+            String endDate = enddate.toString();
+            String finalEndDate = endDate + " " + endTempHours + ":" + endTempMinutes + ":00";
 
+            //Parse
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
             LocalDateTime dateTime = LocalDateTime.parse(finalTime, formatter);
+            LocalDateTime endDateTime = LocalDateTime.parse(finalEndDate, formatter);
 
-            System.out.println(dateTime);
-
-
-            DBAppointments.addAppointment(title,description, location, type, startdate, enddate,
+            DBAppointments.addAppointment(title,description, location, type, dateTime, endDateTime,
                     date, "script", date, "script", customerID, userID,
             contactID);
 
@@ -191,6 +206,8 @@ public class AddAppointmentController implements Initializable {
             e.getStackTrace();
 
         }
+
+        SwitchView("/View/AppointmentScreen.fxml", event);
     }
 
     public void SwitchView(String viewName, ActionEvent event) throws IOException {

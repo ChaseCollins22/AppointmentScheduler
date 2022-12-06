@@ -133,29 +133,62 @@ public class DBAppointments {
         return appointmentsList;
     }
 
-    public static int addAppointment(String Title, String Description, String Location, String Type, LocalDate Start, LocalDate End,
+    public static int addAppointment(String Title, String Description, String Location, String Type, LocalDateTime Start, LocalDateTime End,
                                               String Create_Date, String Created_By, String Last_Update, String Last_Update_By, int Customer_ID, int User_ID,
                                               int Contact_ID) throws SQLException {
+        int rowsAffected = 1;
 
-        String sql = "INSERT INTO appointments (Title, Description, Location, Type, Start, End, Create_Date, Created_By, Last_Update, Last_Update_By, Customer_ID, User_ID, Contact_ID) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        try {
 
-        PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
+            String sql = "INSERT INTO appointments (Title, Description, Location, Type, Start, End, Create_Date, Created_By, Last_Update, Last_Updated_By, Customer_ID, User_ID, Contact_ID) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
 
-        ps.setString(1, Title);
-        ps.setString(2, Description);
-        ps.setString(3, Location);
-        ps.setString(4, Type);
-        ps.setDate(5, Date.valueOf(Start));
-        ps.setDate(6, Date.valueOf(End));
-        ps.setString(7, Create_Date);
-        ps.setString(8, Created_By);
-        ps.setString(9, Last_Update);
-        ps.setString(10, Last_Update_By);
-        ps.setInt(11, Customer_ID);
-        ps.setInt(12, User_ID);
-        ps.setInt(13, Contact_ID);
+//        System.out.print(Title);
+//        System.out.print(", ");
+//        System.out.print(Description);
+//        System.out.print(", ");
+//        System.out.print(Location);
+//        System.out.print(", ");
+//        System.out.print(Type);
+//        System.out.print(", ");
+//        System.out.print(Start.toString());
+//        System.out.print(", ");
+//        System.out.print(End.toString());
+//        System.out.print(", ");
+//        System.out.print(Create_Date);
+//        System.out.print(", ");
+//        System.out.print(Created_By);
+//        System.out.print(", ");
+//        System.out.print(Last_Update);
+//        System.out.print(", ");
+//        System.out.print(Last_Update_By);
+//        System.out.print(", ");
+//        System.out.print(Customer_ID);
+//        System.out.print(", ");
+//        System.out.print(User_ID);
+//        System.out.print(", ");
+//        System.out.print(Contact_ID);
 
-        int rowsAffected = ps.executeUpdate();
+
+            ps.setString(1, Title);
+            ps.setString(2, Description);
+            ps.setString(3, Location);
+            ps.setString(4, Type);
+            ps.setTimestamp(5, Timestamp.valueOf(Start));
+            ps.setTimestamp(6, Timestamp.valueOf(End));
+            ps.setString(7, Create_Date);
+            ps.setString(8, Created_By);
+            ps.setString(9, Last_Update);
+            ps.setString(10, Last_Update_By);
+            ps.setInt(11, Customer_ID);
+            ps.setInt(12, User_ID);
+            ps.setInt(13, Contact_ID);
+
+            ps.executeUpdate();
+        }
+        catch (SQLException e) {
+            e.getMessage();
+        }
 
         return rowsAffected;
     }

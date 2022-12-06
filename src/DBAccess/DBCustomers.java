@@ -49,6 +49,24 @@ public class DBCustomers {
         String sql = "INSERT INTO customers (Customer_Name, Address, Postal_Code, Phone, Create_Date, Created_By, Last_Update, Last_Updated_By, Division_ID) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         PreparedStatement ps = Database.DBConnection.getConnection().prepareStatement(sql);
 
+        System.out.print(Customer_Name);
+        System.out.print(", ");
+        System.out.print(Address);
+        System.out.print(", ");
+        System.out.print(Postal_Code);
+        System.out.print(", ");
+        System.out.print(Phone);
+        System.out.print(", ");
+        System.out.print(Create_Date);
+        System.out.print(", ");
+        System.out.print(Created_By);
+        System.out.print(", ");
+        System.out.print(Last_Update);
+        System.out.print(", ");
+        System.out.print(Last_Updated_By);
+        System.out.print(", ");
+        System.out.print(Division_ID);
+
         ps.setString(1, Customer_Name);
         ps.setString(2, Address);
         ps.setString(3, Postal_Code);

@@ -119,7 +119,7 @@ public class AddCustomerController implements Initializable {
         String date = localDate + " " + time;
 
         TextField[] customerData = new TextField[]{nameText, addressText, postalCodeText,
-                                         phoneNumberText};
+                phoneNumberText};
 
 
         try {
@@ -132,7 +132,7 @@ public class AddCustomerController implements Initializable {
             stateComboBox.setStyle("-fx-text-box-border: lightgray; -fx-text-box-border-size: 1px");
             state.setTextFill(Color.web("black"));
 
-            for(TextField textField : customerData) {
+            for (TextField textField : customerData) {
                 if (textField.getText().isBlank()) {
                     //System.out.println(textField.getId().substring(0, textField.getId().length() - 4));
                     String labelname = textField.getId().substring(0, textField.getId().length() - 4);
@@ -145,14 +145,14 @@ public class AddCustomerController implements Initializable {
                     System.out.println(lbl);
                     System.out.println(nameErrorLabel);
 
-//                    nameErrorLabel.setText("Name field is empty");
-//                    setColorOnError(name, nameText);
+                    nameErrorLabel.setText("Name field is empty");
+                    setColorOnError(name, nameText);
                 }
             }
-
+//
 //            switch (i) {
 //                case 0:
-
+//
 //                    break;
 //                case 1:
 //                    addressErrorLabel.setText("Address field is empty");
@@ -176,16 +176,15 @@ public class AddCustomerController implements Initializable {
 //                    state.setTextFill(Color.web("red"));
 //                    stateErrorLabel.setText("State/Province field is empty");
 //                    break;
-//            }
-//            if (nameErrorLabel.getText().toString().equals("")) {
-//                DBCustomers.addCustomer(nameText.getText(), addressText.getText(), postalCodeText.getText(),
-//                        phoneNumberText.getText(), date, "script", date, "script",
-//                        stateComboBox.getValue().getDivisionID());
-//                SwitchView("/View/CustomerScreen.fxml", event);
-//            }
         }
         catch (NullPointerException e) {
             System.out.println("Is NULL");
+        }
+        if (nameErrorLabel.getText().toString().equals("")) {
+            DBCustomers.addCustomer(nameText.getText(), addressText.getText(), postalCodeText.getText(),
+                    phoneNumberText.getText(), date, "script", date, "script",
+                    stateComboBox.getValue().getDivisionID());
+            SwitchView("/View/CustomerScreen.fxml", event);
         }
     }
 
