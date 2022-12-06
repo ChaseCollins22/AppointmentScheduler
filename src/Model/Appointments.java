@@ -1,10 +1,7 @@
 package Model;
 
-import javafx.scene.control.TableColumn;
-
-import java.sql.Date;
-import java.sql.Time;
-import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 public class Appointments {
     public int apptID;
@@ -13,15 +10,15 @@ public class Appointments {
     public String location;
     public String contact;
     public String type;
-    public Date startDate;
-    public Time startTime;
-    public Time endTime;
-    public Date endDate;
+    public LocalDate startDate;
+    public LocalTime startTime;
+    public LocalTime endTime;
+    public LocalDate endDate;
     public int customerID;
     public int userID;
 
     public Appointments(int apptID, String title, String description, String location, String contact, String type,
-                        Date startDate, Time startTime, Time endTime, Date endDate, int customerID, int userID) {
+                        LocalDate startDate, LocalTime startTime, LocalTime endTime, LocalDate endDate, int customerID, int userID) {
         this.apptID = apptID;
         this.title = title;
         this.description = description;
@@ -60,19 +57,19 @@ public class Appointments {
         return type;
     }
 
-    public Date getStartDate() {
+    public LocalDate getStartDate() {
         return startDate;
     }
 
-    public Time getStartTime() {
+    public LocalTime getStartTime() {
         return startTime;
     }
 
-    public Time getEndTime() {
+    public LocalTime getEndTime() {
         return endTime;
     }
 
-    public Date getEndDate() {
+    public LocalDate getEndDate() {
         return endDate;
     }
 

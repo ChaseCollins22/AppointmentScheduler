@@ -1,12 +1,22 @@
 package Controller;
 
+import Model.Appointments;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
 
+import java.io.IOException;
+import java.text.ParseException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Date;
 import java.net.URL;
 
@@ -62,7 +72,7 @@ public class AddAppointmentController implements Initializable {
     private Spinner<Integer> endTimeHours;
 
     @FXML
-    private Spinner<Integer> endTimeSeconds;
+    private Spinner<Integer> endTimeMinutes;
 
     @FXML
     private TextField locationText;
@@ -106,49 +116,67 @@ public class AddAppointmentController implements Initializable {
     @FXML
     private TextField userIDText;
 
+
     @FXML
     void onActionAddAppointment(ActionEvent event) {
 
-        ;
-
-//        String pattern = "HH:mm:ss";
-//        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
-//        String date1 = simpleDateFormat.format(new Date());
-//        System.out.println(date1);
-
         try {
-
-
-            int apptID;
             String title = titleText.getText();
             String description = descriptionText.getText();
             String location = locationText.getText();
             String contact = contactText.getText();
             String type = typeText.getText();
             LocalDate Startdate = startDate.getValue();
-            int startHours = startTimeHours.getValue();
-            int startMinutes = startTimeMinutes.getValue();
-            String start = startHours + " " + startMinutes;
-            LocalTime strt = LocalTime.parse(start);
-            System.out.println(strt);
-            //Time startTime = start;
-            int endHours = startTimeHours.getValue();
-            int endMinutes = startTimeMinutes.getValue();
-            Time endTime;
             LocalDate enddate = endDate.getValue();
             String customerID = customerIDText.getText();
             String userID = userIDText.getText();
 
+            int startHours = startTimeHours.getValue();
+            int startMinutes = startTimeMinutes.getValue();
+            int endHours = endTimeHours.getValue();
+            int endMinutes = endTimeMinutes.getValue();
+
+            String tempHours = "";
+            String tempMinutes = "";
+            if (startTimeHours.getValue() < 10 && startTimeMinutes.getValue() < 10) {
+                tempHours = "0" + startTimeHours.getValue().toString();
+                tempMinutes = "0" + startTimeMinutes.getValue().toString();
+            }
+            else if (startTimeHours.getValue() < 10) {
+                tempHours = "0" + startTimeHours.getValue().toString();
+            }
+            else if (startTimeMinutes.getValue() < 10) {
+                tempMinutes = "0" + startTimeMinutes.getValue().toString();
+            }
+            if (startTimeHours.getValue() > 10 && startTimeMinutes.getValue() > 10) {
+                tempHours = String.valueOf(startHours);
+                tempMinutes = String.valueOf(startMinutes);
+            }
+            else if (startTimeHours.getValue() > 10) {
+                tempHours = String.valueOf(startHours);
+            }
+            else if (startTimeMinutes.getValue() > 10) {
+                tempMinutes = String.valueOf(startMinutes);
+            }
+
+            LocalTime localTime = LocalTime.parse(tempHours + ":" + tempMinutes + ":00");
+
+            Appointments
         }
         catch (NullPointerException e) {
-
         }
-        System.out.println(startTimeHours.getValue().getClass().getName());
+    }
+
+    public void SwitchView(String viewName, ActionEvent event) throws IOException {
+        Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+        Parent scene = FXMLLoader.load(getClass().getResource(viewName));
+        stage.setScene(new Scene(scene));
+        stage.show();
     }
 
     @FXML
-    void onActionCancel(ActionEvent event) {
-
+    void onActionCancel(ActionEvent event) throws IOException {
+        SwitchView("/View/AppointmentScreen.fxml", event);
     }
 
     public void onActionTimeClicked(MouseEvent event) {
@@ -165,6 +193,6 @@ public class AddAppointmentController implements Initializable {
         startTimeHours.setValueFactory(startHoursFactory);
         startTimeMinutes.setValueFactory(startMinutesFactory);
         endTimeHours.setValueFactory(endHoursFactory);
-        endTimeSeconds.setValueFactory(endMinutesFactory);
+        endTimeMinutes.setValueFactory(endMinutesFactory);
     }
 }
