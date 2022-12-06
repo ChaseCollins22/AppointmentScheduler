@@ -2,6 +2,7 @@ package DBAccess;
 
 import Database.DBConnection;
 import Model.Appointments;
+import Model.Customers;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -143,33 +144,6 @@ public class DBAppointments {
             String sql = "INSERT INTO appointments (Title, Description, Location, Type, Start, End, Create_Date, Created_By, Last_Update, Last_Updated_By, Customer_ID, User_ID, Contact_ID) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
 
-//        System.out.print(Title);
-//        System.out.print(", ");
-//        System.out.print(Description);
-//        System.out.print(", ");
-//        System.out.print(Location);
-//        System.out.print(", ");
-//        System.out.print(Type);
-//        System.out.print(", ");
-//        System.out.print(Start.toString());
-//        System.out.print(", ");
-//        System.out.print(End.toString());
-//        System.out.print(", ");
-//        System.out.print(Create_Date);
-//        System.out.print(", ");
-//        System.out.print(Created_By);
-//        System.out.print(", ");
-//        System.out.print(Last_Update);
-//        System.out.print(", ");
-//        System.out.print(Last_Update_By);
-//        System.out.print(", ");
-//        System.out.print(Customer_ID);
-//        System.out.print(", ");
-//        System.out.print(User_ID);
-//        System.out.print(", ");
-//        System.out.print(Contact_ID);
-
-
             ps.setString(1, Title);
             ps.setString(2, Description);
             ps.setString(3, Location);
@@ -191,5 +165,23 @@ public class DBAppointments {
         }
 
         return rowsAffected;
+    }
+
+    public static boolean deleteCustomer(Customers customer) {
+        try {
+            String query1 = "DELETE FROM appointments WHERE customer_id = " + customer.getCustomer_ID();
+            String query2 = "DELETE FROM customers WHERE customer_ID = " + customer.getCustomer_ID();
+
+            PreparedStatement ps1 = DBConnection.getConnection().prepareStatement(query1);
+            ps1.execute(query1);
+
+            PreparedStatement ps2 = DBConnection.getConnection().prepareStatement(query2);
+
+            ps2.execute();
+
+        } catch (SQLException e) {
+
+        }
+        return true;
     }
 }

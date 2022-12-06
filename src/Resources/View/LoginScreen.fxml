@@ -4,6 +4,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
@@ -53,11 +54,11 @@
                   <Font size="15.0" />
                </font>
             </TextField>
-            <TextField fx:id="passwordText">
+            <PasswordField fx:id="passwordText">
                <font>
                   <Font size="15.0" />
                </font>
-            </TextField>
+            </PasswordField>
             <ComboBox fx:id="comboBox" accessibleText="French" onAction="#onActionShowLanguages" prefHeight="31.0" prefWidth="130.0" promptText="English" style="-fx-font-size: 15px;">
                <VBox.margin>
                   <Insets top="50.0" />

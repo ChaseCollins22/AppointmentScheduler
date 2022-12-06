@@ -84,11 +84,24 @@ public class LoginScreenController implements Initializable {
     public void onActionLogin(ActionEvent actionEvent) throws IOException {
         ObservableList<Users> usersList = DBLogin.getAllUsers();
 
-        System.out.println("Login");
+        System.out.println();
+        boolean found = false;
         for (Users user : usersList) {
             if (usernameText.getText().equals(user.getUserName()) && passwordText.getText().equals(user.getPassword())) {
+                found = true;
                 SwitchView("/View/AppointmentScreen.fxml", actionEvent);
             }
+        }
+
+        if (!found && usernameLabel.getText().equals(rb.getString("Username"))) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, rb.getString("Invalid Login"));
+            alert.setHeaderText(rb.getString("Error"));
+            alert.setTitle(rb.getString("Error"));
+            alert.showAndWait();
+        }
+        else if (!found) {
+            Alert alert = new Alert(Alert.AlertType.ERROR,"Invalid Login");
+            alert.showAndWait();
         }
     }
 

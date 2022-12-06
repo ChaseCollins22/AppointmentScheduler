@@ -68,4 +68,9 @@ public class Customers {
     public int getDivision_ID() {
         return Division_ID;
     }
+
+    @Override
+    public String toString() {
+        return (String.valueOf(getCustomer_ID()));
+    }
 }
