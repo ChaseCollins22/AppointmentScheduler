@@ -1,5 +1,6 @@
 package Controller;
 
+import DBAccess.DBAppointments;
 import Model.Appointments;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -13,10 +14,12 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.net.URL;
 
@@ -29,6 +32,9 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class AddAppointmentController implements Initializable {
+    @FXML
+    public TextField contactIDText;
+
     @FXML
     private Button addAppointmentButton;
 
@@ -118,7 +124,11 @@ public class AddAppointmentController implements Initializable {
 
 
     @FXML
-    void onActionAddAppointment(ActionEvent event) {
+    void onActionAddAppointment(ActionEvent event) throws IOException {
+        String localDate = LocalDate.now().toString();
+        LocalTime locTime = LocalTime.now();
+        String time = locTime.truncatedTo(ChronoUnit.SECONDS).toString();
+        String date = localDate + " " + time;
 
         try {
             String title = titleText.getText();
@@ -126,10 +136,11 @@ public class AddAppointmentController implements Initializable {
             String location = locationText.getText();
             String contact = contactText.getText();
             String type = typeText.getText();
-            LocalDate Startdate = startDate.getValue();
+            LocalDate startdate = startDate.getValue();
             LocalDate enddate = endDate.getValue();
-            String customerID = customerIDText.getText();
-            String userID = userIDText.getText();
+            int customerID = Integer.parseInt(customerIDText.getText());
+            int userID = Integer.parseInt(userIDText.getText());
+            int contactID = Integer.parseInt(contactIDText.getText());
 
             int startHours = startTimeHours.getValue();
             int startMinutes = startTimeMinutes.getValue();
@@ -160,10 +171,25 @@ public class AddAppointmentController implements Initializable {
             }
 
             LocalTime localTime = LocalTime.parse(tempHours + ":" + tempMinutes + ":00");
+            String finalDate = startdate.toString();
+            String finalTime = finalDate + " " + tempHours + ":" + tempMinutes + ":00";
+            //System.out.println(finalTime);
 
-            Appointments
+
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            LocalDateTime dateTime = LocalDateTime.parse(finalTime, formatter);
+
+            System.out.println(dateTime);
+
+
+            DBAppointments.addAppointment(title,description, location, type, startdate, enddate,
+                    date, "script", date, "script", customerID, userID,
+            contactID);
+
         }
-        catch (NullPointerException e) {
+        catch (NullPointerException | SQLException e) {
+            e.getStackTrace();
+
         }
     }
 
