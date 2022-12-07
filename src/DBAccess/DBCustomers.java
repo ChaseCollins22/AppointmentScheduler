@@ -46,26 +46,8 @@ public class DBCustomers {
                                   String Phone, String Create_Date, String Created_By,
                                   String Last_Update, String Last_Updated_By, int Division_ID) throws SQLException {
 
-        String sql = "INSERT INTO customers (Customer_Name, Address, Postal_Code, Phone, Create_Date, Created_By, Last_Update, Last_Updated_By, Division_ID) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        PreparedStatement ps = Database.DBConnection.getConnection().prepareStatement(sql);
+        String sql = "INSERT INTO customers (Customer_Name, Address, Postal_Code, Phone, Create_Date, Created_By, Last_Update, Last_Updated_By, Division_ID) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";PreparedStatement ps = Database.DBConnection.getConnection().prepareStatement(sql);
 
-        System.out.print(Customer_Name);
-        System.out.print(", ");
-        System.out.print(Address);
-        System.out.print(", ");
-        System.out.print(Postal_Code);
-        System.out.print(", ");
-        System.out.print(Phone);
-        System.out.print(", ");
-        System.out.print(Create_Date);
-        System.out.print(", ");
-        System.out.print(Created_By);
-        System.out.print(", ");
-        System.out.print(Last_Update);
-        System.out.print(", ");
-        System.out.print(Last_Updated_By);
-        System.out.print(", ");
-        System.out.print(Division_ID);
 
         ps.setString(1, Customer_Name);
         ps.setString(2, Address);
@@ -98,5 +80,25 @@ public class DBCustomers {
 
         }
         return true;
+    }
+
+    public static int updateCustomer(String Customer_Name, String Address, String Postal_Code,
+                                  String Phone, int Division_ID, int Customer_ID) throws SQLException {
+
+        String sql = "UPDATE customers SET customer_name = ?, address = ?, postal_code = ?, phone = ?, division_id = ? where customer_id = ?";
+
+        PreparedStatement ps = Database.DBConnection.getConnection().prepareStatement(sql);
+
+
+        ps.setString(1, Customer_Name);
+        ps.setString(2, Address);
+        ps.setString(3, Postal_Code);
+        ps.setString(4, Phone);
+        ps.setInt(5, Division_ID);
+        ps.setInt(6, Customer_ID);
+
+        int rowsAffected = ps.executeUpdate();
+
+        return rowsAffected;
     }
 }

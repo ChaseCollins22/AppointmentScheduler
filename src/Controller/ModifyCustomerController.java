@@ -1,10 +1,12 @@
 package Controller;
 
 import DBAccess.DBCountries;
+import DBAccess.DBCustomers;
 import DBAccess.DBDivisions;
 import Model.Countries;
 import Model.Customers;
 import Model.Divisions;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -19,6 +21,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class ModifyCustomerController implements Initializable {
@@ -82,12 +85,11 @@ public class ModifyCustomerController implements Initializable {
     }
 
     @FXML
-    void onActionAddCustomer(ActionEvent event) {
-
+    public void onActionUpdateCustomer(ActionEvent actionEvent) throws SQLException, IOException {
+        DBCustomers.updateCustomer(nameText.getText(), addressText.getText(), postalCodeText.getText(),
+                                   phoneNumberText.getText(), stateComboBox.getValue().getDivisionID(), Integer.parseInt(customerIdText.getText()));
+        SwitchView("/View/CustomerScreen.fxml", actionEvent);
     }
-
-
-
 
     public void setFocusTraversableFalse() {
         nameText.setFocusTraversable(false);
@@ -101,6 +103,7 @@ public class ModifyCustomerController implements Initializable {
     }
 
     public void setCustomerData(Customers customer) {
+        ObservableList<Divisions> divisionsList = DBDivisions.getAllDivisions();
         customerIdText.setText(String.valueOf(customer.getCustomer_ID()));
         nameText.setText(customer.getCustomer_Name());
         addressText.setText(customer.getAddress());
@@ -108,7 +111,11 @@ public class ModifyCustomerController implements Initializable {
         postalCodeText.setText(customer.getPostal_Code());
         countryComboBox.getSelectionModel().select(DBCountries.getCountryByDivisionID(customer.getDivision_ID()) - 1);
         stateComboBox.setItems(DBDivisions.getDivisionByCountryName(countryComboBox.getSelectionModel().getSelectedItem().toString()));
-        stateComboBox.getSelectionModel().select(customer.getDivision_ID());
+        for (Divisions division : divisionsList) { ;
+            if (division.getDivisionID() == customer.getDivision_ID()) {
+                stateComboBox.getSelectionModel().select(division);
+            }
+        }
     }
 
     @FXML
@@ -118,14 +125,17 @@ public class ModifyCustomerController implements Initializable {
 
     @FXML
     void onActionShowCountries(ActionEvent event) {
-        if (countryComboBox.getValue().equals("U.S")) {
+        if (countryComboBox.getSelectionModel().getSelectedItem().getCountryName().equals("U.S")) {
             stateComboBox.setItems(DBDivisions.getDivisionByCountryName("U.S"));
+            stateComboBox.getSelectionModel().selectFirst();
         }
-        else if (countryComboBox.getValue().equals("UK")) {
+        else if (countryComboBox.getSelectionModel().getSelectedItem().getCountryName().equals("UK")) {
             stateComboBox.setItems(DBDivisions.getDivisionByCountryName("UK"));
+            stateComboBox.getSelectionModel().selectFirst();
         }
         else {
             stateComboBox.setItems(DBDivisions.getDivisionByCountryName("Canada"));
+            stateComboBox.getSelectionModel().selectFirst();
         }
     }
 
@@ -139,4 +149,5 @@ public class ModifyCustomerController implements Initializable {
         countryComboBox.setItems(DBCountries.getAllCountries());
         stateComboBox.setDisable(false);
     }
+
 }

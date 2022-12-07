@@ -45,7 +45,7 @@ public class DBDivisions {
         try {
             String sql = "SELECT f.division_ID, f.division FROM countries c\n" +
                          "INNER JOIN first_level_divisions f ON c.country_id = f.country_id\n" +
-                         "WHERE c.country = " + "'" +countryName + "'";
+                         "WHERE c.country = " + "'" + countryName + "'";
 
             PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
             ResultSet rs = ps.executeQuery();

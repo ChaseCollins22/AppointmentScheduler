@@ -19,6 +19,6 @@ public class Contacts {
 
     @Override
     public String toString() {
-        return (String.valueOf(getContactID()));
+        return (getContactID() + " " + getContactName());
     }
 }

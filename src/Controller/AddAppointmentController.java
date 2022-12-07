@@ -160,6 +160,7 @@ public class AddAppointmentController implements Initializable {
         String date = localDate + " " + time;
         boolean isValid = false;
 
+
         try {
             //get TextField data
             String title = titleText.getText();
@@ -172,7 +173,7 @@ public class AddAppointmentController implements Initializable {
             //Parse comboBox values to int
             int customerID = Integer.parseInt(customerIdComboBox.getValue().toString());
             int userID = Integer.parseInt(userIdComboBox.getValue().toString());
-            int contactID = Integer.parseInt(contactIdComboBox.getValue().toString());
+            int contactID = Integer.parseInt(contactIdComboBox.getValue().toString().substring(0,1));
 
             //get Start spinner values into one string: "HH:MM"
             String startHours = startTimeHours.getValue().toString();

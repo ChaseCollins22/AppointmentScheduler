@@ -13,7 +13,7 @@ import java.util.Locale;
 public class Main extends Application {
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/View/LoginScreen.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/View/CustomerScreen.fxml"));
         stage.setTitle("Appointment Scheduler");
         stage.setScene(new Scene(root));
         stage.show();
@@ -22,7 +22,7 @@ public class Main extends Application {
 
     public static void main(String[] args) throws IOException {
         DBConnection.startConnection();
-        Locale.setDefault(Locale.forLanguageTag("en"));
+        Locale.setDefault(Locale.forLanguageTag("fr"));
         System.out.println(Locale.getDefault().toLanguageTag());
         launch(args);
         DBConnection.closeConnection();

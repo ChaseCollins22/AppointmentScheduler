@@ -22,6 +22,8 @@ import javafx.stage.Stage;
 
 import java.io.*;
 import java.net.URL;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.*;
 
 public class LoginScreenController implements Initializable {
@@ -92,15 +94,17 @@ public class LoginScreenController implements Initializable {
                 SwitchView("/View/AppointmentScreen.fxml", actionEvent);
             }
         }
-
+        Alert alert = new Alert(Alert.AlertType.ERROR);
         if (!found && usernameLabel.getText().equals(rb.getString("Username"))) {
-            Alert alert = new Alert(Alert.AlertType.ERROR, rb.getString("Invalid Login"));
+            alert.setContentText(rb.getString("Invalid Login"));
             alert.setHeaderText(rb.getString("Error"));
             alert.setTitle(rb.getString("Error"));
             alert.showAndWait();
         }
         else if (!found) {
-            Alert alert = new Alert(Alert.AlertType.ERROR,"Invalid Login");
+            alert.setContentText("Invalid Login");
+            alert.setHeaderText("Error");
+            alert.setTitle("Error");
             alert.showAndWait();
         }
     }

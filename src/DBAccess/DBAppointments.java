@@ -2,6 +2,7 @@ package DBAccess;
 
 import Database.DBConnection;
 import Model.Appointments;
+import Model.Contacts;
 import Model.Customers;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -135,14 +136,15 @@ public class DBAppointments {
     }
 
     public static int addAppointment(String Title, String Description, String Location, String Type, LocalDateTime Start, LocalDateTime End,
-                                              String Create_Date, String Created_By, String Last_Update, String Last_Update_By, int Customer_ID, int User_ID,
-                                              int Contact_ID) throws SQLException {
+                                     String Create_Date, String Created_By, String Last_Update, String Last_Update_By, int Customer_ID, int User_ID,
+                                     int Contact_ID) throws SQLException {
         int rowsAffected = 1;
 
         try {
 
             String sql = "INSERT INTO appointments (Title, Description, Location, Type, Start, End, Create_Date, Created_By, Last_Update, Last_Updated_By, Customer_ID, User_ID, Contact_ID) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
+
 
             ps.setString(1, Title);
             ps.setString(2, Description);
