@@ -19,6 +19,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import Model.Customers;
 import Controller.CustomerScreenController;
@@ -77,7 +78,7 @@ public class AppointmentScreenController implements Initializable {
     private RadioButton viewMonthButton;
 
     @FXML
-    private TableView appointmentTableView;
+    private TableView<Appointments> appointmentTableView;
 
     public void SwitchView(String viewName, ActionEvent event) throws IOException {
         Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
@@ -94,11 +95,58 @@ public class AppointmentScreenController implements Initializable {
     @FXML
     void onActionDeleteAppointment(ActionEvent event) {
 
+        try {
+            Appointments selectedAppointment = appointmentTableView.getSelectionModel().getSelectedItem();
+
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to delete this " + selectedAppointment.getType() + " appointment?");
+            alert.setHeaderText("Delete appointment " + selectedAppointment.getApptID() + "?");
+            Optional<ButtonType> alertResult = alert.showAndWait();
+
+            if (alertResult.get().getText().equals("OK")) {
+                DBAppointments.deleteAppointment(selectedAppointment);
+                if (viewAllButton.isSelected()) {
+                    appointmentTableView.setItems(DBAppointments.getAllAppointments());
+                }
+                else if (viewByWeekButton.isSelected()) {
+                    appointmentTableView.setItems(DBAppointments.getAppointmentsByWeek());
+                }
+                else if (viewMonthButton.isSelected()) {
+                    appointmentTableView.setItems(DBAppointments.getAppointmentsByMonth());
+                }
+
+                Alert alert2 = new Alert(Alert.AlertType.INFORMATION, "Appointment deleted");
+                alert2.setHeaderText("Success");
+                alert2.showAndWait();
+            }
+        } catch (NullPointerException e) {
+            Alert alertError = new Alert(Alert.AlertType.ERROR, "Please select an appointment to delete :)");
+            alertError.setHeaderText("ERROR: No appointment selected");
+            alertError.showAndWait();
+        }
     }
 
     @FXML
-    void onActionModifyAppointment(ActionEvent event) {
+    void onActionModifyAppointment(ActionEvent event) throws IOException {
+        try {
+            Appointments selectedAppointment = appointmentTableView.getSelectionModel().getSelectedItem();
 
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/View/ModifyAppointmentScreen.fxml"));
+            loader.load();
+
+            ModifyAppointmentController macController = loader.getController();
+            macController.setAppointmentData(selectedAppointment);
+
+            Stage stage = stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+            Parent scene = loader.getRoot();
+            stage.setScene(new Scene(scene));
+            stage.show();
+        }
+        catch (NullPointerException e) {
+            Alert alertError = new Alert(Alert.AlertType.ERROR, "Please select an appointment to modify :)");
+            alertError.setHeaderText("ERROR: No appointment selected");
+            alertError.showAndWait();
+        }
     }
 
     @FXML

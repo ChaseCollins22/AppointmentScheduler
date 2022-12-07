@@ -169,21 +169,46 @@ public class DBAppointments {
         return rowsAffected;
     }
 
-    public static boolean deleteCustomer(Customers customer) {
+    public static boolean deleteAppointment(Appointments appointment) {
         try {
-            String query1 = "DELETE FROM appointments WHERE customer_id = " + customer.getCustomer_ID();
-            String query2 = "DELETE FROM customers WHERE customer_ID = " + customer.getCustomer_ID();
+            String sql = "DELETE FROM appointments WHERE appointment_id = " + appointment.getApptID();
 
-            PreparedStatement ps1 = DBConnection.getConnection().prepareStatement(query1);
-            ps1.execute(query1);
-
-            PreparedStatement ps2 = DBConnection.getConnection().prepareStatement(query2);
-
-            ps2.execute();
+            PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
+            ps.execute(sql);
 
         } catch (SQLException e) {
-
+            e.printStackTrace();
         }
         return true;
+    }
+
+    public static int updateAppointments(String Title, String Description, String Location, String Type, LocalDateTime Start, LocalDateTime End,
+                                         String Create_Date, String Created_By, String Last_Update, String Last_Update_By, int Customer_ID, int User_ID,
+                                         int Contact_ID, int Appointment_ID) throws SQLException {
+
+        String sql = "UPDATE appointments SET title = ?, description = ?," +
+                " location = ?, type = ?, start = ?, end = ?, create_date = ?, created_by = ?, last_update = ?, last_updated_by = ?," +
+                "customer_id = ?, user_id = ?, contact_id = ? where appointment_id = ?";
+
+        PreparedStatement ps = Database.DBConnection.getConnection().prepareStatement(sql);
+
+        ps.setString(1, Title);
+        ps.setString(2, Description);
+        ps.setString(3, Location);
+        ps.setString(4, Type);
+        ps.setTimestamp(5, Timestamp.valueOf(Start));
+        ps.setTimestamp(6, Timestamp.valueOf(End));
+        ps.setString(7, Create_Date);
+        ps.setString(8, Created_By);
+        ps.setString(9, Last_Update);
+        ps.setString(10, Last_Update_By);
+        ps.setInt(11, Customer_ID);
+        ps.setInt(12, User_ID);
+        ps.setInt(13, Contact_ID);
+        ps.setInt(14, Appointment_ID);
+
+        int rowsAffected = ps.executeUpdate();
+
+        return rowsAffected;
     }
 }
