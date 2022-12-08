@@ -5,6 +5,7 @@ import DBAccess.DBCustomers;
 import Main.Main;
 import Model.Appointments;
 import javafx.application.Application;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
@@ -19,6 +20,11 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.*;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalAmount;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import Model.Customers;
@@ -106,11 +112,9 @@ public class AppointmentScreenController implements Initializable {
                 DBAppointments.deleteAppointment(selectedAppointment);
                 if (viewAllButton.isSelected()) {
                     appointmentTableView.setItems(DBAppointments.getAllAppointments());
-                }
-                else if (viewByWeekButton.isSelected()) {
+                } else if (viewByWeekButton.isSelected()) {
                     appointmentTableView.setItems(DBAppointments.getAppointmentsByWeek());
-                }
-                else if (viewMonthButton.isSelected()) {
+                } else if (viewMonthButton.isSelected()) {
                     appointmentTableView.setItems(DBAppointments.getAppointmentsByMonth());
                 }
 
@@ -141,8 +145,7 @@ public class AppointmentScreenController implements Initializable {
             Parent scene = loader.getRoot();
             stage.setScene(new Scene(scene));
             stage.show();
-        }
-        catch (NullPointerException e) {
+        } catch (NullPointerException e) {
             Alert alertError = new Alert(Alert.AlertType.ERROR, "Please select an appointment to modify :)");
             alertError.setHeaderText("ERROR: No appointment selected");
             alertError.showAndWait();

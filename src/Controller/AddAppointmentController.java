@@ -19,7 +19,7 @@ import javax.print.DocFlavor;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.text.ParseException;
-import java.time.LocalDateTime;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.time.format.FormatStyle;
@@ -30,8 +30,6 @@ import java.net.URL;
 import java.sql.Time;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -203,6 +201,8 @@ public class AddAppointmentController implements Initializable {
 
             isValid = true;
 
+
+
         }
         catch (NullPointerException | SQLException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR, "Not all fields are valid");
@@ -259,5 +259,6 @@ public class AddAppointmentController implements Initializable {
         startTimeMinutes.setValueFactory(startMinutesFactory);
         endTimeHours.setValueFactory(endHoursFactory);
         endTimeMinutes.setValueFactory(endMinutesFactory);
+
     }
 }
