@@ -60,9 +60,6 @@ public class DBAppointments {
                 Instant DbToUTCInstantEnd = DbZDTEnd.toInstant();
                 ZonedDateTime UTCToLocalZDTEnd = DbToUTCInstantEnd.atZone(localZoneId);
 
-//                System.out.println("DB Value: " + DbZDTStart);
-//                System.out.println("UTC -> Local: " + UTCToLocalZDTStart);
-
                 //Get Local Start date and time from DB UTC date and time
                 startDate = UTCToLocalZDTStart.toLocalDateTime().toLocalDate();
                 startTime = UTCToLocalZDTStart.toLocalDateTime().toLocalTime();
@@ -126,9 +123,6 @@ public class DBAppointments {
                 //DB End value to local time
                 Instant DbToUTCInstantEnd = DbZDTEnd.toInstant();
                 ZonedDateTime UTCToLocalZDTEnd = DbToUTCInstantEnd.atZone(localZoneId);
-
-//                System.out.println("DB Value: " + DbZDTStart);
-//                System.out.println("UTC -> Local: " + UTCToLocalZDTStart);
 
                 //Get Local Start date and time from DB UTC date and time
                 startDate = UTCToLocalZDTStart.toLocalDateTime().toLocalDate();
@@ -194,9 +188,6 @@ public class DBAppointments {
                 //DB End value to local time
                 Instant DbToUTCInstantEnd = DbZDTEnd.toInstant();
                 ZonedDateTime UTCToLocalZDTEnd = DbToUTCInstantEnd.atZone(localZoneId);
-
-//                System.out.println("DB Value: " + DbZDTStart);
-//                System.out.println("UTC -> Local: " + UTCToLocalZDTStart);
 
                 //Get Local Start date and time from DB UTC date and time
                 startDate = UTCToLocalZDTStart.toLocalDateTime().toLocalDate();

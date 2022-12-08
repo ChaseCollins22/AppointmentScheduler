@@ -2,6 +2,7 @@ package Controller;
 
 import DBAccess.*;
 import Model.*;
+import Validation.BusinessHours;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -11,26 +12,17 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
-import javax.print.DocFlavor;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.text.ParseException;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.time.format.FormatStyle;
 import java.time.temporal.ChronoUnit;
-import java.util.Date;
 import java.net.URL;
 
-import java.sql.Time;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Locale;
+
 import java.util.ResourceBundle;
 
 public class AddAppointmentController implements Initializable {
@@ -158,7 +150,6 @@ public class AddAppointmentController implements Initializable {
         String date = localDate + " " + time;
         boolean isValid = false;
 
-
         try {
             //get TextField data
             String title = titleText.getText();
@@ -173,12 +164,12 @@ public class AddAppointmentController implements Initializable {
             int userID = Integer.parseInt(userIdComboBox.getValue().toString());
             int contactID = Integer.parseInt(contactIdComboBox.getValue().toString().substring(0,1));
 
-            //get Start spinner values into one string: "HH:MM"
+            //get Start spinner start values into one string: "HH:MM"
             String startHours = startTimeHours.getValue().toString();
             String startMinutes = startTimeMinutes.getValue().toString();
             String startTime = startHours + ":" +startMinutes;
 
-            //get End spiner values into one string: "HH:MM
+            //get End spinner end values into one string: "HH:MM
             String endHours = endTimeHours.getValue().toString();
             String endMinutes = endTimeMinutes.getValue().toString();
             String endTime = endHours + ":" + endMinutes;
@@ -195,14 +186,16 @@ public class AddAppointmentController implements Initializable {
             LocalDateTime startDateTime = LocalDateTime.parse(finalTime, formatter);
             LocalDateTime endDateTime = LocalDateTime.parse(finalEndDate, formatter);
 
-            DBAppointments.addAppointment(title,description, location, type, startDateTime, endDateTime,
-                    date, "script", date, "script", customerID, userID,
-            contactID);
-
-            isValid = true;
-
-
-
+            if (BusinessHours.isInBusinessHours(startDateTime, endDateTime)) {
+                DBAppointments.addAppointment(title,description, location, type, startDateTime, endDateTime,
+                        date, "script", date, "script", customerID, userID,
+                        contactID);
+                isValid = true;
+            }
+            else {
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Please schedule an appointment within the business hours of 08:00 and 22:00 EST");
+                alert.showAndWait();
+            }
         }
         catch (NullPointerException | SQLException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR, "Not all fields are valid");
@@ -225,9 +218,9 @@ public class AddAppointmentController implements Initializable {
         SwitchView("/View/AppointmentScreen.fxml", event);
     }
 
-    public void onActionTimeClicked(MouseEvent event) {
-
-    }
+//    public void onActionTimeClicked(MouseEvent event) {
+//
+//    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {

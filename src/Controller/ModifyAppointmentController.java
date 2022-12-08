@@ -8,6 +8,7 @@ import Model.Appointments;
 import Model.Contacts;
 import Model.Customers;
 import Model.Users;
+import Validation.BusinessHours;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -19,7 +20,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
@@ -182,13 +182,19 @@ public class ModifyAppointmentController implements Initializable {
         LocalDateTime startDateTime = LocalDateTime.parse(finalTime, formatter);
         LocalDateTime endDateTime = LocalDateTime.parse(finalEndDate, formatter);
 
-        DBAppointments.updateAppointments(
-                titleText.getText(), descriptionText.getText(), locationText.getText(), typeText.getText(), startDateTime,
-                endDateTime, date, "script", date, "script",
-                customerIdComboBox.getValue(), userIdComboBox.getValue(), Integer.parseInt(contactIdComboBox.getValue().substring(0,1)),
-                Integer.parseInt(appointmentIDtext.getText()));
+        if (BusinessHours.isInBusinessHours(startDateTime, endDateTime)) {
+            DBAppointments.updateAppointments(
+                    titleText.getText(), descriptionText.getText(), locationText.getText(), typeText.getText(), startDateTime,
+                    endDateTime, date, "script", date, "script",
+                    customerIdComboBox.getValue(), userIdComboBox.getValue(), Integer.parseInt(contactIdComboBox.getValue().substring(0,1)),
+                    Integer.parseInt(appointmentIDtext.getText()));
 
-        SwitchView("/View/AppointmentScreen.fxml", event);
+            SwitchView("/View/AppointmentScreen.fxml", event);
+        }
+        else {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Please schedule an appointment within the business hours of 08:00 and 22:00 EST");
+            alert.showAndWait();
+        }
     }
 
     public void setAppointmentData(Appointments appointment) {

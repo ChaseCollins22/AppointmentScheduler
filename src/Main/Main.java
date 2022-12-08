@@ -1,5 +1,6 @@
 package Main;
 
+import DBAccess.DBAppointments;
 import Database.DBConnection;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -25,8 +26,7 @@ public class Main extends Application {
 
     public static void main(String[] args) throws IOException {
         DBConnection.startConnection();
-        Locale.setDefault(Locale.forLanguageTag("fr"));
-
+        //Locale.setDefault(Locale.forLanguageTag("fr"));
 
         launch(args);
         DBConnection.closeConnection();
