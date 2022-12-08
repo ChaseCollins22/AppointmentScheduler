@@ -29,6 +29,7 @@ public class Customers {
         this.Division_ID = division_ID;
     }
 
+
     public int getCustomer_ID() {
         return Customer_ID;
     }

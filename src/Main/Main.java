@@ -17,7 +17,7 @@ import java.util.Locale;
 public class Main extends Application {
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/View/CustomerScreen.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/View/LoginScreen.fxml"));
         stage.setTitle("Appointment Scheduler");
         stage.setScene(new Scene(root));
         stage.show();

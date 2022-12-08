@@ -106,10 +106,6 @@ public class AddCustomerController implements Initializable {
         label.setTextFill(Color.web("black"));
     }
 
-//    public void checkTextfields(String textField) {
-//        textField.getText();
-//    }
-
     @FXML
     void onActionAddCustomer(ActionEvent event) throws SQLException, IOException {
         //Get current time and format to: YYYY-MM-DD HH:MM:SS
@@ -149,38 +145,11 @@ public class AddCustomerController implements Initializable {
                     setColorOnError(name, nameText);
                 }
             }
-//
-//            switch (i) {
-//                case 0:
-//
-//                    break;
-//                case 1:
-//                    addressErrorLabel.setText("Address field is empty");
-//                    setColorOnError(address, addressText);
-//                    break;
-//                case 2:
-//                    postalCodeErrorLabel.setText("Postal Code field is empty");
-//                    setColorOnError(postalCode, postalCodeText);
-//                    break;
-//                case 3:
-//                    phoneErrorLabel.setText("Phone Number field is empty");
-//                    setColorOnError(phoneNumber, phoneNumberText);
-//                    break;
-//                case 4:
-//                    countryComboBox.setStyle("-fx-text-box-border: red; -fx-text-box-border-size: 5px;");
-//                    country.setTextFill(Color.web("red"));
-//                    countryErrorLabel.setText("Country field is empty");
-//                    break;
-//                case 5:
-//                    stateComboBox.setStyle("-fx-text-box-border: red; -fx-text-box-border-size: 5px;");
-//                    state.setTextFill(Color.web("red"));
-//                    stateErrorLabel.setText("State/Province field is empty");
-//                    break;
         }
         catch (NullPointerException e) {
             System.out.println("Is NULL");
         }
-        if (nameErrorLabel.getText().toString().equals("")) {
+        if (nameErrorLabel.getText().equals("")) {
             DBCustomers.addCustomer(nameText.getText(), addressText.getText(), postalCodeText.getText(),
                     phoneNumberText.getText(), date, "script", date, "script",
                     stateComboBox.getValue().getDivisionID());
@@ -207,16 +176,12 @@ public class AddCustomerController implements Initializable {
             stateComboBox.setItems(DBDivisions.getDivisionByCountryName("Canada"));
             stateComboBox.setDisable(false);
         }
-
-
     }
 
     @FXML
     void onActionShowStates(ActionEvent event) {
 
     }
-
-
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {

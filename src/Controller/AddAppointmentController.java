@@ -12,6 +12,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -186,6 +187,10 @@ public class AddAppointmentController implements Initializable {
             LocalDateTime startDateTime = LocalDateTime.parse(finalTime, formatter);
             LocalDateTime endDateTime = LocalDateTime.parse(finalEndDate, formatter);
 
+            if (DBAppointments.isAppointmentOverlap(customerID, startDateTime, endDateTime)) {
+                throw new Exception("Overlapping appointments");
+            }
+
             if (BusinessHours.isInBusinessHours(startDateTime, endDateTime)) {
                 DBAppointments.addAppointment(title,description, location, type, startDateTime, endDateTime,
                         date, "script", date, "script", customerID, userID,
@@ -199,6 +204,10 @@ public class AddAppointmentController implements Initializable {
         }
         catch (NullPointerException | SQLException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR, "Not all fields are valid");
+            alert.showAndWait();
+        }
+        catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Overlapping appointments");
             alert.showAndWait();
         }
         if (isValid) {
@@ -218,9 +227,9 @@ public class AddAppointmentController implements Initializable {
         SwitchView("/View/AppointmentScreen.fxml", event);
     }
 
-//    public void onActionTimeClicked(MouseEvent event) {
-//
-//    }
+    public void onActionTimeClicked(MouseEvent event) {
+
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {

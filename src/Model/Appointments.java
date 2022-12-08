@@ -33,6 +33,16 @@ public class Appointments {
         this.userID = userID;
     }
 
+    public Appointments(int apptID, LocalDate startDate, LocalTime startTime, LocalTime endTime,
+                        LocalDate endDate, int customerID) {
+        this.apptID = apptID;
+        this.startDate = startDate;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.endDate = endDate;
+        this.customerID = customerID;
+    }
+
     public int getApptID() {
         return apptID;
     }

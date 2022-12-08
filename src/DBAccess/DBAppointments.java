@@ -319,4 +319,83 @@ public class DBAppointments {
 
         return rowsAffected;
     }
+
+    public static boolean isAppointmentOverlap(int customer_id, LocalDateTime newApptStartTime, LocalDateTime newApptEndTime) throws SQLException {
+
+        String sql = "SELECT c.Customer_ID, a.Appointment_ID, a.Start, a.End FROM customers c\n" +
+                     "INNER JOIN appointments a on c.customer_id = a.customer_id\n" +
+                     "WHERE c.Customer_ID = " + customer_id;
+
+        PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
+
+        ObservableList<Appointments> appointmentsList = FXCollections.observableArrayList();
+
+        ResultSet rs = ps.executeQuery();
+
+        while (rs.next()) {
+            int customerID = rs.getInt("Customer_ID");
+            int appointmentID = rs.getInt("Appointment_ID");
+            LocalDateTime dbstart = rs.getTimestamp("Start").toLocalDateTime();
+            LocalDateTime dbend = rs.getTimestamp("End").toLocalDateTime();
+
+            LocalTime DBStartTime = Timestamp.valueOf(dbstart).toLocalDateTime().toLocalTime();
+            LocalDate DBStartDate = Timestamp.valueOf(dbstart).toLocalDateTime().toLocalDate();
+            LocalTime DBEndTime = Timestamp.valueOf(dbend).toLocalDateTime().toLocalTime();
+            LocalDate DBEndDate = Timestamp.valueOf(dbend).toLocalDateTime().toLocalDate();
+
+            //Zone ID in DB
+            ZoneId zoneId = ZoneId.of("UTC");
+            //Zone ID of local time
+            ZoneId localZoneId = ZoneId.of(TimeZone.getDefault().getID());
+            //Create ZDT of Start
+            ZonedDateTime DbZDTStart = ZonedDateTime.of(DBStartDate, DBStartTime, zoneId);
+            //Create ZDT of End
+            ZonedDateTime DbZDTEnd = ZonedDateTime.of(DBEndDate, DBEndTime, zoneId);
+
+            //DB Start value to local time
+            Instant DbToUTCInstantStart = DbZDTStart.toInstant();
+            ZonedDateTime UTCToLocalZDTStart = DbToUTCInstantStart.atZone(localZoneId);
+            //DB End value to local time
+            Instant DbToUTCInstantEnd = DbZDTEnd.toInstant();
+            ZonedDateTime UTCToLocalZDTEnd = DbToUTCInstantEnd.atZone(localZoneId);
+
+           // System.out.println(UTCToLocalZDTStart);
+
+            //Get Local Start date and time from DB UTC date and time
+            DBStartDate = UTCToLocalZDTStart.toLocalDateTime().toLocalDate();
+            DBStartTime = UTCToLocalZDTStart.toLocalDateTime().toLocalTime();
+            //Get Local End date and time from Db UTC date and time
+            DBEndDate = UTCToLocalZDTEnd.toLocalDateTime().toLocalDate();
+            DBEndTime = UTCToLocalZDTEnd.toLocalDateTime().toLocalTime();
+
+            Appointments appointment = new Appointments(appointmentID, DBStartDate, DBStartTime,
+                    DBEndTime,  DBEndDate, customerID);
+            appointmentsList.add(appointment);
+        }
+
+        for (Appointments appointment : appointmentsList) {
+            //Start Date and Time
+            LocalTime newApptStarttime = newApptStartTime.toLocalTime();
+            LocalDate newApptStartDate = newApptStartTime.toLocalDate();
+            //End Date and Time
+            LocalTime newApptEndtime = newApptEndTime.toLocalTime();
+            LocalDate newApptEndDate = newApptEndTime.toLocalDate();
+
+            if (newApptStarttime.isBefore(appointment.getStartTime()) && newApptEndtime.isAfter(appointment.getEndTime()) ||
+                newApptStarttime.equals(appointment.getStartTime()) && newApptEndtime.isAfter(appointment.getEndTime())) {
+                return true;
+            }
+            else if (newApptStarttime.isBefore(appointment.getStartTime()) && newApptEndtime.isAfter(appointment.getEndTime()) ||
+                     newApptStarttime.equals(appointment.getStartTime()) && newApptEndtime.equals(appointment.getEndTime()) ||
+                     newApptStarttime.isBefore(appointment.getStartTime()) && newApptEndtime.equals(appointment.getEndTime())) {
+                return true;
+            }
+            else if (newApptStarttime.isBefore(appointment.getEndTime()) && newApptEndtime.isAfter(appointment.getEndTime()) ||
+                     newApptStarttime.isAfter(appointment.getStartTime()) && newApptEndtime.equals(appointment.getEndTime())) {
+                return  true;
+            }
+            //System.out.println(appointment.getCustomerID() + " " + appointment.getApptID() + " " + appointment.getStartDate() + " " + appointment.getStartTime());
+        }
+        return false;
+    }
 }

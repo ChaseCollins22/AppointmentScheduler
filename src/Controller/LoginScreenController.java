@@ -39,6 +39,7 @@ public class LoginScreenController implements Initializable {
     public VBox textFieldsVBox;
     public HBox hBoxUserPass;
     public VBox userPassVBox;
+    public Label appointmentSchedulerLabel;
     ResourceBundle rb = ResourceBundle.getBundle("LanguageProperties/Nat", Locale.forLanguageTag("fr"));
     ObservableList<String> setLanguage = FXCollections.observableArrayList();
 
@@ -50,6 +51,7 @@ public class LoginScreenController implements Initializable {
             setLanguage.add("French");
             comboBox.setItems(setLanguage);
 
+            appointmentSchedulerLabel.setText("Appointment Scheduler");
             usernameLabel.setText("Username");
             passwordLabel.setText("Password");
             loginButton.setText("Login");
@@ -63,6 +65,7 @@ public class LoginScreenController implements Initializable {
             setLanguage.add(rb.getString("French"));
             comboBox.setItems(setLanguage);
 
+            appointmentSchedulerLabel.setText(rb.getString("Appointment Scheduler"));
             usernameLabel.setText(rb.getString("Username"));
             passwordLabel.setText(rb.getString("Password"));
             loginButton.setText(rb.getString("Login"));
@@ -111,8 +114,10 @@ public class LoginScreenController implements Initializable {
 
      public void onActionShowLanguages(ActionEvent actionEvent) throws IOException {
         try {
+            System.out.println(comboBox.getValue());
             if (comboBox.getSelectionModel().getSelectedItem().equals(rb.getString("English")) || comboBox.getSelectionModel().getSelectedItem().equals("English")) {
                 usernameLabel.setText("Username");
+                appointmentSchedulerLabel.setText("Appointment Scheduler");
                 passwordLabel.setText("Password");
                 loginButton.setText("Login");
                 timeZoneLabel.setText("Time Zone:");
@@ -126,6 +131,7 @@ public class LoginScreenController implements Initializable {
 
             if (comboBox.getSelectionModel().getSelectedItem().equals("French") || comboBox.getSelectionModel().getSelectedItem().equals(rb.getString("French"))) {
                 usernameLabel.setText(rb.getString("Username"));
+                appointmentSchedulerLabel.setText(rb.getString("Appointment Scheduler"));
                 passwordLabel.setText(rb.getString("Password"));
                 loginButton.setText(rb.getString("Login"));
                 timeZoneLabel.setText(rb.getString("Time Zone:"));
