@@ -167,7 +167,6 @@ public class AppointmentScreenController implements Initializable {
     void onActionViewByMonth(ActionEvent event) {
         appointmentTableView.setItems(DBAppointments.getAppointmentsByMonth());
         viewMonthButton.setSelected(true);
-
     }
 
     @FXML

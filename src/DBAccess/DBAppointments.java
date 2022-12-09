@@ -482,4 +482,267 @@ public class DBAppointments {
 
         return appointmentsByUser;
     }
+
+    public static ObservableList<Appointments> getAppointmentsByContactID(int contactID) {
+
+        ObservableList<Appointments> appointmentsList = FXCollections.observableArrayList();
+
+        try {
+            String sql = "SELECT * FROM appointments\n" +
+                    "WHERE contact_id = " + contactID;
+
+            PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                int appointmentID = rs.getInt("Appointment_ID");
+                String title = rs.getString("Title");
+                String description = rs.getString("Description");
+                String location = rs.getString("Location");
+                String contact = rs.getString("Contact_ID");
+                String type = rs.getString("Type");
+                String start= rs.getString("Start");
+                String startT = rs.getString("Start");
+                String end = rs.getString("End");
+                String endT = rs.getString("End");
+                int customerID = rs.getInt("Customer_ID");
+                int userID = rs.getInt("User_ID");
+                LocalTime startTime = Timestamp.valueOf(start).toLocalDateTime().toLocalTime();
+                LocalDate startDate = Timestamp.valueOf(startT).toLocalDateTime().toLocalDate();
+                LocalTime endTime = Timestamp.valueOf(end).toLocalDateTime().toLocalTime();
+                LocalDate endDate = Timestamp.valueOf(endT).toLocalDateTime().toLocalDate();
+
+                //Zone ID in DB
+                ZoneId zoneId = ZoneId.of("UTC");
+                //Zone ID of local time
+                ZoneId localZoneId = ZoneId.of(TimeZone.getDefault().getID());
+                //Create ZDT of Start
+                ZonedDateTime DbZDTStart = ZonedDateTime.of(startDate, startTime, zoneId);
+                //Create ZDT of End
+                ZonedDateTime DbZDTEnd = ZonedDateTime.of(endDate, endTime, zoneId);
+
+                //DB Start value to local time
+                Instant DbToUTCInstantStart = DbZDTStart.toInstant();
+                ZonedDateTime UTCToLocalZDTStart = DbToUTCInstantStart.atZone(localZoneId);
+                //DB End value to local time
+                Instant DbToUTCInstantEnd = DbZDTEnd.toInstant();
+                ZonedDateTime UTCToLocalZDTEnd = DbToUTCInstantEnd.atZone(localZoneId);
+
+                //Get Local Start date and time from DB UTC date and time
+                startDate = UTCToLocalZDTStart.toLocalDateTime().toLocalDate();
+                startTime = UTCToLocalZDTStart.toLocalDateTime().toLocalTime();
+                //Get Local End date and time from Db UTC date and time
+                endDate = UTCToLocalZDTEnd.toLocalDateTime().toLocalDate();
+                endTime = UTCToLocalZDTEnd.toLocalDateTime().toLocalTime();
+
+                Appointments appointment = new Appointments(appointmentID, title, description, location, contact, type,
+                        startDate, startTime, endTime, endDate, customerID, userID);
+                appointmentsList.add(appointment);
+
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return appointmentsList;
+    }
+
+    public static ObservableList<Appointments> getAppointmentsByType(String Type) {
+
+        ObservableList<Appointments> appointmentsList = FXCollections.observableArrayList();
+
+        try {
+            String sql = "SELECT * FROM appointments\n" +
+                    "WHERE type = '" + Type + "'";
+
+            PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                int appointmentID = rs.getInt("Appointment_ID");
+                String title = rs.getString("Title");
+                String description = rs.getString("Description");
+                String location = rs.getString("Location");
+                String contact = rs.getString("Contact_ID");
+                String type = rs.getString("Type");
+                String start= rs.getString("Start");
+                String startT = rs.getString("Start");
+                String end = rs.getString("End");
+                String endT = rs.getString("End");
+                int customerID = rs.getInt("Customer_ID");
+                int userID = rs.getInt("User_ID");
+                LocalTime startTime = Timestamp.valueOf(start).toLocalDateTime().toLocalTime();
+                LocalDate startDate = Timestamp.valueOf(startT).toLocalDateTime().toLocalDate();
+                LocalTime endTime = Timestamp.valueOf(end).toLocalDateTime().toLocalTime();
+                LocalDate endDate = Timestamp.valueOf(endT).toLocalDateTime().toLocalDate();
+
+                //Zone ID in DB
+                ZoneId zoneId = ZoneId.of("UTC");
+                //Zone ID of local time
+                ZoneId localZoneId = ZoneId.of(TimeZone.getDefault().getID());
+                //Create ZDT of Start
+                ZonedDateTime DbZDTStart = ZonedDateTime.of(startDate, startTime, zoneId);
+                //Create ZDT of End
+                ZonedDateTime DbZDTEnd = ZonedDateTime.of(endDate, endTime, zoneId);
+
+                //DB Start value to local time
+                Instant DbToUTCInstantStart = DbZDTStart.toInstant();
+                ZonedDateTime UTCToLocalZDTStart = DbToUTCInstantStart.atZone(localZoneId);
+                //DB End value to local time
+                Instant DbToUTCInstantEnd = DbZDTEnd.toInstant();
+                ZonedDateTime UTCToLocalZDTEnd = DbToUTCInstantEnd.atZone(localZoneId);
+
+                //Get Local Start date and time from DB UTC date and time
+                startDate = UTCToLocalZDTStart.toLocalDateTime().toLocalDate();
+                startTime = UTCToLocalZDTStart.toLocalDateTime().toLocalTime();
+                //Get Local End date and time from Db UTC date and time
+                endDate = UTCToLocalZDTEnd.toLocalDateTime().toLocalDate();
+                endTime = UTCToLocalZDTEnd.toLocalDateTime().toLocalTime();
+
+                Appointments appointment = new Appointments(appointmentID, title, description, location, contact, type,
+                        startDate, startTime, endTime, endDate, customerID, userID);
+                appointmentsList.add(appointment);
+
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return appointmentsList;
+    }
+
+    public static ObservableList<Appointments> getAppointmentsByMonth(int Month) {
+
+        ObservableList<Appointments> appointmentsList = FXCollections.observableArrayList();
+
+        try {
+            String sql = "SELECT * FROM appointments\n" +
+                         "WHERE MONTH(Start) = " + Month;
+
+            PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                int appointmentID = rs.getInt("Appointment_ID");
+                String title = rs.getString("Title");
+                String description = rs.getString("Description");
+                String location = rs.getString("Location");
+                String contact = rs.getString("Contact_ID");
+                String type = rs.getString("Type");
+                String start= rs.getString("Start");
+                String startT = rs.getString("Start");
+                String end = rs.getString("End");
+                String endT = rs.getString("End");
+                int customerID = rs.getInt("Customer_ID");
+                int userID = rs.getInt("User_ID");
+                LocalTime startTime = Timestamp.valueOf(start).toLocalDateTime().toLocalTime();
+                LocalDate startDate = Timestamp.valueOf(startT).toLocalDateTime().toLocalDate();
+                LocalTime endTime = Timestamp.valueOf(end).toLocalDateTime().toLocalTime();
+                LocalDate endDate = Timestamp.valueOf(endT).toLocalDateTime().toLocalDate();
+
+                //Zone ID in DB
+                ZoneId zoneId = ZoneId.of("UTC");
+                //Zone ID of local time
+                ZoneId localZoneId = ZoneId.of(TimeZone.getDefault().getID());
+                //Create ZDT of Start
+                ZonedDateTime DbZDTStart = ZonedDateTime.of(startDate, startTime, zoneId);
+                //Create ZDT of End
+                ZonedDateTime DbZDTEnd = ZonedDateTime.of(endDate, endTime, zoneId);
+
+                //DB Start value to local time
+                Instant DbToUTCInstantStart = DbZDTStart.toInstant();
+                ZonedDateTime UTCToLocalZDTStart = DbToUTCInstantStart.atZone(localZoneId);
+                //DB End value to local time
+                Instant DbToUTCInstantEnd = DbZDTEnd.toInstant();
+                ZonedDateTime UTCToLocalZDTEnd = DbToUTCInstantEnd.atZone(localZoneId);
+
+                //Get Local Start date and time from DB UTC date and time
+                startDate = UTCToLocalZDTStart.toLocalDateTime().toLocalDate();
+                startTime = UTCToLocalZDTStart.toLocalDateTime().toLocalTime();
+                //Get Local End date and time from Db UTC date and time
+                endDate = UTCToLocalZDTEnd.toLocalDateTime().toLocalDate();
+                endTime = UTCToLocalZDTEnd.toLocalDateTime().toLocalTime();
+
+                Appointments appointment = new Appointments(appointmentID, title, description, location, contact, type,
+                        startDate, startTime, endTime, endDate, customerID, userID);
+                appointmentsList.add(appointment);
+
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return appointmentsList;
+    }
+
+    public static ObservableList<Appointments> getAppointmentsByLocation(String Location) {
+
+        ObservableList<Appointments> appointmentsList = FXCollections.observableArrayList();
+
+        try {
+            String sql = "SELECT * FROM appointments\n" +
+                    "WHERE Location = '" + Location + "'";
+
+            PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                int appointmentID = rs.getInt("Appointment_ID");
+                String title = rs.getString("Title");
+                String description = rs.getString("Description");
+                String location = rs.getString("Location");
+                String contact = rs.getString("Contact_ID");
+                String type = rs.getString("Type");
+                String start= rs.getString("Start");
+                String startT = rs.getString("Start");
+                String end = rs.getString("End");
+                String endT = rs.getString("End");
+                int customerID = rs.getInt("Customer_ID");
+                int userID = rs.getInt("User_ID");
+                LocalTime startTime = Timestamp.valueOf(start).toLocalDateTime().toLocalTime();
+                LocalDate startDate = Timestamp.valueOf(startT).toLocalDateTime().toLocalDate();
+                LocalTime endTime = Timestamp.valueOf(end).toLocalDateTime().toLocalTime();
+                LocalDate endDate = Timestamp.valueOf(endT).toLocalDateTime().toLocalDate();
+
+                //Zone ID in DB
+                ZoneId zoneId = ZoneId.of("UTC");
+                //Zone ID of local time
+                ZoneId localZoneId = ZoneId.of(TimeZone.getDefault().getID());
+                //Create ZDT of Start
+                ZonedDateTime DbZDTStart = ZonedDateTime.of(startDate, startTime, zoneId);
+                //Create ZDT of End
+                ZonedDateTime DbZDTEnd = ZonedDateTime.of(endDate, endTime, zoneId);
+
+                //DB Start value to local time
+                Instant DbToUTCInstantStart = DbZDTStart.toInstant();
+                ZonedDateTime UTCToLocalZDTStart = DbToUTCInstantStart.atZone(localZoneId);
+                //DB End value to local time
+                Instant DbToUTCInstantEnd = DbZDTEnd.toInstant();
+                ZonedDateTime UTCToLocalZDTEnd = DbToUTCInstantEnd.atZone(localZoneId);
+
+                //Get Local Start date and time from DB UTC date and time
+                startDate = UTCToLocalZDTStart.toLocalDateTime().toLocalDate();
+                startTime = UTCToLocalZDTStart.toLocalDateTime().toLocalTime();
+                //Get Local End date and time from Db UTC date and time
+                endDate = UTCToLocalZDTEnd.toLocalDateTime().toLocalDate();
+                endTime = UTCToLocalZDTEnd.toLocalDateTime().toLocalTime();
+
+                Appointments appointment = new Appointments(appointmentID, title, description, location, contact, type,
+                        startDate, startTime, endTime, endDate, customerID, userID);
+                appointmentsList.add(appointment);
+
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return appointmentsList;
+    }
+
+    // How to create hashtable: https://www.educative.io/answers/how-to-create-a-dictionary-in-java
+    // Create TextArea for alert: https://stackoverflow.com/questions/43740494/javafx-alert-cannot-fit-content
 }

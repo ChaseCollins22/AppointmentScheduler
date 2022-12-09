@@ -101,4 +101,72 @@ public class DBCustomers {
 
         return rowsAffected;
     }
+
+    public static ObservableList<Customers> getCustomersByContactID(int contactID) {
+
+        ObservableList<Customers> customersList = FXCollections.observableArrayList();
+
+        try {
+            String sql = "SELECT * FROM customers\n" +
+                    "WHERE contact_id = " + contactID;
+
+            PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                int customerID = rs.getInt("Customer_ID");
+                String name = rs.getString("Customer_Name");
+                String address = rs.getString("Address");
+                String postalCode = rs.getString("Postal_Code");
+                String phone = rs.getString("Phone");
+                Date createDate = rs.getDate("Create_Date");
+                String createdBy = rs.getString("Created_By");
+                Date lastUpdate = rs.getDate("Last_Update");
+                String lastUpdatedBy = rs.getString("Last_Updated_By");
+                int divisionID = rs.getInt("Division_ID");
+                Customers customer = new Customers(customerID, name, address, postalCode, phone, createDate, createdBy, lastUpdate, lastUpdatedBy, divisionID );
+                customersList.add(customer);
+
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return customersList;
+    }
+
+    public static ObservableList<Customers> getCustomersByType(String type) {
+
+        ObservableList<Customers> customersList = FXCollections.observableArrayList();
+
+        try {
+            String sql = "select c.*, a.type as Type, MONTH(a.start) as Month from customers c\n" +
+                         "inner join appointments a on c.customer_id = a.customer_id where a.type = '" + type +"'";
+
+            PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                int customerID = rs.getInt("Customer_ID");
+                String name = rs.getString("Customer_Name");
+                String address = rs.getString("Address");
+                String postalCode = rs.getString("Postal_Code");
+                String phone = rs.getString("Phone");
+                Date createDate = rs.getDate("Create_Date");
+                String createdBy = rs.getString("Created_By");
+                Date lastUpdate = rs.getDate("Last_Update");
+                String lastUpdatedBy = rs.getString("Last_Updated_By");
+                int divisionID = rs.getInt("Division_ID");
+                Customers customer = new Customers(customerID, name, address, postalCode, phone, createDate, createdBy, lastUpdate, lastUpdatedBy, divisionID );
+                customersList.add(customer);
+
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return customersList;
+    }
 }
