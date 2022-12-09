@@ -10,6 +10,7 @@ import javafx.scene.control.Alert;
 
 import java.sql.*;
 import java.time.*;
+import java.time.chrono.ChronoLocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 import java.util.TimeZone;
@@ -320,7 +321,7 @@ public class DBAppointments {
         return rowsAffected;
     }
 
-    public static boolean isAppointmentOverlap(int customer_id, LocalDateTime newApptStartTime, LocalDateTime newApptEndTime) throws SQLException {
+    public static boolean isAppointmentOverlap(int customer_id, LocalDateTime newApptStartTime, LocalDateTime newApptEndTime, int ApptID) throws SQLException {
 
         String sql = "SELECT c.Customer_ID, a.Appointment_ID, a.Start, a.End FROM customers c\n" +
                      "INNER JOIN appointments a on c.customer_id = a.customer_id\n" +
@@ -359,8 +360,6 @@ public class DBAppointments {
             Instant DbToUTCInstantEnd = DbZDTEnd.toInstant();
             ZonedDateTime UTCToLocalZDTEnd = DbToUTCInstantEnd.atZone(localZoneId);
 
-           // System.out.println(UTCToLocalZDTStart);
-
             //Get Local Start date and time from DB UTC date and time
             DBStartDate = UTCToLocalZDTStart.toLocalDateTime().toLocalDate();
             DBStartTime = UTCToLocalZDTStart.toLocalDateTime().toLocalTime();
@@ -373,28 +372,42 @@ public class DBAppointments {
             appointmentsList.add(appointment);
         }
 
-        for (Appointments appointment : appointmentsList) {
+        for (Appointments appt : appointmentsList) {
             //Start Date and Time
-            LocalTime newApptStarttime = newApptStartTime.toLocalTime();
-            LocalDate newApptStartDate = newApptStartTime.toLocalDate();
+            LocalDateTime newStart = newApptStartTime;
             //End Date and Time
-            LocalTime newApptEndtime = newApptEndTime.toLocalTime();
-            LocalDate newApptEndDate = newApptEndTime.toLocalDate();
+            LocalDateTime newEnd = newApptEndTime;
 
-            if (newApptStarttime.isBefore(appointment.getStartTime()) && newApptEndtime.isAfter(appointment.getEndTime()) ||
-                newApptStarttime.equals(appointment.getStartTime()) && newApptEndtime.isAfter(appointment.getEndTime())) {
-                return true;
+            try {
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+                String s = appt.getStartDate().toString() + " " + appt.getStartTime().toString();
+                LocalDateTime existingStartTime = LocalDateTime.parse(s, formatter);
+
+                String e = appt.getEndDate().toString() + " " + appt.getEndTime().toString();
+                LocalDateTime existingEndTime = LocalDateTime.parse(e, formatter);
+
+                //For Modify appointment when appointment times remain unchanged
+                if (appt.getApptID() == ApptID && (newStart.isEqual(existingStartTime) && newEnd.isEqual(existingEndTime))) {
+                    return false;
+                }
+
+                if (newStart.isEqual(existingStartTime) && newEnd.isAfter(existingEndTime) ||
+                        newStart.isBefore(existingEndTime)&& newEnd.isAfter(existingEndTime)) {
+                    return true;
+                }
+                else if (newStart.isEqual(existingStartTime) && newEnd.isEqual(existingEndTime) ||
+                        newStart.isBefore(existingEndTime) && newEnd.isEqual(existingEndTime)) {
+                    return true;
+                }
+                else if (newStart.isBefore(existingStartTime) && newEnd.isEqual(existingEndTime) ||
+                        newStart.isBefore(existingStartTime) && newEnd.isAfter(existingStartTime) ||
+                        newStart.isBefore(existingStartTime) && newEnd.isAfter(existingEndTime)) {
+                    return true;
+                }
             }
-            else if (newApptStarttime.isBefore(appointment.getStartTime()) && newApptEndtime.isAfter(appointment.getEndTime()) ||
-                     newApptStarttime.equals(appointment.getStartTime()) && newApptEndtime.equals(appointment.getEndTime()) ||
-                     newApptStarttime.isBefore(appointment.getStartTime()) && newApptEndtime.equals(appointment.getEndTime())) {
-                return true;
+            catch (NullPointerException e) {
+                e.printStackTrace();
             }
-            else if (newApptStarttime.isBefore(appointment.getEndTime()) && newApptEndtime.isAfter(appointment.getEndTime()) ||
-                     newApptStarttime.isAfter(appointment.getStartTime()) && newApptEndtime.equals(appointment.getEndTime())) {
-                return  true;
-            }
-            //System.out.println(appointment.getCustomerID() + " " + appointment.getApptID() + " " + appointment.getStartDate() + " " + appointment.getStartTime());
         }
         return false;
     }

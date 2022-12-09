@@ -144,7 +144,7 @@ public class AddAppointmentController implements Initializable {
 
 
     @FXML
-    void onActionAddAppointment(ActionEvent event) throws IOException, SQLException {
+    void onActionAddAppointment(ActionEvent event) throws IOException {
         String localDate = LocalDate.now().toString();
         LocalTime locTime = LocalTime.now();
         String time = locTime.truncatedTo(ChronoUnit.SECONDS).toString();
@@ -165,12 +165,12 @@ public class AddAppointmentController implements Initializable {
             int userID = Integer.parseInt(userIdComboBox.getValue().toString());
             int contactID = Integer.parseInt(contactIdComboBox.getValue().toString().substring(0,1));
 
-            //get Start spinner start values into one string: "HH:MM"
+            //get Start spinner start values into one string: "HH:mm"
             String startHours = startTimeHours.getValue().toString();
             String startMinutes = startTimeMinutes.getValue().toString();
             String startTime = startHours + ":" +startMinutes;
 
-            //get End spinner end values into one string: "HH:MM
+            //get End spinner end values into one string: "HH:mm"
             String endHours = endTimeHours.getValue().toString();
             String endMinutes = endTimeMinutes.getValue().toString();
             String endTime = endHours + ":" + endMinutes;
@@ -187,7 +187,7 @@ public class AddAppointmentController implements Initializable {
             LocalDateTime startDateTime = LocalDateTime.parse(finalTime, formatter);
             LocalDateTime endDateTime = LocalDateTime.parse(finalEndDate, formatter);
 
-            if (DBAppointments.isAppointmentOverlap(customerID, startDateTime, endDateTime)) {
+            if (DBAppointments.isAppointmentOverlap(customerID, startDateTime, endDateTime, 0)) {
                 throw new Exception("Overlapping appointments");
             }
 
@@ -202,7 +202,7 @@ public class AddAppointmentController implements Initializable {
                 alert.showAndWait();
             }
         }
-        catch (NullPointerException | SQLException e) {
+        catch (NullPointerException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR, "Not all fields are valid");
             alert.showAndWait();
         }

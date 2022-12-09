@@ -155,45 +155,63 @@ public class ModifyAppointmentController implements Initializable {
 
     @FXML
     void onActionAddAppointment(ActionEvent event) throws SQLException, IOException {
+        boolean isValid = false;
+        try {
+            int apptID = Integer.parseInt(appointmentIDtext.getText());
+            String localDate = LocalDate.now().toString();
+            LocalTime locTime = LocalTime.now();
+            String time = locTime.truncatedTo(ChronoUnit.SECONDS).toString();
+            String date = localDate + " " + time;
 
-        String localDate = LocalDate.now().toString();
-        LocalTime locTime = LocalTime.now();
-        String time = locTime.truncatedTo(ChronoUnit.SECONDS).toString();
-        String date = localDate + " " + time;
+            String startHours = startTimeHours.getValue().toString();
+            String startMinutes = startTimeMinutes.getValue().toString();
+            String startTime = startHours + ":" + startMinutes;
 
-        String startHours = startTimeHours.getValue().toString();
-        String startMinutes = startTimeMinutes.getValue().toString();
-        String startTime = startHours + ":" +startMinutes;
+            //get End spinner values into one string: "HH:MM
+            String endHours = endTimeHours.getValue().toString();
+            String endMinutes = endTimeMinutes.getValue().toString();
+            String endTime = endHours + ":" + endMinutes;
 
-        //get End spinner values into one string: "HH:MM
-        String endHours = endTimeHours.getValue().toString();
-        String endMinutes = endTimeMinutes.getValue().toString();
-        String endTime = endHours + ":" + endMinutes;
+            //Format above strings to ensure they're like "HH:MM" and not "H:M"
+            String startTimeFormatted = formatTime(startTime);
+            String endTimeFormatted = formatTime(endTime);
 
-        //Format above strings to ensure they're like "HH:MM" and not "H:M"
-        String startTimeFormatted = formatTime(startTime);
-        String endTimeFormatted = formatTime(endTime);
+            String finalTime = startDate.getValue() + " " + startTimeFormatted;
+            String finalEndDate = endDate.getValue() + " " + endTimeFormatted;
 
-        String finalTime = startDate.getValue() + " " + startTimeFormatted;
-        String finalEndDate = endDate.getValue() + " " + endTimeFormatted;
+            //Parse
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+            LocalDateTime startDateTime = LocalDateTime.parse(finalTime, formatter);
+            LocalDateTime endDateTime = LocalDateTime.parse(finalEndDate, formatter);
 
-        //Parse
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-        LocalDateTime startDateTime = LocalDateTime.parse(finalTime, formatter);
-        LocalDateTime endDateTime = LocalDateTime.parse(finalEndDate, formatter);
+            int customerID = Integer.parseInt(customerIdComboBox.getValue().toString());
 
-        if (BusinessHours.isInBusinessHours(startDateTime, endDateTime)) {
-            DBAppointments.updateAppointments(
-                    titleText.getText(), descriptionText.getText(), locationText.getText(), typeText.getText(), startDateTime,
-                    endDateTime, date, "script", date, "script",
-                    customerIdComboBox.getValue(), userIdComboBox.getValue(), Integer.parseInt(contactIdComboBox.getValue().substring(0,1)),
-                    Integer.parseInt(appointmentIDtext.getText()));
+            if (DBAppointments.isAppointmentOverlap(customerID, startDateTime, endDateTime, apptID)) {
+                throw new Exception("Overlapping appointments");
+            }
 
-            SwitchView("/View/AppointmentScreen.fxml", event);
+            if (BusinessHours.isInBusinessHours(startDateTime, endDateTime)) {
+                DBAppointments.updateAppointments(
+                        titleText.getText(), descriptionText.getText(), locationText.getText(), typeText.getText(), startDateTime,
+                        endDateTime, date, "script", date, "script",
+                        customerIdComboBox.getValue(), userIdComboBox.getValue(), Integer.parseInt(contactIdComboBox.getValue().substring(0, 1)),
+                        Integer.parseInt(appointmentIDtext.getText()));
+                isValid = true;
+            } else {
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Please schedule an appointment within the business hours of 08:00 and 22:00 EST");
+                alert.showAndWait();
+            }
         }
-        else {
-            Alert alert = new Alert(Alert.AlertType.ERROR, "Please schedule an appointment within the business hours of 08:00 and 22:00 EST");
+        catch (NullPointerException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Not all fields are valid");
             alert.showAndWait();
+        }
+        catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "This appointment overlaps with another");
+            alert.showAndWait();
+        }
+        if (isValid) {
+            SwitchView("/View/AppointmentScreen.fxml", event);
         }
     }
 
