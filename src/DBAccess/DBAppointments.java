@@ -321,6 +321,7 @@ public class DBAppointments {
         return rowsAffected;
     }
 
+
     public static boolean isAppointmentOverlap(int customer_id, LocalDateTime newApptStartTime, LocalDateTime newApptEndTime, int ApptID) throws SQLException {
 
         String sql = "SELECT c.Customer_ID, a.Appointment_ID, a.Start, a.End FROM customers c\n" +
@@ -410,5 +411,75 @@ public class DBAppointments {
             }
         }
         return false;
+    }
+    public static ObservableList<Appointments> getAppointmentsByUserID(int loginID) {
+
+        ObservableList<Appointments> appointmentsByUser = FXCollections.observableArrayList();
+
+        try {
+            String sql = "SELECT * FROM appointments WHERE User_ID = " + loginID;
+            PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                int appointmentID = rs.getInt("Appointment_ID");
+                String title = rs.getString("Title");
+                String description = rs.getString("Description");
+                String location = rs.getString("Location");
+                String contact = rs.getString("Contact_ID");
+                String type = rs.getString("Type");
+                String start = rs.getString("Start");
+                String startT = rs.getString("Start");
+                String end = rs.getString("End");
+                String endT = rs.getString("End");
+                int customerID = rs.getInt("Customer_ID");
+                int userID = rs.getInt("User_ID");
+                LocalTime startTime = Timestamp.valueOf(start).toLocalDateTime().toLocalTime();
+                LocalDate startDate = Timestamp.valueOf(startT).toLocalDateTime().toLocalDate();
+                LocalTime endTime = Timestamp.valueOf(end).toLocalDateTime().toLocalTime();
+                LocalDate endDate = Timestamp.valueOf(endT).toLocalDateTime().toLocalDate();
+
+                //Zone ID in DB
+                ZoneId zoneId = ZoneId.of("UTC");
+                //Zone ID of local time
+                ZoneId localZoneId = ZoneId.of(TimeZone.getDefault().getID());
+                //Create ZDT of Start
+                ZonedDateTime DbZDTStart = ZonedDateTime.of(startDate, startTime, zoneId);
+                //Create ZDT of End
+                ZonedDateTime DbZDTEnd = ZonedDateTime.of(endDate, endTime, zoneId);
+
+                //DB Start value to local time
+                Instant DbToUTCInstantStart = DbZDTStart.toInstant();
+                ZonedDateTime UTCToLocalZDTStart = DbToUTCInstantStart.atZone(localZoneId);
+                //DB End value to local time
+                Instant DbToUTCInstantEnd = DbZDTEnd.toInstant();
+                ZonedDateTime UTCToLocalZDTEnd = DbToUTCInstantEnd.atZone(localZoneId);
+
+                //Get Local Start date and time from DB UTC date and time
+                startDate = UTCToLocalZDTStart.toLocalDateTime().toLocalDate();
+                startTime = UTCToLocalZDTStart.toLocalDateTime().toLocalTime();
+                //Get Local End date and time from Db UTC date and time
+                endDate = UTCToLocalZDTEnd.toLocalDateTime().toLocalDate();
+                endTime = UTCToLocalZDTEnd.toLocalDateTime().toLocalTime();
+
+                Appointments appointment = new Appointments(appointmentID, title, description, location, contact, type,
+                        startDate, startTime, endTime, endDate, customerID, userID);
+
+
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+
+                Duration timeElapsed = Duration.between(LocalTime.now(), startTime);
+                System.out.println(timeElapsed.toMinutes());
+                if (timeElapsed.toMinutes() <= 15 && timeElapsed.toMinutes() >= 0) {
+                    appointmentsByUser.add(appointment);
+                    System.out.println(timeElapsed.toMinutes());
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return appointmentsByUser;
     }
 }

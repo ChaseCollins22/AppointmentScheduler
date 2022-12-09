@@ -190,7 +190,8 @@ public class CustomerScreenController implements Initializable {
         customerTableView.setItems(DBCustomers.getAllCustomers());
     }
 
-    public void onActionGenerateReports(ActionEvent actionEvent) {
+    public void onActionGenerateReports(ActionEvent actionEvent) throws IOException {
+        SwitchView("/View/ContactReportScreen.fxml", actionEvent);
     }
 
     public void onActionLogout(ActionEvent actionEvent) {

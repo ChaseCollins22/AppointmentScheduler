@@ -20,7 +20,6 @@ public class DBConnection {
 
 
     public static void startConnection() {
-        System.out.println(jdbcURL);
         try {
             Class.forName(driver);
             conn = DriverManager.getConnection(jdbcURL, username, password);
@@ -37,7 +36,6 @@ public class DBConnection {
     public static void closeConnection() {
         try {
             conn.close();
-            System.out.println("Connection Closed");
         } catch (SQLException e) {
         }
     }

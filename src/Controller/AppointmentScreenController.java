@@ -4,7 +4,9 @@ import DBAccess.DBAppointments;
 import DBAccess.DBCustomers;
 import Main.Main;
 import Model.Appointments;
+import Model.Users;
 import javafx.application.Application;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
@@ -16,6 +18,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -85,6 +88,8 @@ public class AppointmentScreenController implements Initializable {
 
     @FXML
     private TableView<Appointments> appointmentTableView;
+
+
 
     public void SwitchView(String viewName, ActionEvent event) throws IOException {
         Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
@@ -180,14 +185,44 @@ public class AppointmentScreenController implements Initializable {
         CustomerScreenController cscController = loader.getController();
         cscController.onActionViewCustomers(event);
 
-        Stage stage = stage = (Stage) ((RadioButton) event.getSource()).getScene().getWindow();
+        Stage stage = (Stage) ((RadioButton) event.getSource()).getScene().getWindow();
         Parent scene = loader.getRoot();
         stage.setScene(new Scene(scene));
         stage.show();
     }
 
+    public Users getLoginUser(Users user) {
+        ObservableList<Appointments> usersAppts = DBAppointments.getAppointmentsByUserID(user.getUserId());
+
+        if (usersAppts.size() > 0) {
+            String appts = "You have these upcoming appointments: \n";
+            Alert userAlert = new Alert(Alert.AlertType.WARNING);
+
+            for (Appointments appt : usersAppts) {
+                appts = appts + "Appointment ID: " + appt.getApptID() + " Start Date " + appt.getStartDate().toString() + " Start Time " + appt.getStartTime().toString() + "\n";
+            }
+
+            TextArea textArea = new TextArea(appts);
+            userAlert.setHeight(275);
+            userAlert.getDialogPane().setContent(textArea);
+            userAlert.setHeaderText("WARNING: You have upcoming appointments");
+            userAlert.show();
+        }
+        else {
+            Alert userAlert = new Alert(Alert.AlertType.INFORMATION);
+            userAlert.setHeaderText("You have no upcoming appointments");
+            userAlert.setContentText("You have no appointments within 15 minutes");
+            userAlert.show();
+        }
+
+        return user;
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        ObservableList<Appointments> userAppts1 = DBAppointments.getAppointmentsByUserID(1);
+        ObservableList<Appointments> userAppts2 = DBAppointments.getAppointmentsByUserID(2);
+
         appointmentTableView.setItems(DBAppointments.getAllAppointments());
         apptID.setCellValueFactory(new PropertyValueFactory<>("apptID"));
         title.setCellValueFactory(new PropertyValueFactory<>("title"));
@@ -202,9 +237,9 @@ public class AppointmentScreenController implements Initializable {
         customerID.setCellValueFactory(new PropertyValueFactory<>("customerID"));
         userID.setCellValueFactory(new PropertyValueFactory<>("userID"));
 
-
     }
 
-    public void onActionGenerateReports(ActionEvent actionEvent) {
+    public void onActionGenerateReports(ActionEvent actionEvent) throws IOException {
+        SwitchView("/View/ContactReportScreen.fxml", actionEvent);
     }
 }

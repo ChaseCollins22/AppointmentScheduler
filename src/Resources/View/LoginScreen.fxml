@@ -13,7 +13,7 @@
 <?import javafx.scene.text.Font?>
 
 
-<VBox alignment="CENTER" spacing="25.0" style="-fx-background-color: rgb(232, 241, 250);" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.LoginScreenController">
+<VBox fx:id="loginVbox" alignment="CENTER" prefWidth="600.0" spacing="25.0" style="-fx-background-color: rgb(232, 241, 250);" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.LoginScreenController">
    <children>
       <Label fx:id="appointmentSchedulerLabel" text="Appointment Scheduler">
          <font>

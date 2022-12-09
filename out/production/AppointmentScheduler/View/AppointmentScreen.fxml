@@ -134,7 +134,7 @@
                   <Font size="15.0" />
                </font>
             </Button>
-            <Button mnemonicParsing="false" onAction="#onActionDeleteAppointment" prefWidth="160.0" text="Generate Reports">
+            <Button mnemonicParsing="false" onAction="#onActionGenerateReports" prefWidth="160.0" text="Generate Reports">
                <font>
                   <Font size="15.0" />
                </font>

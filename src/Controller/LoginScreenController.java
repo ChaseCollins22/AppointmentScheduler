@@ -22,8 +22,6 @@ import javafx.stage.Stage;
 
 import java.io.*;
 import java.net.URL;
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.util.*;
 
 public class LoginScreenController implements Initializable {
@@ -40,13 +38,14 @@ public class LoginScreenController implements Initializable {
     public HBox hBoxUserPass;
     public VBox userPassVBox;
     public Label appointmentSchedulerLabel;
+    public VBox loginVbox;
     ResourceBundle rb = ResourceBundle.getBundle("LanguageProperties/Nat", Locale.forLanguageTag("fr"));
     ObservableList<String> setLanguage = FXCollections.observableArrayList();
 
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        if (Locale.getDefault().toString().equals("en")){
-
+        if (Locale.getDefault().toLanguageTag().equals("en-US")){
             setLanguage.add("English");
             setLanguage.add("French");
             comboBox.setItems(setLanguage);
@@ -71,8 +70,8 @@ public class LoginScreenController implements Initializable {
             loginButton.setText(rb.getString("Login"));
             timeZoneLabel.setText(rb.getString("Time Zone:"));
             languageLabel.setText(rb.getString("Language"));
-        }
 
+        }
 
         TimeZone timeZone = TimeZone.getDefault();
         timeZoneValue.setText(timeZone.getID());
@@ -94,7 +93,20 @@ public class LoginScreenController implements Initializable {
         for (Users user : usersList) {
             if (usernameText.getText().equals(user.getUserName()) && passwordText.getText().equals(user.getPassword())) {
                 found = true;
-                SwitchView("/View/AppointmentScreen.fxml", actionEvent);
+
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(getClass().getResource("/View/AppointmentScreen.fxml"));
+                loader.load();
+
+                AppointmentScreenController ascController = loader.getController();
+                ascController.getLoginUser(user);
+
+                Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
+                Parent scene = loader.getRoot();
+                stage.setScene(new Scene(scene));
+                stage.show();
+
+                //SwitchView("/View/AppointmentScreen.fxml", actionEvent);
             }
         }
         Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -114,7 +126,6 @@ public class LoginScreenController implements Initializable {
 
      public void onActionShowLanguages(ActionEvent actionEvent) throws IOException {
         try {
-            System.out.println(comboBox.getValue());
             if (comboBox.getSelectionModel().getSelectedItem().equals(rb.getString("English")) || comboBox.getSelectionModel().getSelectedItem().equals("English")) {
                 usernameLabel.setText("Username");
                 appointmentSchedulerLabel.setText("Appointment Scheduler");
@@ -142,9 +153,6 @@ public class LoginScreenController implements Initializable {
                 french.add(rb.getString("French"));
                 comboBox.itemsProperty().setValue(french);
                 comboBox.setValue(rb.getString("French"));
-
-                hBoxUserPass.setSpacing(0);
-                usernameLabel.setMinWidth(100);
             }
         }
         catch (NullPointerException e) {

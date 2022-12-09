@@ -199,6 +199,7 @@ public class AddAppointmentController implements Initializable {
             }
             else {
                 Alert alert = new Alert(Alert.AlertType.ERROR, "Please schedule an appointment within the business hours of 08:00 and 22:00 EST");
+
                 alert.showAndWait();
             }
         }
