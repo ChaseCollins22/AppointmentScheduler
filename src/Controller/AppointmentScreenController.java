@@ -1,37 +1,30 @@
 package Controller;
 
 import DBAccess.DBAppointments;
-import DBAccess.DBCustomers;
-import Main.Main;
+
 import Model.Appointments;
 import Model.Users;
-import javafx.application.Application;
-import javafx.collections.FXCollections;
+
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
+
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
+
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.text.Text;
+
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
-import java.time.*;
-import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
-import java.time.temporal.TemporalAmount;
-import java.util.Locale;
+
 import java.util.Optional;
 import java.util.ResourceBundle;
-import Model.Customers;
-import Controller.CustomerScreenController;
+
 
 public class AppointmentScreenController implements Initializable {
 
@@ -57,9 +50,6 @@ public class AppointmentScreenController implements Initializable {
     private TableColumn<?, ?> location;
 
     @FXML
-    private ToggleGroup radioButtonGroup;
-
-    @FXML
     private TableColumn<?, ?> startDate;
 
     @FXML
@@ -80,8 +70,6 @@ public class AppointmentScreenController implements Initializable {
     @FXML
     private RadioButton viewByWeekButton;
 
-    @FXML
-    private RadioButton viewCustomersButton;
 
     @FXML
     private RadioButton viewMonthButton;
@@ -146,7 +134,7 @@ public class AppointmentScreenController implements Initializable {
             ModifyAppointmentController macController = loader.getController();
             macController.setAppointmentData(selectedAppointment);
 
-            Stage stage = stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+            Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
             Parent scene = loader.getRoot();
             stage.setScene(new Scene(scene));
             stage.show();
@@ -219,9 +207,6 @@ public class AppointmentScreenController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        ObservableList<Appointments> userAppts1 = DBAppointments.getAppointmentsByUserID(1);
-        ObservableList<Appointments> userAppts2 = DBAppointments.getAppointmentsByUserID(2);
-
         appointmentTableView.setItems(DBAppointments.getAllAppointments());
         apptID.setCellValueFactory(new PropertyValueFactory<>("apptID"));
         title.setCellValueFactory(new PropertyValueFactory<>("title"));

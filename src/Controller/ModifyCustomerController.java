@@ -30,49 +30,27 @@ public class ModifyCustomerController implements Initializable {
     private Button addCustomerButton;
 
     @FXML
-    private Label addCustomerTitle;
-
-    @FXML
-    private Label address;
-
-    @FXML
     private TextField addressText;
 
     @FXML
     private Button cancelButton;
 
-    @FXML
-    private Label country;
 
     @FXML
     private ComboBox<Countries> countryComboBox;
 
     @FXML
-    private Label customerIDLabel;
-
-    @FXML
     private TextField customerIdText;
-
-    @FXML
-    private Label name;
 
     @FXML
     private TextField nameText;
 
     @FXML
-    private Label phoneNumber;
-
-    @FXML
     private TextField phoneNumberText;
-
-    @FXML
-    private Label postalCode;
 
     @FXML
     private TextField postalCodeText;
 
-    @FXML
-    private Label state;
 
     @FXML
     private ComboBox<Divisions> stateComboBox;

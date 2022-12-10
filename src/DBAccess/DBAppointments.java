@@ -2,17 +2,14 @@ package DBAccess;
 
 import Database.DBConnection;
 import Model.Appointments;
-import Model.Contacts;
-import Model.Customers;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.control.Alert;
-
 import java.sql.*;
 import java.time.*;
-import java.time.chrono.ChronoLocalDateTime;
+
 import java.time.format.DateTimeFormatter;
-import java.util.Locale;
+
 import java.util.TimeZone;
 
 public class DBAppointments {
@@ -209,20 +206,14 @@ public class DBAppointments {
         return appointmentsList;
     }
 
-    public static int addAppointment(String Title, String Description, String Location, String Type, LocalDateTime Start, LocalDateTime End,
+    public static void addAppointment(String Title, String Description, String Location, String Type, LocalDateTime Start, LocalDateTime End,
                                      String Create_Date, String Created_By, String Last_Update, String Last_Update_By, int Customer_ID, int User_ID,
                                      int Contact_ID) throws SQLException {
-        int rowsAffected = 1;
 
         try {
 
             String sql = "INSERT INTO appointments (Title, Description, Location, Type, Start, End, Create_Date, Created_By, Last_Update, Last_Updated_By, Customer_ID, User_ID, Contact_ID) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
-
-            LocalDate startDate = Start.toLocalDate();
-            LocalTime startTime = Start.toLocalTime();
-            LocalDate endDate = End.toLocalDate();
-            LocalTime endTime = End.toLocalTime();
 
             ZoneId localZoneID = ZoneId.of(TimeZone.getDefault().getID());
             ZonedDateTime localZDTStart = ZonedDateTime.of(Start, localZoneID);
@@ -254,13 +245,11 @@ public class DBAppointments {
             ps.executeUpdate();
         }
         catch (SQLException e) {
-            e.getMessage();
+            e.printStackTrace();
         }
-
-        return rowsAffected;
     }
 
-    public static boolean deleteAppointment(Appointments appointment) {
+    public static void deleteAppointment(Appointments appointment) {
         try {
             String sql = "DELETE FROM appointments WHERE appointment_id = " + appointment.getApptID();
 
@@ -270,10 +259,9 @@ public class DBAppointments {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return true;
     }
 
-    public static int updateAppointments(String Title, String Description, String Location, String Type, LocalDateTime Start, LocalDateTime End,
+    public static void updateAppointments(String Title, String Description, String Location, String Type, LocalDateTime Start, LocalDateTime End,
                                          String Create_Date, String Created_By, String Last_Update, String Last_Update_By, int Customer_ID, int User_ID,
                                          int Contact_ID, int Appointment_ID) throws SQLException {
 
@@ -282,11 +270,6 @@ public class DBAppointments {
                 "customer_id = ?, user_id = ?, contact_id = ? where appointment_id = ?";
 
         PreparedStatement ps = Database.DBConnection.getConnection().prepareStatement(sql);
-
-        LocalDate startDate = Start.toLocalDate();
-        LocalTime startTime = Start.toLocalTime();
-        LocalDate endDate = End.toLocalDate();
-        LocalTime endTime = End.toLocalTime();
 
         ZoneId localZoneID = ZoneId.of(TimeZone.getDefault().getID());
         ZonedDateTime localZDTStart = ZonedDateTime.of(Start, localZoneID);
@@ -318,7 +301,6 @@ public class DBAppointments {
 
         int rowsAffected = ps.executeUpdate();
 
-        return rowsAffected;
     }
 
 
@@ -466,11 +448,7 @@ public class DBAppointments {
                 Appointments appointment = new Appointments(appointmentID, title, description, location, contact, type,
                         startDate, startTime, endTime, endDate, customerID, userID);
 
-
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-
                 Duration timeElapsed = Duration.between(LocalTime.now(), startTime);
-                System.out.println(timeElapsed.toMinutes());
                 if (timeElapsed.toMinutes() <= 15 && timeElapsed.toMinutes() >= 0) {
                     appointmentsByUser.add(appointment);
                     System.out.println(timeElapsed.toMinutes());

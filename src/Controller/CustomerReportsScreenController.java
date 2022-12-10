@@ -49,8 +49,6 @@ public class CustomerReportsScreenController implements Initializable {
 
     @FXML
     private TableColumn<?, ?> postalCode;
-    @FXML
-    private TableColumn<?, ?> apptID;
 
     @FXML
     private ComboBox<String> comboBox;
@@ -62,34 +60,7 @@ public class CustomerReportsScreenController implements Initializable {
     private TableColumn<?, ?> customerID;
 
     @FXML
-    private TableColumn<?, ?> description;
-
-    @FXML
-    private TableColumn<?, ?> endDate;
-
-    @FXML
-    private TableColumn<?, ?> endTime;
-
-    @FXML
-    private TableColumn<?, ?> location;
-
-    @FXML
-    private ToggleGroup radioButtonGroup;
-
-    @FXML
-    private Label reportsLabel;
-
-    @FXML
-    private TableColumn<?, ?> startDate;
-
-    @FXML
-    private TableColumn<?, ?> startTime;
-
-    @FXML
     private TableView<Customers> tableView;
-
-    @FXML
-    private TableColumn<?, ?> title;
 
     @FXML
     private Label totalAmountLabel;
@@ -102,15 +73,6 @@ public class CustomerReportsScreenController implements Initializable {
 
     @FXML
     private RadioButton totalByType;
-
-    @FXML
-    private Label totalLabel;
-
-    @FXML
-    private TableColumn<?, ?> type;
-
-    @FXML
-    private RadioButton viewByContact;
 
     ObservableList<String> monthsList = FXCollections.observableArrayList();
     Hashtable<String, Integer> Months = new Hashtable<String, Integer>();
@@ -132,17 +94,17 @@ public class CustomerReportsScreenController implements Initializable {
     void onActionShowComboBoxItems(ActionEvent event) {
         try {
             if (comboBoxLabel.getText().equals("Type")) {
-                String type = comboBox.getValue().toString();
+                String type = comboBox.getValue();
                 tableView.setItems(DBCustomers.getCustomersByType(type));
                 totalAmountLabel.setText(String.valueOf(DBAppointments.getAppointmentsByType(type).size()));
             }
             else if (comboBoxLabel.getText().equals("Month")) {
-                String month = comboBox.getValue().toString();
+                String month = comboBox.getValue();
                 tableView.setItems(DBCustomers.getCustomersByMonth(Months.get(month)));
                 totalAmountLabel.setText(String.valueOf(DBCustomers.getCustomersByMonth(Months.get(month)).size()));
             }
             else {
-                String postalCode = comboBox.getValue().toString();
+                String postalCode = comboBox.getValue();
                 tableView.setItems(DBCustomers.getCustomersByPostalCode(postalCode));
                 totalAmountLabel.setText(String.valueOf(DBCustomers.getCustomersByPostalCode(postalCode).size()));
             }
