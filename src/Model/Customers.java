@@ -14,6 +14,7 @@ public class Customers {
     public Date Last_Update;
     public String Last_Updated_By;
     public int Division_ID;
+    public String apptType;
 
     public Customers(int customer_ID, String customer_Name, String address, String postal_Code, String phone,
                      Date create_Date, String created_By, Date last_Update, String last_Updated_By, int division_ID) {
@@ -29,6 +30,24 @@ public class Customers {
         this.Division_ID = division_ID;
     }
 
+    public Customers(int customer_ID, String customer_Name, String address, String postal_Code, String phone,
+                     Date create_Date, String created_By, Date last_Update, String last_Updated_By, int division_ID, String apptType) {
+        this.Customer_ID = customer_ID;
+        this.Customer_Name = customer_Name;
+        this.Address = address;
+        this.Postal_Code = postal_Code;
+        this.Phone = phone;
+        this.Create_Date = create_Date;
+        this.Created_By = created_By;
+        this.Last_Update = last_Update;
+        this.Last_Updated_By = last_Updated_By;
+        this.Division_ID = division_ID;
+        this.apptType = apptType;
+    }
+
+    public String getApptType() {
+        return apptType;
+    }
 
     public int getCustomer_ID() {
         return Customer_ID;

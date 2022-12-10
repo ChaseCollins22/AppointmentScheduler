@@ -105,33 +105,53 @@ public class ContactReportScreenController implements Initializable {
 
     @FXML
     void onActionViewByContact(ActionEvent event) throws IOException {
-        //contactComboBox.setItems(DBContacts.getAllContacts());
-        SwitchView("/View/ContactReportScreen.fxml", event);
+        viewByContact.setSelected(true);
     }
 
     @FXML
-    public void onActionViewByLocation(ActionEvent actionEvent) {
+    public void onActionViewByLocation(ActionEvent actionEvent) throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/View/CustomerReportScreen.fxml"));
+        loader.load();
 
+        CustomerReportsScreenController crsController = loader.getController();
+        crsController.onActionViewByPostalCode(actionEvent);
+
+        Stage stage = (Stage) ((RadioButton) actionEvent.getSource()).getScene().getWindow();
+        Parent scene = loader.getRoot();
+        stage.setScene(new Scene(scene));
+        stage.show();
     }
 
 
     @FXML
     void onActionViewByMonth(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/View/CustomerReportScreen.fxml"));
+        loader.load();
 
+        CustomerReportsScreenController crsController = loader.getController();
+        crsController.onActionViewByMonth(event);
+
+        Stage stage = (Stage) ((RadioButton) event.getSource()).getScene().getWindow();
+        Parent scene = loader.getRoot();
+        stage.setScene(new Scene(scene));
+        stage.show();
     }
 
     @FXML
     void onActionViewByType(ActionEvent event) throws IOException {
-        contactLabel.setText("Type");
-        ObservableList typesList = FXCollections.observableArrayList();
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/View/CustomerReportScreen.fxml"));
+        loader.load();
 
-        for (Appointments appointment : DBAppointments.getAllAppointments()) {
-            typesList.add(appointment.getType());
-        }
+        CustomerReportsScreenController crsController = loader.getController();
+        crsController.onActionViewByType(event);
 
-        //totalAmountLabel.setText(String.valueOf(typesList.size()));
-        contactComboBox.setItems(typesList);
-
+        Stage stage = (Stage) ((RadioButton) event.getSource()).getScene().getWindow();
+        Parent scene = loader.getRoot();
+        stage.setScene(new Scene(scene));
+        stage.show();
     }
 
     public void onActionShowComboBoxItems(ActionEvent actionEvent) {
@@ -139,7 +159,6 @@ public class ContactReportScreenController implements Initializable {
             if (contactLabel.getText().equals("Contact")) {
                 int contactID = Integer.parseInt(contactComboBox.getValue().toString().substring(0, 1));
                 contactTableView.setItems(DBAppointments.getAppointmentsByContactID(contactID));
-                totalAmountLabel.setText(String.valueOf(DBAppointments.getAppointmentsByContactID(contactID).size()));
             }
         }
         catch(NullPointerException e){
@@ -168,6 +187,5 @@ public class ContactReportScreenController implements Initializable {
         }
 
         contactComboBox.setItems(contacts);
-        totalAmountLabel.setText(String.valueOf(0));
     }
 }

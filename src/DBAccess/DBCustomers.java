@@ -4,7 +4,6 @@ import Database.DBConnection;
 import Model.Customers;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.control.Alert;
 
 import java.sql.*;
 
@@ -102,46 +101,12 @@ public class DBCustomers {
         return rowsAffected;
     }
 
-    public static ObservableList<Customers> getCustomersByContactID(int contactID) {
-
-        ObservableList<Customers> customersList = FXCollections.observableArrayList();
-
-        try {
-            String sql = "SELECT * FROM customers\n" +
-                    "WHERE contact_id = " + contactID;
-
-            PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
-
-            ResultSet rs = ps.executeQuery();
-
-            while (rs.next()) {
-                int customerID = rs.getInt("Customer_ID");
-                String name = rs.getString("Customer_Name");
-                String address = rs.getString("Address");
-                String postalCode = rs.getString("Postal_Code");
-                String phone = rs.getString("Phone");
-                Date createDate = rs.getDate("Create_Date");
-                String createdBy = rs.getString("Created_By");
-                Date lastUpdate = rs.getDate("Last_Update");
-                String lastUpdatedBy = rs.getString("Last_Updated_By");
-                int divisionID = rs.getInt("Division_ID");
-                Customers customer = new Customers(customerID, name, address, postalCode, phone, createDate, createdBy, lastUpdate, lastUpdatedBy, divisionID );
-                customersList.add(customer);
-
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return customersList;
-    }
-
     public static ObservableList<Customers> getCustomersByType(String type) {
 
         ObservableList<Customers> customersList = FXCollections.observableArrayList();
 
         try {
-            String sql = "select c.*, a.type as Type, MONTH(a.start) as Month from customers c\n" +
+            String sql = "select c.* from customers c\n" +
                          "inner join appointments a on c.customer_id = a.customer_id where a.type = '" + type +"'";
 
             PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
@@ -159,9 +124,74 @@ public class DBCustomers {
                 Date lastUpdate = rs.getDate("Last_Update");
                 String lastUpdatedBy = rs.getString("Last_Updated_By");
                 int divisionID = rs.getInt("Division_ID");
-                Customers customer = new Customers(customerID, name, address, postalCode, phone, createDate, createdBy, lastUpdate, lastUpdatedBy, divisionID );
+                Customers customer = new Customers(customerID, name, address, postalCode, phone, createDate, createdBy, lastUpdate, lastUpdatedBy, divisionID);
                 customersList.add(customer);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
+        return customersList;
+    }
+
+    public static ObservableList<Customers> getCustomersByMonth(int Month) {
+
+        ObservableList<Customers> customersList = FXCollections.observableArrayList();
+
+        try {
+            String sql = "SELECT * FROM customers\n" +
+                    "WHERE MONTH(Create_Date) = " + Month;
+
+            PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                int customerID = rs.getInt("Customer_ID");
+                String name = rs.getString("Customer_Name");
+                String address = rs.getString("Address");
+                String postalCode = rs.getString("Postal_Code");
+                String phone = rs.getString("Phone");
+                Date createDate = rs.getDate("Create_Date");
+                String createdBy = rs.getString("Created_By");
+                Date lastUpdate = rs.getDate("Last_Update");
+                String lastUpdatedBy = rs.getString("Last_Updated_By");
+                int divisionID = rs.getInt("Division_ID");
+                Customers customer = new Customers(customerID, name, address, postalCode, phone, createDate, createdBy, lastUpdate, lastUpdatedBy, divisionID);
+                customersList.add(customer);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return customersList;
+    }
+
+    public static ObservableList<Customers> getCustomersByPostalCode(String PostalCode) {
+
+        ObservableList<Customers> customersList = FXCollections.observableArrayList();
+
+        try {
+            String sql = "SELECT * FROM customers\n" +
+                    "WHERE postal_code = '" + PostalCode + "'";
+
+            PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                int customerID = rs.getInt("Customer_ID");
+                String name = rs.getString("Customer_Name");
+                String address = rs.getString("Address");
+                String postalCode = rs.getString("Postal_Code");
+                String phone = rs.getString("Phone");
+                Date createDate = rs.getDate("Create_Date");
+                String createdBy = rs.getString("Created_By");
+                Date lastUpdate = rs.getDate("Last_Update");
+                String lastUpdatedBy = rs.getString("Last_Updated_By");
+                int divisionID = rs.getInt("Division_ID");
+                Customers customer = new Customers(customerID, name, address, postalCode, phone, createDate, createdBy, lastUpdate, lastUpdatedBy, divisionID);
+                customersList.add(customer);
             }
         } catch (SQLException e) {
             e.printStackTrace();
