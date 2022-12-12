@@ -51,7 +51,7 @@ public class DBCountries {
             }
             
         } catch (SQLException e) {
-            System.out.println(country_id);
+            e.printStackTrace();
         }
 
         return country_id;

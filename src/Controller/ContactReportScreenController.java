@@ -180,7 +180,6 @@ public class ContactReportScreenController implements Initializable {
         endDate.setCellValueFactory(new PropertyValueFactory<>("endDate"));
         customerID.setCellValueFactory(new PropertyValueFactory<>("customerID"));
 
-
         ObservableList contacts = FXCollections.observableArrayList();
         for (Contacts contact : DBContacts.getAllContacts()) {
             contacts.add(contact.getContactID());

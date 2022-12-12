@@ -69,7 +69,7 @@ public class ModifyAppointmentController implements Initializable {
     private Label customerIDLabel;
 
     @FXML
-    private ComboBox<Integer> customerIdComboBox;
+    private ComboBox customerIdComboBox;
 
     @FXML
     private TextField descriptionText;
@@ -183,18 +183,20 @@ public class ModifyAppointmentController implements Initializable {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
             LocalDateTime startDateTime = LocalDateTime.parse(finalTime, formatter);
             LocalDateTime endDateTime = LocalDateTime.parse(finalEndDate, formatter);
-
+            //System.out.println();
             int customerID = Integer.parseInt(customerIdComboBox.getValue().toString());
 
-            if (DBAppointments.isAppointmentOverlap(customerID, startDateTime, endDateTime, apptID)) {
-                throw new Exception("Overlapping appointments");
+            if (DBAppointments.isAppointmentOverlap(titleText.getText(), descriptionText.getText(),  locationText.getText(), typeText.getText(),  startDateTime,
+                    endDateTime, customerID,  userIdComboBox.getValue(),  Integer.parseInt(contactIdComboBox.getValue().substring(0,1)),
+                    Integer.parseInt(appointmentIDtext.getText()))) {
+                throw new Exception();
             }
 
             if (BusinessHours.isInBusinessHours(startDateTime, endDateTime)) {
                 DBAppointments.updateAppointments(
                         titleText.getText(), descriptionText.getText(), locationText.getText(), typeText.getText(), startDateTime,
                         endDateTime, date, "script", date, "script",
-                        customerIdComboBox.getValue(), userIdComboBox.getValue(), Integer.parseInt(contactIdComboBox.getValue().substring(0, 1)),
+                        customerID, userIdComboBox.getValue(), Integer.parseInt(contactIdComboBox.getValue().substring(0, 1)),
                         Integer.parseInt(appointmentIDtext.getText()));
                 isValid = true;
             } else {
@@ -203,10 +205,12 @@ public class ModifyAppointmentController implements Initializable {
             }
         }
         catch (NullPointerException e) {
+            e.printStackTrace();
             Alert alert = new Alert(Alert.AlertType.ERROR, "Not all fields are valid");
             alert.showAndWait();
         }
         catch (Exception e) {
+            e.printStackTrace();
             Alert alert = new Alert(Alert.AlertType.ERROR, "This appointment overlaps with another");
             alert.showAndWait();
         }

@@ -32,8 +32,8 @@ import java.util.*;
 
 public class AddCustomerController implements Initializable {
 
-    public Label nameErrorLabel;
-    //    public Label nameErrorLabel;
+//    public Label nameErrorLabel;
+        public Label nameErrorLabel;
 //    public Label addressErrorLabel;
 //    public Label postalCodeErrorLabel;
 //    public Label phoneErrorLabel;
@@ -107,53 +107,22 @@ public class AddCustomerController implements Initializable {
     }
 
     @FXML
-    void onActionAddCustomer(ActionEvent event) throws SQLException, IOException {
+    void onActionAddCustomer(ActionEvent event) throws SQLException {
         //Get current time and format to: YYYY-MM-DD HH:MM:SS
         String localDate = LocalDate.now().toString();
         LocalTime localTime = LocalTime.now();
         String time = localTime.truncatedTo(ChronoUnit.SECONDS).toString();
         String date = localDate + " " + time;
 
-        TextField[] customerData = new TextField[]{nameText, addressText, postalCodeText,
-                phoneNumberText};
-
-
         try {
-            resetColors(name, nameText);
-            resetColors(address, addressText);
-            resetColors(postalCode, postalCodeText);
-            resetColors(phoneNumber, phoneNumberText);
-            countryComboBox.setStyle("-fx-text-box-border: lightgray; -fx-text-box-border-size: 1px");
-            country.setTextFill(Color.web("black"));
-            stateComboBox.setStyle("-fx-text-box-border: lightgray; -fx-text-box-border-size: 1px");
-            state.setTextFill(Color.web("black"));
-
-            for (TextField textField : customerData) {
-                if (textField.getText().isBlank()) {
-                    //System.out.println(textField.getId().substring(0, textField.getId().length() - 4));
-                    String labelname = textField.getId().substring(0, textField.getId().length() - 4);
-                    String go = labelname + "ErrorLabel";
-                    Label lbl = new Label();
-                    lbl.setId(go);
-
-                    nameErrorLabel.setText("hello");
-                    lbl.setText("hebruhlo");
-                    System.out.println(lbl);
-                    System.out.println(nameErrorLabel);
-
-                    nameErrorLabel.setText("Name field is empty");
-                    setColorOnError(name, nameText);
-                }
-            }
-        }
-        catch (NullPointerException e) {
-            System.out.println("Is NULL");
-        }
-        if (nameErrorLabel.getText().equals("")) {
             DBCustomers.addCustomer(nameText.getText(), addressText.getText(), postalCodeText.getText(),
                     phoneNumberText.getText(), date, "script", date, "script",
                     stateComboBox.getValue().getDivisionID());
             SwitchView("/View/CustomerScreen.fxml", event);
+        }
+        catch (NullPointerException | IOException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Not all fields are valid");
+            alert.showAndWait();
         }
     }
 

@@ -135,6 +135,7 @@ public class CustomerReportsScreenController implements Initializable {
         totalAmountLabel.setText("");
         comboBoxLabel.setText("Month");
         totalByMonth.setSelected(true);
+
         comboBox.setItems(monthsList);
     }
 
@@ -146,6 +147,9 @@ public class CustomerReportsScreenController implements Initializable {
         ObservableList locationList = FXCollections.observableArrayList();
 
         for (Customers customer : DBCustomers.getAllCustomers()) {
+            if (locationList.contains(customer.getPostal_Code())) {
+                continue;
+            }
             locationList.add(customer.getPostal_Code());
         }
         comboBox.setItems(clear);
@@ -160,6 +164,9 @@ public class CustomerReportsScreenController implements Initializable {
         ObservableList typesList = FXCollections.observableArrayList();
         try {
             for (Appointments appointment : DBAppointments.getAllAppointments()) {
+                if (typesList.contains(appointment.getType())) {
+                    continue;
+                }
                 typesList.add(appointment.getType());
                 System.out.println(appointment.getType());
             }

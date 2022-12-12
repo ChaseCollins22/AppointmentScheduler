@@ -226,4 +226,14 @@ public class AppointmentScreenController implements Initializable {
     public void onActionGenerateReports(ActionEvent actionEvent) throws IOException {
         SwitchView("/View/ContactReportScreen.fxml", actionEvent);
     }
+
+    public void onActionLogout(ActionEvent actionEvent) throws IOException {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setHeaderText("Logout?");
+        alert.setContentText("Are you sure you want to logout?");
+        alert.showAndWait();
+        if (alert.getResult().getText().equals("OK")) {
+            SwitchView("/View/LoginScreen.fxml", actionEvent);
+        }
+    }
 }

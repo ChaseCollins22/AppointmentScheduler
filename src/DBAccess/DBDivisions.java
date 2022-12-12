@@ -41,7 +41,6 @@ public class DBDivisions {
     public static ObservableList<Divisions> getDivisionByCountryName(String countryName) {
 
         ObservableList<Divisions> divisionsList = FXCollections.observableArrayList();
-        System.out.println("WHERE c.country = " + countryName);
         try {
             String sql = "SELECT f.division_ID, f.division FROM countries c\n" +
                          "INNER JOIN first_level_divisions f ON c.country_id = f.country_id\n" +

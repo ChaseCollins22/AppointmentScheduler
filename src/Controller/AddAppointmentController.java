@@ -187,7 +187,8 @@ public class AddAppointmentController implements Initializable {
             LocalDateTime startDateTime = LocalDateTime.parse(finalTime, formatter);
             LocalDateTime endDateTime = LocalDateTime.parse(finalEndDate, formatter);
 
-            if (DBAppointments.isAppointmentOverlap(customerID, startDateTime, endDateTime, 0)) {
+            if (DBAppointments.isAppointmentOverlap(title, description, location, type, startDateTime, endDateTime,
+                                                    customerID, userID, contactID, 0)) {
                 throw new Exception("Overlapping appointments");
             }
 

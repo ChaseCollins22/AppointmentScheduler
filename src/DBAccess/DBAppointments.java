@@ -304,11 +304,12 @@ public class DBAppointments {
     }
 
 
-    public static boolean isAppointmentOverlap(int customer_id, LocalDateTime newApptStartTime, LocalDateTime newApptEndTime, int ApptID) throws SQLException {
+    public static boolean isAppointmentOverlap(String Title, String Description, String Location, String Type, LocalDateTime Start, LocalDateTime End,
+                                               int Customer_ID, int User_ID, int Contact_ID, int Appointment_ID) throws SQLException {
 
         String sql = "SELECT c.Customer_ID, a.Appointment_ID, a.Start, a.End FROM customers c\n" +
-                     "INNER JOIN appointments a on c.customer_id = a.customer_id\n" +
-                     "WHERE c.Customer_ID = " + customer_id;
+                "INNER JOIN appointments a on c.customer_id = a.customer_id\n" +
+                "WHERE c.Customer_ID = " + Customer_ID;
 
         PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
 
@@ -351,44 +352,43 @@ public class DBAppointments {
             DBEndTime = UTCToLocalZDTEnd.toLocalDateTime().toLocalTime();
 
             Appointments appointment = new Appointments(appointmentID, DBStartDate, DBStartTime,
-                    DBEndTime,  DBEndDate, customerID);
+                    DBEndTime, DBEndDate, customerID);
             appointmentsList.add(appointment);
         }
 
         for (Appointments appt : appointmentsList) {
             //Start Date and Time
-            LocalDateTime newStart = newApptStartTime;
+            LocalDateTime newStart = Start;
             //End Date and Time
-            LocalDateTime newEnd = newApptEndTime;
+            LocalDateTime newEnd = End;
 
             try {
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
                 String s = appt.getStartDate().toString() + " " + appt.getStartTime().toString();
                 LocalDateTime existingStartTime = LocalDateTime.parse(s, formatter);
-
                 String e = appt.getEndDate().toString() + " " + appt.getEndTime().toString();
                 LocalDateTime existingEndTime = LocalDateTime.parse(e, formatter);
-
+                System.out.println("Appt ID: " + appt.getApptID() + " Start Date: " +appt.getStartDate() + " Start Time " + appt.getStartTime() + " End Time: " + appt.getEndTime());
                 //For Modify appointment when appointment times remain unchanged
-                if (appt.getApptID() == ApptID && (newStart.isEqual(existingStartTime) && newEnd.isEqual(existingEndTime))) {
+                if (appt.getApptID() == Appointment_ID && (newStart.isEqual(existingStartTime) && newEnd.isEqual(existingEndTime)) && appt.getCustomerID() == Customer_ID) {
+                    System.out.println("First");
                     return false;
                 }
-
                 if (newStart.isEqual(existingStartTime) && newEnd.isAfter(existingEndTime) ||
-                        newStart.isBefore(existingEndTime)&& newEnd.isAfter(existingEndTime)) {
+                        newStart.isBefore(existingEndTime) && newEnd.isAfter(existingEndTime)) {
+                    System.out.println("Second");
                     return true;
-                }
-                else if (newStart.isEqual(existingStartTime) && newEnd.isEqual(existingEndTime) ||
+                } else if (newStart.isEqual(existingStartTime) && newEnd.isEqual(existingEndTime) ||
                         newStart.isBefore(existingEndTime) && newEnd.isEqual(existingEndTime)) {
+                    System.out.println("Third");
                     return true;
-                }
-                else if (newStart.isBefore(existingStartTime) && newEnd.isEqual(existingEndTime) ||
+                } else if (newStart.isBefore(existingStartTime) && newEnd.isEqual(existingEndTime) ||
                         newStart.isBefore(existingStartTime) && newEnd.isAfter(existingStartTime) ||
                         newStart.isBefore(existingStartTime) && newEnd.isAfter(existingEndTime)) {
+                    System.out.println("Fourth");
                     return true;
                 }
-            }
-            catch (NullPointerException e) {
+            } catch (NullPointerException e) {
                 e.printStackTrace();
             }
         }
