@@ -142,7 +142,7 @@
                   <Insets />
                </HBox.margin>
             </Button>
-            <Button mnemonicParsing="false" onAction="#onActionDeleteAppointment" prefWidth="70.0" text="Logout">
+            <Button mnemonicParsing="false" onAction="#onActionLogout" prefWidth="70.0" text="Logout">
                <font>
                   <Font size="15.0" />
                </font>
