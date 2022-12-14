@@ -106,7 +106,7 @@ public class CustomerScreenController implements Initializable {
             mCController.setCustomerData(selectedCustomer);
             mCController.setFocusTraversableFalse();
 
-            Stage stage = stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
+            Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
             Parent scene = loader.getRoot();
             stage.setScene(new Scene(scene));
             stage.show();
@@ -150,6 +150,7 @@ public class CustomerScreenController implements Initializable {
 
     /**
      * This function switches the view to teh AppointmentScreen.fxml view and calls onActionViewAll function.
+     * Lambda #2 Takes in a string of a path to a view and loads the controller and then switches the view.
      * @param event Clicking the View All radio button.
      * @throws IOException
      */

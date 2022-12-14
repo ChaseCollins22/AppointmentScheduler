@@ -93,6 +93,7 @@ public class AddAppointmentController implements Initializable {
 
     /**
      * This function executes when the user clicks the 'add appointment' button and attempts to input the data given into the database.
+     * Lambda #1 used in the catch clause to create and set the context text of an alert error.
      * @param event Clicking the 'add appointment' button
      * @throws IOException
      */

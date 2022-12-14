@@ -47,7 +47,7 @@
                   <TextField fx:id="phoneNumberText" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                   <TextField fx:id="customerIdText" disable="true" GridPane.columnIndex="1" />
                   <ComboBox fx:id="countryComboBox" onAction="#onActionShowCountries" prefWidth="170.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-                  <ComboBox fx:id="stateComboBox" disable="true" onAction="#onActionShowStates" prefWidth="170.0" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                  <ComboBox fx:id="stateComboBox" disable="true" prefWidth="170.0" GridPane.columnIndex="1" GridPane.rowIndex="6" />
                   <Label fx:id="customerIDLabel" prefHeight="17.0" prefWidth="108.0" text="Customer ID">
                      <font>
                         <Font size="15.0" />
