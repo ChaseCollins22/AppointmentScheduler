@@ -124,6 +124,38 @@ public class Customers {
     }
 
     /**
+     * This function gets the date the customer object was created.
+     * @return Date the customer was created.
+     */
+    public Date getCreate_Date() {
+        return Create_Date;
+    }
+
+     /**
+     * This function gets who the customer was created by.
+     * @return Who the customer was created by.
+     */
+    public String getCreated_By() {
+        return Created_By;
+    }
+
+    /**
+     * This function gets the date the customer object was last updated.
+     * @return Date the customer was last updated.
+     */
+    public Date getLast_Update() {
+        return Last_Update;
+    }
+
+    /**
+     * This function gets who the customer object was last updated by.
+     * @return Who the customer was last updated by.
+     */
+    public String getLast_Updated_By() {
+        return Last_Updated_By;
+    }
+
+    /**
      * This function overrides the toString method.
      * @return A string of the customer id.
      */

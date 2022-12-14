@@ -160,6 +160,7 @@ public class ModifyAppointmentController implements Initializable {
             if (DBAppointments.isAppointmentOverlap(titleText.getText(), descriptionText.getText(),  locationText.getText(), typeText.getText(),  startDateTime,
                     endDateTime, customerID,  userIdComboBox.getValue(),  Integer.parseInt(contactIdComboBox.getValue().substring(0,1)),
                     Integer.parseInt(appointmentIDtext.getText()))) {
+                System.out.println("Overlap");
                 throw new Exception();
             }
 
@@ -176,12 +177,10 @@ public class ModifyAppointmentController implements Initializable {
             }
         }
         catch (NullPointerException e) {
-            e.printStackTrace();
             Alert alert = new Alert(Alert.AlertType.ERROR, "Not all fields are valid");
             alert.showAndWait();
         }
         catch (Exception e) {
-            e.printStackTrace();
             Alert alert = new Alert(Alert.AlertType.ERROR, "This appointment overlaps with another");
             alert.showAndWait();
         }

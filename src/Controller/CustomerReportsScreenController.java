@@ -159,7 +159,7 @@ public class CustomerReportsScreenController implements Initializable {
         totalAmountLabel.setText("");
         comboBoxLabel.setText("Month");
         totalByMonth.setSelected(true);
-
+        comboBox.setItems(clear);
         comboBox.setItems(monthsList);
     }
 

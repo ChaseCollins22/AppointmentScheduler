@@ -15,6 +15,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Date;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -32,6 +33,7 @@ public class CustomerScreenController implements Initializable {
     public Button deleteCustomerButton;
     public Button reportsButton;
     public Button logoutButton;
+
     @FXML
     private TableColumn<?, ?> address;
 
@@ -253,7 +255,6 @@ public class CustomerScreenController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        customerTableView.setItems(DBCustomers.getAllCustomers());
         customerID.setCellValueFactory(new PropertyValueFactory<>("Customer_ID"));
         name.setCellValueFactory(new PropertyValueFactory<>("Customer_Name"));
         address.setCellValueFactory(new PropertyValueFactory<>("Address"));
@@ -265,6 +266,7 @@ public class CustomerScreenController implements Initializable {
         lastUpdateBy.setCellValueFactory(new PropertyValueFactory<>("Last_Updated_By"));
         divisionID.setCellValueFactory(new PropertyValueFactory<>("Division_ID"));
         viewCustomersButton.setSelected(true);
+        customerTableView.setItems(DBCustomers.getAllCustomers());
 
     }
 }

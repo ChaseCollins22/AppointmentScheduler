@@ -436,7 +436,7 @@ public class DBAppointments {
                 LocalDateTime existingStartTime = LocalDateTime.parse(s, formatter);
                 String e = appt.getEndDate().toString() + " " + appt.getEndTime().toString();
                 LocalDateTime existingEndTime = LocalDateTime.parse(e, formatter);
-                System.out.println("Appt ID: " + appt.getApptID() + " Start Date: " +appt.getStartDate() + " Start Time " + appt.getStartTime() + " End Time: " + appt.getEndTime());
+                System.out.println("Appt ID: " + appt.getApptID() + " Start Date: " +appt.getStartDate() + " Start Time " + appt.getStartTime() + " End Time: " + appt.getEndTime() + "Customer ID" + appt.getCustomerID());
                 //For Modify appointment when appointment times remain unchanged
                 if (appt.getApptID() == Appointment_ID && (newStart.isEqual(existingStartTime) && newEnd.isEqual(existingEndTime)) && appt.getCustomerID() == Customer_ID) {
                     System.out.println("First");

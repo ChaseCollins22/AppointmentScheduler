@@ -23,5 +23,8 @@ On the bottom of either the appointment screen or customer screen, you will see 
 a screen where customers can be filtered by their type, postal code, and by month created. A contact schedule will also be available.
 The contact schedule shows all appointments for each contact available.
 
+I chose to create an additional report on the customers by their postal code. I thought this would be useful for a business or office to see
+where they have the most/least customers geographically.
+
 MySQL Driver: mysql:mysql-connector-java:8.0.25
 

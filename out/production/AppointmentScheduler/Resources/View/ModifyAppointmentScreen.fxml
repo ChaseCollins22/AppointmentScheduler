@@ -50,7 +50,7 @@
                   <TextField fx:id="appointmentIDtext" disable="true" GridPane.columnIndex="1" />
                   <DatePicker fx:id="endDate" GridPane.columnIndex="1" GridPane.rowIndex="6" />
                   <DatePicker fx:id="startDate" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-                  <Spinner fx:id="startTimeHours" editable="true" onMouseClicked="#onActionTimeClicked" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                  <Spinner fx:id="startTimeHours" editable="true" GridPane.columnIndex="1" GridPane.rowIndex="7" />
                   <Spinner fx:id="endTimeHours" editable="true" GridPane.columnIndex="1" GridPane.rowIndex="8" />
                   <TextField fx:id="typeText" layoutX="10.0" layoutY="359.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                   <ComboBox fx:id="contactIdComboBox" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="11" />
