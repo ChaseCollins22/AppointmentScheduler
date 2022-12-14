@@ -1,6 +1,7 @@
 package Controller;
 
 import DBAccess.*;
+import Interfaces.AlertInterface;
 import Model.*;
 import Validation.BusinessHours;
 import javafx.collections.FXCollections;
@@ -16,7 +17,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.sql.SQLException;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -26,45 +26,14 @@ import java.net.URL;
 
 import java.util.ResourceBundle;
 
+/**
+ * This class controls the "AddAppointmentScreen.fxml" file.
+ */
 public class AddAppointmentController implements Initializable {
     @FXML
-    public TextField contactIDText;
-    public ComboBox contactIdComboBox;
+    private ComboBox contactIdComboBox;
     public ComboBox userIdComboBox;
     public ComboBox customerIdComboBox;
-
-    @FXML
-    private Button addAppointmentButton;
-
-    @FXML
-    private Label addCustomerTitle;
-
-    @FXML
-    private Label address;
-
-    @FXML
-    private TextField appointmentIDtext;
-
-    @FXML
-    private Button cancelButton;
-
-    @FXML
-    private TextField contactText;
-
-    @FXML
-    private Label country;
-
-    @FXML
-    private Label country1;
-
-    @FXML
-    private Label country2;
-
-    @FXML
-    private Label customerIDLabel;
-
-    @FXML
-    private TextField customerIDText;
 
     @FXML
     private TextField descriptionText;
@@ -82,15 +51,6 @@ public class AddAppointmentController implements Initializable {
     private TextField locationText;
 
     @FXML
-    private Label name;
-
-    @FXML
-    private Label phoneNumber;
-
-    @FXML
-    private Label postalCode;
-
-    @FXML
     private DatePicker startDate;
 
     @FXML
@@ -100,27 +60,16 @@ public class AddAppointmentController implements Initializable {
     private Spinner<Integer> startTimeMinutes;
 
     @FXML
-    private Label state;
-
-    @FXML
-    private Label state1;
-
-    @FXML
-    private Label state11;
-
-    @FXML
-    private Label state2;
-
-    @FXML
     private TextField titleText;
 
     @FXML
     private TextField typeText;
 
-    @FXML
-    private TextField userIDText;
-    private Object DateTimeParseException;
-
+    /**
+     * This function ensures that the values from the spinner are formatted as "HH:MM" when they're parsed as a LocalDateTime.
+     * @param tester The value from the spinner
+     * @return a value formatted as "HH:mm"
+     */
     public String formatTime(String tester) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
         boolean formatted = tester.length() == 5 ? true : false;
@@ -142,7 +91,11 @@ public class AddAppointmentController implements Initializable {
         return tester;
     }
 
-
+    /**
+     * This function executes when the user clicks the 'add appointment' button and attempts to input the data given into the database.
+     * @param event Clicking the 'add appointment' button
+     * @throws IOException
+     */
     @FXML
     void onActionAddAppointment(ActionEvent event) throws IOException {
         String localDate = LocalDate.now().toString();
@@ -205,8 +158,11 @@ public class AddAppointmentController implements Initializable {
             }
         }
         catch (NullPointerException e) {
-            Alert alert = new Alert(Alert.AlertType.ERROR, "Not all fields are valid");
-            alert.showAndWait();
+            AlertInterface alert = (Alert error) -> {
+                error.setContentText("Not all fields are valid");
+                error.showAndWait();
+            };
+            alert.createAlert(new Alert(Alert.AlertType.ERROR));
         }
         catch (Exception e) {
             Alert alert = new Alert(Alert.AlertType.ERROR, "Overlapping appointments");
@@ -217,6 +173,12 @@ public class AddAppointmentController implements Initializable {
         }
     }
 
+    /**
+     * This function switches the users view.
+     * @param viewName The path to the desired view.
+     * @param event Button click.
+     * @throws IOException
+     */
     public void SwitchView(String viewName, ActionEvent event) throws IOException {
         Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
         Parent scene = FXMLLoader.load(getClass().getResource(viewName));
@@ -224,15 +186,21 @@ public class AddAppointmentController implements Initializable {
         stage.show();
     }
 
+    /**
+     * This function executes when the 'Cancel' button is clicked, and returns the user back to the main appointment screen.
+     * @param event 'Cancel' button click
+     * @throws IOException
+     */
     @FXML
     void onActionCancel(ActionEvent event) throws IOException {
         SwitchView("/View/AppointmentScreen.fxml", event);
     }
 
-    public void onActionTimeClicked(MouseEvent event) {
-
-    }
-
+    /**
+     * This function initializes the controller and sets the values for spinners and table views
+     * @param url A URL.
+     * @param resourceBundle A resource bundle.
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         SpinnerValueFactory<Integer> startHoursFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 23);

@@ -31,42 +31,16 @@ import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoUnit;
 import java.util.ResourceBundle;
 
+/**
+ * This class controls the ModifyAppointmentScreen.fxml view.
+ */
 public class ModifyAppointmentController implements Initializable {
-    @FXML
-    private Button addAppointmentButton;
-
-    @FXML
-    private Label addCustomerTitle;
-
-    @FXML
-    private Label address;
 
     @FXML
     private TextField appointmentIDtext;
 
     @FXML
-    private Button cancelButton;
-
-    @FXML
     private ComboBox<String> contactIdComboBox;
-
-    @FXML
-    private TextField contactText;
-
-    @FXML
-    private Label country;
-
-    @FXML
-    private Label country1;
-
-    @FXML
-    private Label country11;
-
-    @FXML
-    private Label country2;
-
-    @FXML
-    private Label customerIDLabel;
 
     @FXML
     private ComboBox customerIdComboBox;
@@ -86,14 +60,6 @@ public class ModifyAppointmentController implements Initializable {
     @FXML
     private TextField locationText;
 
-    @FXML
-    private Label name;
-
-    @FXML
-    private Label phoneNumber;
-
-    @FXML
-    private Label postalCode;
 
     @FXML
     private DatePicker startDate;
@@ -105,18 +71,6 @@ public class ModifyAppointmentController implements Initializable {
     private Spinner<Integer> startTimeMinutes;
 
     @FXML
-    private Label state;
-
-    @FXML
-    private Label state1;
-
-    @FXML
-    private Label state11;
-
-    @FXML
-    private Label state2;
-
-    @FXML
     private TextField titleText;
 
     @FXML
@@ -125,6 +79,12 @@ public class ModifyAppointmentController implements Initializable {
     @FXML
     private ComboBox<Integer> userIdComboBox;
 
+    /**
+     * This function switches the users view.
+     * @param viewName The path to the desired view.
+     * @param event Button click.
+     * @throws IOException
+     */
     public void SwitchView(String viewName, ActionEvent event) throws IOException {
         Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
         Parent scene = FXMLLoader.load(getClass().getResource(viewName));
@@ -132,6 +92,11 @@ public class ModifyAppointmentController implements Initializable {
         stage.show();
     }
 
+    /**
+     * This function ensures that the values from the spinner are formatted as "HH:MM" when they're parsed as a LocalDateTime.
+     * @param tester The value from the spinner
+     * @return a value formatted as "HH:mm"
+     */
     public String formatTime(String tester) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
         boolean formatted = tester.length() == 5 ? true : false;
@@ -153,6 +118,12 @@ public class ModifyAppointmentController implements Initializable {
         return tester;
     }
 
+    /**
+     * This function attempts to update an existing appointment.
+     * @param event Clicking the update appointment button.
+     * @throws SQLException
+     * @throws IOException
+     */
     @FXML
     void onActionAddAppointment(ActionEvent event) throws SQLException, IOException {
         boolean isValid = false;
@@ -219,6 +190,10 @@ public class ModifyAppointmentController implements Initializable {
         }
     }
 
+    /**
+     * This function sets the existing data for the selected appointment object into the available textfields..
+     * @param appointment The selected appointment object from AppoinmenttScreen.fxml.
+     */
     public void setAppointmentData(Appointments appointment) {
         appointmentIDtext.setText(String.valueOf(appointment.getApptID()));
         titleText.setText(appointment.getTitle());
@@ -236,16 +211,21 @@ public class ModifyAppointmentController implements Initializable {
         contactIdComboBox.setValue(appointment.getContact());
     }
 
+    /**
+     * Switches the user back to CustomerScreen.fxml.
+     * @param event Clicking the 'Cancel' button.
+     * @throws IOException
+     */
     @FXML
     void onActionCancel(ActionEvent event) throws IOException {
         SwitchView("/View/AppointmentScreen.fxml", event);
     }
 
-    @FXML
-    void onActionTimeClicked(MouseEvent event) {
-
-    }
-
+    /**
+     * This function initializes the controller and sets the spinner values and combo box values.
+     * @param url A URL.
+     * @param resourceBundle A resource bundle.
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         SpinnerValueFactory<Integer> startHoursFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 23);

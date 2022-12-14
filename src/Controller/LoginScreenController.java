@@ -22,8 +22,14 @@ import javafx.stage.Stage;
 
 import java.io.*;
 import java.net.URL;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 
+/**
+ * This class controls the LoginScreen.fxml view.
+ */
 public class LoginScreenController implements Initializable {
     public TextField usernameText;
     public TextField passwordText;
@@ -34,15 +40,16 @@ public class LoginScreenController implements Initializable {
     public Label timeZoneLabel;
     public Label passwordLabel;
     public Label usernameLabel;
-    public VBox textFieldsVBox;
-    public HBox hBoxUserPass;
-    public VBox userPassVBox;
     public Label appointmentSchedulerLabel;
     public VBox loginVbox;
     ResourceBundle rb = ResourceBundle.getBundle("LanguageProperties/Nat", Locale.forLanguageTag("fr"));
     ObservableList<String> setLanguage = FXCollections.observableArrayList();
 
-
+    /**
+     * This function initalizes the controller and sets the labels and combo box to values based on the users system defualt langauge.
+     * @param url A URL.
+     * @param resourceBundle A resource bundle.
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         if (Locale.getDefault().toLanguageTag().equals("en-US")){
@@ -77,22 +84,24 @@ public class LoginScreenController implements Initializable {
         timeZoneValue.setText(timeZone.getID());
     }
 
-    public void SwitchView(String viewName, ActionEvent event) throws IOException {
-        Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
-        Parent scene = FXMLLoader.load(getClass().getResource(viewName));
-        stage.setScene(new Scene(scene));
-
-        stage.show();
-    }
-
+    /**
+     * This function attempts to log the user in. Log-in attempts successful or not are written to the login_activity.txt file.
+     * @param actionEvent Clicking the login button.
+     * @throws IOException
+     */
     public void onActionLogin(ActionEvent actionEvent) throws IOException {
         ObservableList<Users> usersList = DBLogin.getAllUsers();
-
-        System.out.println();
         boolean found = false;
+        String filename = "C:/Users/LabUser/IdeaProjects/AppointmentScheduler/login_activity.txt", item;
+        FileWriter fileWriter = new FileWriter(filename, true);
+        PrintWriter printWriter = new PrintWriter(fileWriter);
+        LocalDateTime localDateTime = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+
         for (Users user : usersList) {
             if (usernameText.getText().equals(user.getUserName()) && passwordText.getText().equals(user.getPassword())) {
                 found = true;
+                printWriter.println("User: " + user.getUserName() + " successfuly logged in at " + localDateTime.format(formatter));
 
                 FXMLLoader loader = new FXMLLoader();
                 loader.setLocation(getClass().getResource("/View/AppointmentScreen.fxml"));
@@ -105,8 +114,6 @@ public class LoginScreenController implements Initializable {
                 Parent scene = loader.getRoot();
                 stage.setScene(new Scene(scene));
                 stage.show();
-
-                //SwitchView("/View/AppointmentScreen.fxml", actionEvent);
             }
         }
         Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -115,15 +122,24 @@ public class LoginScreenController implements Initializable {
             alert.setHeaderText(rb.getString("Error"));
             alert.setTitle(rb.getString("Error"));
             alert.showAndWait();
+            printWriter.println("User: " + usernameText.getText() + " gave invalid log-in at " + localDateTime.format(formatter));
         }
         else if (!found) {
             alert.setContentText("Invalid Login");
             alert.setHeaderText("Error");
             alert.setTitle("Error");
             alert.showAndWait();
+            printWriter.println("User: " + usernameText.getText() + " gave invalid log-in at " + localDateTime.format(formatter));
         }
+        printWriter.close();
+        fileWriter.close();
     }
 
+    /**
+     * This functions sets the combo box values based on teh selected lanuage.
+     * @param actionEvent Selecting a langauge from the combo box.
+     * @throws IOException
+     */
      public void onActionShowLanguages(ActionEvent actionEvent) throws IOException {
         try {
             if (comboBox.getSelectionModel().getSelectedItem().equals(rb.getString("English")) || comboBox.getSelectionModel().getSelectedItem().equals("English")) {

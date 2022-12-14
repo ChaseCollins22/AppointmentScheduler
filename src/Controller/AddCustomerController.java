@@ -30,66 +30,36 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
 
+/**
+ * This class controls the 'AddCustomerScreen' view.
+ */
 public class AddCustomerController implements Initializable {
-
-//    public Label nameErrorLabel;
-        public Label nameErrorLabel;
-//    public Label addressErrorLabel;
-//    public Label postalCodeErrorLabel;
-//    public Label phoneErrorLabel;
-//    public Label countryErrorLabel;
-//    public Label stateErrorLabel;
-    @FXML
-    private Button addCustomerButton;
-
-    @FXML
-    private Label addCustomerTitle;
-
-    @FXML
-    private Label address;
 
     @FXML
     private TextField addressText;
 
     @FXML
-    private Button cancelButton;
-
-    @FXML
-    private Label country;
-
-    @FXML
     private ComboBox countryComboBox;
-
-    @FXML
-    private Label customerIDLabel;
-
-    @FXML
-    private TextField customerIdText;
-
-    @FXML
-    private Label name;
 
     @FXML
     private TextField nameText;
 
     @FXML
-    private Label phoneNumber;
-
-    @FXML
     private TextField phoneNumberText;
 
-    @FXML
-    private Label postalCode;
 
     @FXML
     private TextField postalCodeText;
 
     @FXML
-    private Label state;
-
-    @FXML
     private ComboBox<Divisions> stateComboBox;
 
+    /**
+     * This function switches the users view.
+     * @param viewName The path to the desired view.
+     * @param event Button click.
+     * @throws IOException
+     */
     public void SwitchView(String viewName, ActionEvent event) throws IOException {
         Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
         Parent scene = FXMLLoader.load(getClass().getResource(viewName));
@@ -97,15 +67,11 @@ public class AddCustomerController implements Initializable {
         stage.show();
     }
 
-    public void setColorOnError(Label label, TextField textField) {
-        textField.setStyle("-fx-text-box-border: red; -fx-text-box-border-size: 5px;");
-        label.setTextFill(Color.web("red"));
-    }
-    public void resetColors(Label label, TextField textField) {
-        textField.setStyle("-fx-text-box-border: lightgray; -fx-text-box-border-size: 1px");
-        label.setTextFill(Color.web("black"));
-    }
-
+    /**
+     * This function attempts to add a customer to the database.
+     * @param event Clicking the 'Add Customer' button.
+     * @throws SQLException
+     */
     @FXML
     void onActionAddCustomer(ActionEvent event) throws SQLException {
         //Get current time and format to: YYYY-MM-DD HH:MM:SS
@@ -126,11 +92,20 @@ public class AddCustomerController implements Initializable {
         }
     }
 
+    /**
+     * Switches the user back to CustomerScreen.fxml.
+     * @param event Clicking the 'Cancel' button.
+     * @throws IOException
+     */
     @FXML
     void onActionCancel(ActionEvent event) throws IOException {
         SwitchView("/View/CustomerScreen.fxml", event);
     }
 
+    /**
+     * This function sets the values in the stateComboBox based on the value given in the countryComboBox.
+     * @param event Selecting one of the three countries in the countryComboBox.
+     */
     @FXML
     void onActionShowCountries(ActionEvent event) {
         if (countryComboBox.getValue().equals("U.S")) {
@@ -147,11 +122,11 @@ public class AddCustomerController implements Initializable {
         }
     }
 
-    @FXML
-    void onActionShowStates(ActionEvent event) {
-
-    }
-
+    /**
+     * This function initializes the controller and sets the countyComboBox to the available countries in the database.
+     * @param url A URL.
+     * @param resourceBundle A resource bundle.
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         ObservableList countriesList = FXCollections.observableArrayList();

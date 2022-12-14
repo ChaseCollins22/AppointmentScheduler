@@ -25,6 +25,9 @@ import java.util.Dictionary;
 import java.util.Hashtable;
 import java.util.ResourceBundle;
 
+/**
+ * This class controls the ContactReportScreen.fxml.
+ */
 public class ContactReportScreenController implements Initializable {
     public ComboBox typeComboBox;
     public Label typeLabel;
@@ -57,12 +60,6 @@ public class ContactReportScreenController implements Initializable {
     private TableColumn<?, ?> endTime;
 
     @FXML
-    private ToggleGroup radioButtonGroup;
-
-    @FXML
-    private Label reportsLabel;
-
-    @FXML
     private TableColumn<?, ?> startDate;
 
     @FXML
@@ -77,24 +74,11 @@ public class ContactReportScreenController implements Initializable {
     @FXML
     private RadioButton viewByContact;
 
-    @FXML
-    private RadioButton viewByCustom;
-
-    @FXML
-    private RadioButton viewByMonth;
-
-    @FXML
-    private RadioButton viewByType;
-
-
-
-    public void SwitchView(String viewName, ActionEvent event) throws IOException {
-        Stage stage = (Stage) ((RadioButton) event.getSource()).getScene().getWindow();
-        Parent scene = FXMLLoader.load(getClass().getResource(viewName));
-        stage.setScene(new Scene(scene));
-        stage.show();
-    }
-
+    /**
+     * Switches the user back to AppointmentScreen.fxml.
+     * @param event Clicking the 'Cancel' button.
+     * @throws IOException
+     */
     @FXML
     void onActionCancel(ActionEvent event) throws IOException {
         Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
@@ -103,11 +87,22 @@ public class ContactReportScreenController implements Initializable {
         stage.show();
     }
 
+    /**
+     * This function selects the Contact Schedule button.
+     * @param event Clicking the contact schedule radio button.
+     * @throws IOException
+     */
     @FXML
     void onActionViewByContact(ActionEvent event) throws IOException {
         viewByContact.setSelected(true);
     }
 
+
+    /**
+     * This function switches the view to the CustomerReportScreen.fxml and calls the onActionViewByPostalCode function.
+     * @param actionEvent Clicking the View By Postal Code button.
+     * @throws IOException
+     */
     @FXML
     public void onActionViewByLocation(ActionEvent actionEvent) throws IOException {
         FXMLLoader loader = new FXMLLoader();
@@ -123,7 +118,11 @@ public class ContactReportScreenController implements Initializable {
         stage.show();
     }
 
-
+    /**
+     * This function switches the view to the CustomerReportScreen.fxml and calls the onActionViewByMonth function.
+     * @param event Clicking the View By Month radio button.
+     * @throws IOException
+     */
     @FXML
     void onActionViewByMonth(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader();
@@ -139,6 +138,11 @@ public class ContactReportScreenController implements Initializable {
         stage.show();
     }
 
+    /**
+     * This function switches the view to the CustomerReportScreen.fxml and calls the onActionViewByType function.
+     * @param event Clicking the View By Type radio button.
+     * @throws IOException
+     */
     @FXML
     void onActionViewByType(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader();
@@ -154,6 +158,10 @@ public class ContactReportScreenController implements Initializable {
         stage.show();
     }
 
+    /**
+     * This function sets the table view based on the selected combo box id number.
+     * @param actionEvent Selecting an id number from the combo box.
+     */
     public void onActionShowComboBoxItems(ActionEvent actionEvent) {
         try {
             if (contactLabel.getText().equals("Contact")) {
@@ -167,6 +175,11 @@ public class ContactReportScreenController implements Initializable {
             }
         }
 
+    /**
+     * This function initializes the controller and sets the table view and columns.
+     * @param url A URL.
+     * @param resourceBundle A resource bundle.
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         apptID.setCellValueFactory(new PropertyValueFactory<>("apptID"));

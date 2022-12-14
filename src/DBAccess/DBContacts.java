@@ -10,8 +10,15 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * This class handles all database queries for Contact objects.
+ */
 public class DBContacts {
 
+    /**
+     * This function selects all of the existing contacts in the database.
+     * @return An ObservableList of Contact objects.
+     */
     public static ObservableList<Contacts> getAllContacts() {
 
         ObservableList<Contacts> contactsList = FXCollections.observableArrayList();

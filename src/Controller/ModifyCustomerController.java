@@ -24,6 +24,9 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
+/**
+ * This class controls the ModifyCustomerScreen.fxml view.
+ */
 public class ModifyCustomerController implements Initializable {
 
     @FXML
@@ -51,10 +54,15 @@ public class ModifyCustomerController implements Initializable {
     @FXML
     private TextField postalCodeText;
 
-
     @FXML
     private ComboBox<Divisions> stateComboBox;
 
+    /**
+     * This function switches the users view.
+     * @param viewName The path to the desired view.
+     * @param event Button click.
+     * @throws IOException
+     */
     public void SwitchView(String viewName, ActionEvent event) throws IOException {
         Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
         Parent scene = FXMLLoader.load(getClass().getResource(viewName));
@@ -62,6 +70,12 @@ public class ModifyCustomerController implements Initializable {
         stage.show();
     }
 
+    /**
+     * This function updates the existing customer data.
+     * @param actionEvent Clicking the update customer button.
+     * @throws SQLException
+     * @throws IOException
+     */
     @FXML
     public void onActionUpdateCustomer(ActionEvent actionEvent) throws SQLException, IOException {
         DBCustomers.updateCustomer(nameText.getText(), addressText.getText(), postalCodeText.getText(),
@@ -69,6 +83,9 @@ public class ModifyCustomerController implements Initializable {
         SwitchView("/View/CustomerScreen.fxml", actionEvent);
     }
 
+    /**
+     * This function unselects the focus on any textfield.
+     */
     public void setFocusTraversableFalse() {
         nameText.setFocusTraversable(false);
         addressText.setFocusTraversable(false);
@@ -80,6 +97,10 @@ public class ModifyCustomerController implements Initializable {
         cancelButton.setFocusTraversable(false);
     }
 
+    /**
+     * This function sets the existing data from the selected customer object into the available data-entry points.
+     * @param customer The selected customer object from the CustomerScreen.fxml view.
+     */
     public void setCustomerData(Customers customer) {
         ObservableList<Divisions> divisionsList = DBDivisions.getAllDivisions();
         customerIdText.setText(String.valueOf(customer.getCustomer_ID()));
@@ -96,11 +117,20 @@ public class ModifyCustomerController implements Initializable {
         }
     }
 
+    /**
+     * Switches the user back to CustomerScreen.fxml.
+     * @param event Clicking the 'Cancel' button.
+     * @throws IOException
+     */
     @FXML
     void onActionCancel(ActionEvent event) throws IOException {
         SwitchView("/View/CustomerScreen.fxml", event);
     }
 
+    /**
+     * This function sets the values for the stateComboBox based on the selected countryComboBox value.
+     * @param event Selecting an available country from the combo box.
+     */
     @FXML
     void onActionShowCountries(ActionEvent event) {
         if (countryComboBox.getSelectionModel().getSelectedItem().getCountryName().equals("U.S")) {
@@ -117,11 +147,11 @@ public class ModifyCustomerController implements Initializable {
         }
     }
 
-    @FXML
-    void onActionShowStates(ActionEvent event) {
-
-    }
-
+    /**
+     * This function initializes the controller and sets the countryComboBox to the existing countries in the database.
+     * @param url A URL.
+     * @param resourceBundle A resource bundle.
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         countryComboBox.setItems(DBCountries.getAllCountries());

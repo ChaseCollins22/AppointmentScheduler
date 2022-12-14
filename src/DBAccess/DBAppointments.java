@@ -12,8 +12,15 @@ import java.time.format.DateTimeFormatter;
 
 import java.util.TimeZone;
 
+/**
+ * This class executes queries to the appointments table in the database.
+ */
 public class DBAppointments {
 
+    /**
+     * This function selects all of the appointments in the database.
+     * @return An ObservableList of Appointment objects.
+     */
     public static ObservableList<Appointments> getAllAppointments() {
 
         ObservableList<Appointments> appointmentsList = FXCollections.observableArrayList();
@@ -77,6 +84,10 @@ public class DBAppointments {
         return appointmentsList;
     }
 
+    /**
+     * This function selects all of the appointments in the database by the current month.
+     * @return An ObservableList of Appointment objects.
+     */
     public static ObservableList<Appointments> getAppointmentsByMonth() {
 
         ObservableList<Appointments> appointmentsList = FXCollections.observableArrayList();
@@ -141,6 +152,10 @@ public class DBAppointments {
         return appointmentsList;
     }
 
+    /**
+     * This function selects all of the appointments in the database by the current week.
+     * @return An ObservableList of Appointment objects.
+     */
     public static ObservableList<Appointments> getAppointmentsByWeek() {
 
         ObservableList<Appointments> appointmentsList = FXCollections.observableArrayList();
@@ -206,6 +221,23 @@ public class DBAppointments {
         return appointmentsList;
     }
 
+    /**
+     * This function inserts an appointment object into the database.
+     * @param Title Title of the appointment.
+     * @param Description Description of the appointment.
+     * @param Location Location of the appointment.
+     * @param Type Type of appointment.
+     * @param Start Start DateTime of the appointment.
+     * @param End End DateTime of the appointment.
+     * @param Create_Date DateTime the appointment is created.
+     * @param Created_By Who created the appointment.
+     * @param Last_Update When the last update to the appointment was made.
+     * @param Last_Update_By Who updated the appointment last.
+     * @param Customer_ID The id of the customer related to the appointment.
+     * @param User_ID The id of the user related to the appointment.
+     * @param Contact_ID The contact id of the contact related to the appointment.
+     * @throws SQLException
+     */
     public static void addAppointment(String Title, String Description, String Location, String Type, LocalDateTime Start, LocalDateTime End,
                                      String Create_Date, String Created_By, String Last_Update, String Last_Update_By, int Customer_ID, int User_ID,
                                      int Contact_ID) throws SQLException {
@@ -249,6 +281,10 @@ public class DBAppointments {
         }
     }
 
+    /**
+     * This function deletes an appointment from the database.
+     * @param appointment An Appointment object.
+     */
     public static void deleteAppointment(Appointments appointment) {
         try {
             String sql = "DELETE FROM appointments WHERE appointment_id = " + appointment.getApptID();
@@ -261,6 +297,23 @@ public class DBAppointments {
         }
     }
 
+    /**
+     * This function updates an existing appointment object in the database.
+     * @param Title Title of the appointment.
+     * @param Description Description of the appointment.
+     * @param Location Location of the appointment.
+     * @param Type Type of appointment.
+     * @param Start Start DateTime of the appointment.
+     * @param End End DateTime of the appointment.
+     * @param Create_Date DateTime the appointment is created.
+     * @param Created_By Who created the appointment.
+     * @param Last_Update When the last update to the appointment was made.
+     * @param Last_Update_By Who updated the appointment last.
+     * @param Customer_ID The id of the customer related to the appointment.
+     * @param User_ID The id of the user related to the appointment.
+     * @param Contact_ID The contact id of the contact related to the appointment.
+     * @throws SQLException
+     */
     public static void updateAppointments(String Title, String Description, String Location, String Type, LocalDateTime Start, LocalDateTime End,
                                          String Create_Date, String Created_By, String Last_Update, String Last_Update_By, int Customer_ID, int User_ID,
                                          int Contact_ID, int Appointment_ID) throws SQLException {
@@ -304,6 +357,21 @@ public class DBAppointments {
     }
 
 
+    /**
+     * This function checks existing appointments for any appointment overlap.
+     * @param Title The title of the appointment.
+     * @param Description The description of the appointment.
+     * @param Location The location of the appointment.
+     * @param Type The type of the appointment.
+     * @param Start The start DateTime of the appointment.
+     * @param End The end DateTime of the appointment.
+     * @param Customer_ID The id of the customer related to the appointment.
+     * @param User_ID The id of the user related to the appointment.
+     * @param Contact_ID The id of the contact realted to the appointment.
+     * @param Appointment_ID The existing appointment ID number.
+     * @return true if appointment overlap exists and false if not.
+     * @throws SQLException
+     */
     public static boolean isAppointmentOverlap(String Title, String Description, String Location, String Type, LocalDateTime Start, LocalDateTime End,
                                                int Customer_ID, int User_ID, int Contact_ID, int Appointment_ID) throws SQLException {
 
@@ -394,6 +462,12 @@ public class DBAppointments {
         }
         return false;
     }
+
+    /**
+     * This function selects all appointment by user ID.
+     * @param loginID The id of the user logged in.
+     * @return An ObservableList of appointments.
+     */
     public static ObservableList<Appointments> getAppointmentsByUserID(int loginID) {
 
         ObservableList<Appointments> appointmentsByUser = FXCollections.observableArrayList();
@@ -461,6 +535,11 @@ public class DBAppointments {
         return appointmentsByUser;
     }
 
+    /**
+     * This function selects all existing appointments by one contactID.
+     * @param contactID The contact ID integer used in the query.
+     * @return ObservableList of Appointment objects.
+     */
     public static ObservableList<Appointments> getAppointmentsByContactID(int contactID) {
 
         ObservableList<Appointments> appointmentsList = FXCollections.observableArrayList();
@@ -526,6 +605,11 @@ public class DBAppointments {
         return appointmentsList;
     }
 
+    /**
+     * This function selects all existing appointments by a specific type.
+     * @param Type A type of appointment used in the query.
+     * @return An ObservableList of Appointment objects.
+     */
     public static ObservableList<Appointments> getAppointmentsByType(String Type) {
 
         ObservableList<Appointments> appointmentsList = FXCollections.observableArrayList();

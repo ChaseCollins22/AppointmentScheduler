@@ -7,8 +7,15 @@ import javafx.collections.ObservableList;
 
 import java.sql.*;
 
+/**
+ * This class handles all database queries for Customer objects.
+ */
 public class DBCustomers {
 
+    /**
+     * This function gets all of the avaialable Customer objects from the database.
+     * @return An ObservableList of Customer objects.
+     */
     public static ObservableList<Customers> getAllCustomers() {
 
         ObservableList<Customers> customersList = FXCollections.observableArrayList();
@@ -41,7 +48,20 @@ public class DBCustomers {
         return customersList;
     }
 
-    public static int addCustomer(String Customer_Name, String Address, String Postal_Code,
+    /**
+     * This functions inserts a Customer object into the database.
+     * @param Customer_Name The name of the customer.
+     * @param Address The address of the customer.
+     * @param Postal_Code The postal code of the customer.
+     * @param Phone The phone number of the customer.
+     * @param Create_Date The DateTime the customer was created.
+     * @param Created_By Who the custom was created by.
+     * @param Last_Update When the customer's information was last updated.
+     * @param Last_Updated_By Who the customer's information was last updated by.
+     * @param Division_ID The state/province where the customer resides.
+     * @throws SQLException
+     */
+    public static void addCustomer(String Customer_Name, String Address, String Postal_Code,
                                   String Phone, String Create_Date, String Created_By,
                                   String Last_Update, String Last_Updated_By, int Division_ID) throws SQLException {
 
@@ -60,10 +80,13 @@ public class DBCustomers {
 
         int rowsAffected = ps.executeUpdate();
 
-        return rowsAffected;
     }
 
-    public static boolean deleteCustomer(Customers customer) {
+    /**
+     * This function deletes a Customer object from the database.
+     * @param customer The customer object to be deleted.
+     */
+    public static void deleteCustomer(Customers customer) {
         try {
             String query1 = "DELETE FROM appointments WHERE customer_id = " + customer.getCustomer_ID();
             String query2 = "DELETE FROM customers WHERE customer_ID = " + customer.getCustomer_ID();
@@ -78,10 +101,20 @@ public class DBCustomers {
         } catch (SQLException e) {
 
         }
-        return true;
     }
 
-    public static int updateCustomer(String Customer_Name, String Address, String Postal_Code,
+    /**
+     * This function updates an existing Customer object.
+     * @param Customer_Name The name of the customer.
+     * @param Address The address of the customer.
+     * @param Postal_Code The postal code of the customer.
+     * @param Phone The phone number of the customer.
+     * @param Division_ID The state/province id where the customer resides.
+     * @param Customer_ID The existing id number of the selected customer.
+     * @return
+     * @throws SQLException
+     */
+    public static void updateCustomer(String Customer_Name, String Address, String Postal_Code,
                                   String Phone, int Division_ID, int Customer_ID) throws SQLException {
 
         String sql = "UPDATE customers SET customer_name = ?, address = ?, postal_code = ?, phone = ?, division_id = ? where customer_id = ?";
@@ -97,10 +130,13 @@ public class DBCustomers {
         ps.setInt(6, Customer_ID);
 
         int rowsAffected = ps.executeUpdate();
-
-        return rowsAffected;
     }
 
+    /**
+     * This function selects all of the customer by a particular type.
+     * @param type The type of customer to select.
+     * @return An ObservableList of Customer objects.
+     */
     public static ObservableList<Customers> getCustomersByType(String type) {
 
         ObservableList<Customers> customersList = FXCollections.observableArrayList();
@@ -134,6 +170,11 @@ public class DBCustomers {
         return customersList;
     }
 
+    /**
+     * This function selects all of the customer by a particular month.
+     * @param Month The integer month to selec by.
+     * @return An ObservableList of Customer objects.
+     */
     public static ObservableList<Customers> getCustomersByMonth(int Month) {
 
         ObservableList<Customers> customersList = FXCollections.observableArrayList();
@@ -167,6 +208,11 @@ public class DBCustomers {
         return customersList;
     }
 
+    /**
+     * This function selects customer by a given postal code.
+     * @param PostalCode The postal code to select by.
+     * @return An ObservableList of Customer objects.
+     */
     public static ObservableList<Customers> getCustomersByPostalCode(String PostalCode) {
 
         ObservableList<Customers> customersList = FXCollections.observableArrayList();

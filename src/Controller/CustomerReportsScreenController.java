@@ -78,6 +78,12 @@ public class CustomerReportsScreenController implements Initializable {
     Hashtable<String, Integer> Months = new Hashtable<String, Integer>();
     ObservableList clear = FXCollections.observableArrayList();
 
+    /**
+     * This function switches the users view.
+     * @param viewName The path to the desired view.
+     * @param event Button click.
+     * @throws IOException
+     */
     public void SwitchView(String viewName, ActionEvent event) throws IOException {
         Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
         Parent scene = FXMLLoader.load(getClass().getResource(viewName));
@@ -85,11 +91,20 @@ public class CustomerReportsScreenController implements Initializable {
         stage.show();
     }
 
+    /**
+     * Switches the user back to AppointmentScreen.fxml.
+     * @param event Clicking the 'Cancel' button.
+     * @throws IOException
+     */
     @FXML
     void onActionCancel(ActionEvent event) throws IOException {
        SwitchView("/View/AppointmentScreen.fxml", event);
     }
 
+    /**
+     * This function sets the table view based on the selected value from the combo box.
+     * @param event Selecting a value from the Type, Month, or Postal code combo box.
+     */
     @FXML
     void onActionShowComboBoxItems(ActionEvent event) {
         try {
@@ -115,6 +130,11 @@ public class CustomerReportsScreenController implements Initializable {
         }
     }
 
+    /**
+     * This function switches the view to the ContactReportScreen.fxml and calls the onActionViewByContact function.
+     * @param event Clickng the Contact Schedule radio button.
+     * @throws IOException
+     */
     @FXML
     void onActionViewByContact(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader();
@@ -130,6 +150,10 @@ public class CustomerReportsScreenController implements Initializable {
         stage.show();
     }
 
+    /**
+     * This function sets the label for the combo box to 'Month' and the combo box values for months.
+     * @param event Clicking the View By Month radio button.
+     */
     @FXML
     void onActionViewByMonth(ActionEvent event) {
         totalAmountLabel.setText("");
@@ -139,6 +163,10 @@ public class CustomerReportsScreenController implements Initializable {
         comboBox.setItems(monthsList);
     }
 
+    /**
+     * This function sets the combo box label to Location and populates the combo box with the postal code values from the database.
+     * @param event Clicking the view by location radio button.
+     */
     @FXML
     void onActionViewByPostalCode(ActionEvent event) {
         totalAmountLabel.setText("");
@@ -156,6 +184,10 @@ public class CustomerReportsScreenController implements Initializable {
         comboBox.setItems(locationList);
     }
 
+    /**
+     * This function sets the combo box label to Type and populates the combo box with the available types from the database.
+     * @param event Clicking the View By Type button.
+     */
     @FXML
     void onActionViewByType(ActionEvent event) {
         totalAmountLabel.setText("");
@@ -178,6 +210,11 @@ public class CustomerReportsScreenController implements Initializable {
         }
     }
 
+    /**
+     * This function initializes the controller and sets the table columns and inputs an array of months into a hashtable.
+     * @param url A URL.
+     * @param resourceBundle A resource bundle.
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         customerID.setCellValueFactory(new PropertyValueFactory<>("Customer_ID"));

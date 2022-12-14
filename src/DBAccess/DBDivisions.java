@@ -12,8 +12,15 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * This class handles all of the database queries for Division objects.
+ */
 public class DBDivisions {
 
+    /**
+     * This function selects all of the Division objects in the database.
+     * @return An ObservableList of Division objects.
+     */
     public static ObservableList<Divisions> getAllDivisions() {
 
         ObservableList<Divisions> divisionsList = FXCollections.observableArrayList();
@@ -38,6 +45,11 @@ public class DBDivisions {
         return divisionsList;
     }
 
+    /**
+     * This function selects all of the Division objects by a given country name.
+     * @param countryName The country name to select divisions by.
+     * @return An ObservableList of Division objects.
+     */
     public static ObservableList<Divisions> getDivisionByCountryName(String countryName) {
 
         ObservableList<Divisions> divisionsList = FXCollections.observableArrayList();

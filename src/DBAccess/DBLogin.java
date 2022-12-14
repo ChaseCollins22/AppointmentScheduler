@@ -9,8 +9,15 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * This class handles all of the database queries for User objects.
+ */
 public class DBLogin {
 
+    /**
+     * This function selects all of the User objects in the database.
+     * @return An ObservableList of User objects.
+     */
     public static ObservableList<Users> getAllUsers() {
 
         ObservableList<Users> usersList = FXCollections.observableArrayList();

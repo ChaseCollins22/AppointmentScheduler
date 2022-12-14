@@ -9,8 +9,15 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * This class handles all databse queries for Country objects.
+ */
 public class DBCountries {
 
+    /**
+     * This function selects all of the available countries in the database.
+     * @return An ObservableList of Country objects.
+     */
     public static ObservableList<Countries> getAllCountries() {
 
         ObservableList<Countries> countriesList = FXCollections.observableArrayList();
@@ -34,6 +41,12 @@ public class DBCountries {
 
         return countriesList;
     }
+
+    /**
+     * This function gets the country id based on the division id.
+     * @param divisionID The id for a state/province.
+     * @return The country id number for the given state/province.
+     */
     public static int getCountryByDivisionID(int divisionID) {
 
         int country_id = 0;

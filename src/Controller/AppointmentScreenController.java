@@ -25,7 +25,9 @@ import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-
+/**
+ * This function control the AppointmentScreen.fxml view
+ */
 public class AppointmentScreenController implements Initializable {
 
     @FXML
@@ -78,7 +80,12 @@ public class AppointmentScreenController implements Initializable {
     private TableView<Appointments> appointmentTableView;
 
 
-
+    /**
+     * This function switches the users view.
+     * @param viewName The path to the desired view.
+     * @param event Button click.
+     * @throws IOException
+     */
     public void SwitchView(String viewName, ActionEvent event) throws IOException {
         Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
         Parent scene = FXMLLoader.load(getClass().getResource(viewName));
@@ -86,11 +93,20 @@ public class AppointmentScreenController implements Initializable {
         stage.show();
     }
 
+    /**
+     * This functions switches the view to the AddAppointmentScreen.fxml to allow the user to create an appointment.
+     * @param event Clicking the 'Add Appointment' button.
+     * @throws IOException
+     */
     @FXML
     void onActionAddAppointment(ActionEvent event) throws IOException {
         SwitchView("/View/AddAppointmentScreen.fxml", event);
     }
 
+    /**
+     * This function deletes an appointment from the database through the appointmentTableView.
+     * @param event Clicking the 'Delete Appointment' button.
+     */
     @FXML
     void onActionDeleteAppointment(ActionEvent event) {
 
@@ -122,6 +138,11 @@ public class AppointmentScreenController implements Initializable {
         }
     }
 
+    /**
+     * This function takes the user to the ModifyAppointmentScreen.fxml and pre-loads the existing data into the available areas.
+     * @param event Clicking the 'Modify appointment' button.
+     * @throws IOException
+     */
     @FXML
     void onActionModifyAppointment(ActionEvent event) throws IOException {
         try {
@@ -145,24 +166,40 @@ public class AppointmentScreenController implements Initializable {
         }
     }
 
+    /**
+     * This function sets the table view to show all existing appointments.
+     * @param event Clicking the 'View All' radio button.
+     */
     @FXML
     void onActionViewAll(ActionEvent event) {
         appointmentTableView.setItems(DBAppointments.getAllAppointments());
         viewAllButton.setSelected(true);
     }
 
+    /**
+     * This function sets the table view to show all existing appointments in the current month.
+     * @param event Clicking the 'View By Month' radio button.
+     */
     @FXML
     void onActionViewByMonth(ActionEvent event) {
         appointmentTableView.setItems(DBAppointments.getAppointmentsByMonth());
         viewMonthButton.setSelected(true);
     }
 
+    /**
+     * This function sets the table view to show all existing appointments in the current week.
+     * @param event Clicking the 'View By Week' radio button.
+     */
     @FXML
     void onActionViewByWeek(ActionEvent event) {
         appointmentTableView.setItems(DBAppointments.getAppointmentsByWeek());
         viewByWeekButton.setSelected(true);
     }
 
+    /**
+     * This function switches the view to the CustomerScreen.fxml and sets a tableView of all existing customers.
+     * @param event Clicking the 'View Customers' radio button.
+     */
     @FXML
     void onActionViewCustomers(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader();
@@ -178,6 +215,11 @@ public class AppointmentScreenController implements Initializable {
         stage.show();
     }
 
+    /**
+     * Notifies the user via an alert box if they have any appointments in the next fifteen minutes.
+     * @param user The user object that logged in.
+     * @return The user that logged in.
+     */
     public Users getLoginUser(Users user) {
         ObservableList<Appointments> usersAppts = DBAppointments.getAppointmentsByUserID(user.getUserId());
 
@@ -201,10 +243,14 @@ public class AppointmentScreenController implements Initializable {
             userAlert.setContentText("You have no appointments within 15 minutes");
             userAlert.show();
         }
-
         return user;
     }
 
+    /**
+     * This function initializes the AppointmentScreenController and sets the tableView and its columns.
+     * @param url a URL.
+     * @param resourceBundle A resource bundle.
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         appointmentTableView.setItems(DBAppointments.getAllAppointments());
